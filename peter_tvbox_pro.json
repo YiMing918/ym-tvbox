@@ -538,14 +538,14 @@
      "tmdb": "https://tc-new.z.wiki/autoupload/k2fxc/20260918/yAKC/tmdb.json"
     }
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_FishConfig",
    "name": "\ud83c\udf7c\u2506\u8bbe\u7f6e\u2506\u4e2d\u5fc3",
    "type": 3,
    "api": "csp_FishConfig",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Local",
@@ -559,7 +559,7 @@
     "type": "list"
    },
    "ext": "https://tc-new.z.wiki/autoupload/k2fxc/20260918/VbeD/share.json",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_ALLLive",
@@ -567,7 +567,7 @@
    "type": 3,
    "api": "csp_ALLLive",
    "searchable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_FishPs",
@@ -576,7 +576,7 @@
    "api": "csp_FishPs",
    "searchable": 1,
    "filterable": 0,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Wogg",
@@ -595,7 +595,7 @@
     ],
     "filter": "https://tc-new.z.wiki/autoupload/iYHTWVx6T8RrCmqdGD6MOdiO_OyvX7mIgxFBfDMDErs/20260320/oOf4/wogg.json"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_FishMuou",
@@ -610,7 +610,7 @@
      "https://666.666291.xyz"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_bl",
@@ -621,7 +621,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "Acf4n+FgSJlps29HFqyt+ECG19M+iLto9fxzwikME3YOnRFfaIWR3C9CZF+/o2jh4T6D4bOxYn8j775k1TLOsSHsG7tlKBqeENs8VhcKgZS5u7Gb8/LXYDutl7a21jsXLw==",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Luck",
@@ -632,7 +632,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AU/L2JHZ0SsU94LbxPA3emscXG7f5FFdKYn8MSdt/5Uktri/nmW4Z3nNYavRogzuAlOkPfPVG27z4OAdO+fyFhc=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_KaiFan",
@@ -643,7 +643,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AfLGR2SW/7tjQA3K8Qgg5u7AG1NNWsCVAVxfMv/V44kP5aqzon5weT9IvX2w2KtBeMpAxc+Y0yRLN0eXf6oiuLw=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_XieHui",
@@ -654,7 +654,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AWevGJ+A/nEjquOh7v58lbo8oaOgHdJkEu7/lzGApb2ngqWSO16XNPqrmqkozIxiLHvjDaaxs61fWZUIYBZBGgQ=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_shangtou",
@@ -665,7 +665,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "Ab723PUSGcnjpXT6567J5El7ZP+7lqBKJnQzkeqdAaVU29VedG35Y36vvAZWXOyL7tUL38RB0IWmvwZj4wWtuwyEOmAg2Nbpi1z46QBiBTmY",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_FaDai",
@@ -676,7 +676,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AbjGNiFc0jaPCvOXj2edU7/DIRsvVxb1/2tyMFgaoT8L4eZNchAll5NXn7xBXvEwQvvJ55Odg+IugUeNvfYtPT0=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_HuangYou",
@@ -687,7 +687,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AVVlrRajtr+i42Q1MBwsMRSoNuckBLnPEocZVkZik+88465w0JZsKWJodTFxYL+RSsAVU8X8lJ4M8E2Xfw0GLYA=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_SuiYuan",
@@ -698,7 +698,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AVjYSEtEaHF+eS3NOrCubcE3f755psW6EFCg2THWgHt0uWkH1CXlE/UJ2zqohcEULrn/AlZOVuzN4V4Wt0EY3bY=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_TangPing",
@@ -709,7 +709,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AUVdS2Q3l8yS7JhOkMXYE1ntTJ/61k8MzQmaQMqSZBbUKDBy/udxVLxvXhNDvifvbkVTEawL3m2p9hhwbTibxnA=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_LaiChuang",
@@ -720,7 +720,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AVlJ4J+D/3DMzdKAQnig/9ckDSQU7H+PyPyOE/q+m7eGkaZ9YjDkVXgq17TjYCHuvJa0UinsvgwPiAVd51fKuA0=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_bandeng",
@@ -731,29 +731,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "ASH3HkV5cxNhNR9+uQe0sWYxUWHzEywHT3rcYOx+wsK4Jx+sBd0qMO9kFic1Rc1osAMsAsTlMgabd1Ky2kmzQ/Y=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
-  },
-  {
-   "key": "my_mandian",
-   "name": "\ud83d\udc22\u2506\u6162\u70b9\u25064K",
-   "type": 3,
-   "api": "csp_ManDian",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "AU08qHcswQQ9GUNUYMdLgyq8HzPCy1gUxku0nrQgOwfSJrT0LgwdrXoWPVK+x4n+QQ8KbuVPdzA5/U2YL7fQmH8=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
-  },
-  {
-   "key": "my_ZhiWo",
-   "name": "\ud83c\udf19\u2506\u77e5\u6211\u25064K",
-   "type": 3,
-   "api": "csp_ZhiWo",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "AX1Vvf8Pdib7pGaiG52YtJfoH7J54wUt+/pfCo7QJrhIKMK6XXxVbbJG3pw3yHdOUVcBrTyo1EmM8M91pY30AUE=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_xiaozuo",
@@ -764,7 +742,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "ARRavWPOi7W2Usqhe54R+NW2sQ6CCBOYajU9bIz/WVyF75mrlP6UsAbts+o//eKOpDWbngYFUGIJGTa56hr3Hk0=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_KanJu",
@@ -779,18 +757,19 @@
     "site": "https://kanju.ai",
     "playname": "ly"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
-   "key": "my_\u55d1\u5267",
-   "name": "\ud83c\udf7f\u2506\u55d1\u5267\u25064K",
+   "key": "my_\u62fc\u56fe",
+   "name": "\ud83e\udde9\u2506\u62fc\u56fe\u25064K",
    "type": 3,
    "api": "csp_NiuLai",
    "searchable": 1,
+   "quickSearch": 1,
    "filterable": 1,
    "changeable": 0,
-   "ext": "Ab6RU4ow2BTC3y169gXHkoGyOzagKI89ksf5hxcm0/J5a7/pusSapfK8Oy6MtmlqAq8DsECmgbQ377MzwhHsU61D51ptVLqXXNu87y1TOl17",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "ext": "Ad2ohQzN3yKRQEHDYDkK1JK8CL3Se9zIBI5Q4VBRKeR6pIWjoaXOktd6l4RWPQi46M/xcnQCEN8R1PIqXGBDZPds5tolkQ4pUoWAaOKxXmPk",
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_zhiqiu",
@@ -799,7 +778,7 @@
    "api": "csp_zhiqiu",
    "searchable": 1,
    "ext": "ATuDzsbtXNA1mpnRWIpcUB8B2+hY3LMP/3Z1xXurADboE8cAKUOjUN6TXimsApauJg/X7yLotzgNXhCsjAn5wuQ=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_fishhxq",
@@ -808,7 +787,7 @@
    "api": "csp_FishHxq",
    "searchable": 1,
    "ext": "AfEuiKVYhFJoZfX14qKZ6B/GuVuuG1J+2u0TrTgQMlT+T6fw+zkIdP0NTr6BT3Oa5aQs8EIbxPwjpG7UH/U75WM=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Kan360",
@@ -823,7 +802,7 @@
      "https://jx.xmflv.com/?url="
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Rebo",
@@ -836,7 +815,7 @@
    "ext": {
     "url": "http://v.rbotv.cn"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_\u5170\u82b7",
@@ -844,7 +823,7 @@
    "api": "csp_AppUn",
    "type": 3,
    "ext": "AZd2zeWnJd10mMjpA2gpKlWDq7ggxf6XDxDuTaoinynvJ3eEi1bZPxC2qgkkAiACxISnMdRC37ODaT/tTEd9foyUox+SNWIsGzujicg5VFm7",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Libvio",
@@ -861,7 +840,7 @@
      "https://libviogroup.github.io"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_KZN",
@@ -870,7 +849,7 @@
    "api": "csp_KZN",
    "searchable": 1,
    "changeable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_SeedHub",
@@ -885,7 +864,7 @@
      "https://hubdog.cc"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_PanWebShare123",
@@ -907,7 +886,7 @@
     ],
     "cookie": ""
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_PanWebShareGuangYa",
@@ -928,7 +907,7 @@
     ],
     "cookie": ""
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Yidong4K",
@@ -939,7 +918,7 @@
    "quickSearch": 1,
    "filterable": 0,
    "changeable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_WoNiu",
@@ -951,7 +930,7 @@
    "ext": {
     "site": "https://wn4k.com/"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Qiwei",
@@ -971,7 +950,7 @@
      "https://www.qncool.com"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_gying",
@@ -994,7 +973,7 @@
      "https://www.\u9ed1\u5ba2\u5e1d\u56fd.com"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_ShuangXing",
@@ -1008,7 +987,7 @@
     "type": "list",
     "ratio": 1.433
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_DianYingYunJi",
@@ -1017,7 +996,7 @@
    "api": "csp_DianYingYunJi",
    "searchable": 1,
    "changeable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_VideoX",
@@ -1027,7 +1006,7 @@
    "searchable": 1,
    "changeable": 1,
    "filterable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Wwys",
@@ -1038,7 +1017,7 @@
    "filterable": 1,
    "changeable": 1,
    "ext": "https://vip.wwgz.cn:5200",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_CZ",
@@ -1061,7 +1040,7 @@
      "https://czzy.top"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_wencai",
@@ -1070,7 +1049,7 @@
    "api": "csp_WenCai",
    "searchable": 1,
    "ext": "https://www.tjrongze.com,https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.jiabaide.cn",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Guazi",
@@ -1078,7 +1057,7 @@
    "type": 3,
    "api": "csp_Guazi",
    "searchable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_TvDy",
@@ -1087,7 +1066,7 @@
    "api": "csp_TvDy",
    "searchable": 1,
    "filterable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Duboku",
@@ -1097,7 +1076,7 @@
    "searchable": 1,
    "filterable": 1,
    "changeable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_HonHon",
@@ -1112,7 +1091,7 @@
     "host": "https://honhon.wya6.com",
     "quality": "1080p"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_DJHub",
@@ -1124,7 +1103,7 @@
    "genre": "shortdrama",
    "filterable": 1,
    "changeable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_dadun",
@@ -1135,7 +1114,7 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "AfCX4sFyDgfHnSLJWpjt1MhGM5IXEedNZfnttre6SML2iKsHtTs9bImgNSCyhOVdiFfFQEtkTtLKBE1jHKB54K5If+HC5ogqbIKmQp/pC3aY",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_XingHui",
@@ -1147,7 +1126,7 @@
    "changeable": 1,
    "filterable": 1,
    "ext": "Add8krwC68v61DP+FKD6Jfku9NAYotb5APLK7YesWQ1matF4zi2Prh/3AY6D3ZeBGuxJg4SEuXY9n/vMa+B4fC0=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_FanShu",
@@ -1158,7 +1137,7 @@
    "quickSearch": 0,
    "filterable": 1,
    "ext": "AfcrWiL6kOmzXnbqzxhVVO34r1aA/e0g4grwfsFA8V5EPAVy9WtRO4yVFf3aC5LmzKENIEFO9aA2BMklc+wOUy4=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_XgAnime",
@@ -1168,7 +1147,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Xb6v",
@@ -1177,7 +1156,7 @@
    "api": "csp_Xb6v",
    "searchable": 1,
    "filterable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_JSo",
@@ -1190,7 +1169,7 @@
      "https://j-so.com"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Tiu6",
@@ -1204,7 +1183,7 @@
      "https://www.tiu6.cn"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Buguyy",
@@ -1214,7 +1193,7 @@
    "searchable": 1,
    "filterable": 1,
    "changeable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_ChuXin",
@@ -1224,7 +1203,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 0,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_aiting",
@@ -1234,7 +1213,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 0,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Music24bit",
@@ -1252,7 +1231,7 @@
      "\u859b\u4e4b\u8c26"
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_TuXiaoBei",
@@ -1262,7 +1241,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 0,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_BeiLeHu",
@@ -1272,7 +1251,7 @@
    "searchable": 0,
    "quickSearch": 0,
    "filterable": 0,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Sir88",
@@ -1285,7 +1264,7 @@
    "style": {
     "type": "list"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_QiutongTY",
@@ -1295,7 +1274,7 @@
    "searchable": 0,
    "filterable": 0,
    "changeable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_919TY",
@@ -1305,7 +1284,7 @@
    "searchable": 0,
    "filterable": 0,
    "changeable": 1,
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_TingBook",
@@ -1318,7 +1297,7 @@
    "style": {
     "type": "list"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_TingBookJinXia",
@@ -1332,7 +1311,7 @@
    "style": {
     "type": "list"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_TingYou",
@@ -1344,7 +1323,7 @@
    "style": {
     "type": "list"
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Market",
@@ -1376,7 +1355,7 @@
      }
     ]
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Fishdrive",
@@ -1387,7 +1366,7 @@
    "searchable": 1,
    "filterable": 1,
    "ext": "https://tc-new.z.wiki/autoupload/iYHTWVx6T8RrCmqdGD6MOdiO_OyvX7mIgxFBfDMDErs/20260715/bf45/fishdrive.json",
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "my_Wallpaper",
@@ -1402,7 +1381,7 @@
     "type": "rect",
     "ratio": 0.56
    },
-   "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+   "jar": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar;md5;8b09e92274a61404af204b4e0cc82583"
   },
   {
    "key": "wex_Douban",
@@ -2549,6 +2528,26 @@
    "name": "\ud83d\udc93\u7acb\u64ad\u25034K\ud83d\udc93",
    "type": 3,
    "api": "csp_AiNewLibvioGuard",
+   "searchable": 1,
+   "quickSearch": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/06/99191348af7606ed51e66a4f13a85d8e.jpg;md5;53e039fb19875d5cfec02a0910399ffd"
+  },
+  {
+   "key": "org_\u539f\u76d8",
+   "name": "\ud83d\udc93\u200d\u539f\u76d8\u25034K\ud83d\udc93\u200d",
+   "type": 3,
+   "api": "csp_AiNewZhiNan4KGuard",
+   "searchable": 1,
+   "quickSearch": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/06/99191348af7606ed51e66a4f13a85d8e.jpg;md5;53e039fb19875d5cfec02a0910399ffd"
+  },
+  {
+   "key": "org_\u8717\u725b",
+   "name": "\ud83d\udc93\u200d\u8717\u725b\u25034K\ud83d\udc93\u200d",
+   "type": 3,
+   "api": "csp_AiNewWoNiu4KGuard",
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,

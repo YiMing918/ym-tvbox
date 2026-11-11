@@ -151,15 +151,6 @@
    "filterable": 1
   },
   {
-   "key": "my_mdzy",
-   "name": "\u9b54\u90fd\u52a8\u6f2b",
-   "type": 1,
-   "api": "https://www.mdzyapi.com/api.php/provide/vod/",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1
-  },
-  {
    "key": "my_ikun",
    "name": "ikun\u8d44\u6e90",
    "type": 1,
@@ -2548,6 +2539,16 @@
    "name": "\ud83d\udc93\u200d\u8717\u725b\u25034K\ud83d\udc93\u200d",
    "type": 3,
    "api": "csp_AiNewWoNiu4KGuard",
+   "searchable": 1,
+   "quickSearch": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/06/99191348af7606ed51e66a4f13a85d8e.jpg;md5;53e039fb19875d5cfec02a0910399ffd"
+  },
+  {
+   "key": "org_AiPan1Me",
+   "name": "\ud83d\udc93\u76d8\u8ff7\u25034K\ud83d\udc93",
+   "type": 3,
+   "api": "csp_AiPan1MeGuard",
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,

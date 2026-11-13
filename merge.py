@@ -862,14 +862,12 @@ JAR_PINS = {}
 def govern_jar(ns, inherited=False):
     """Normalise ns['jar'] in place; return False to drop the site.
 
-    Scope note: the drop rule applies to a site's OWN jar. A jar
-    INHERITED from the origin config's spider is the interface
-    author's engine for the whole interface — in the 2026-11-14 dry
-    run, dropping on inherited jars would have removed 54 sites
-    (the 俊哥/小盒子/二月红 families, whose spiders are http and
-    unpinned upstream), far beyond the 3-site scope the drop ruling
-    was made against, so inherited jars are warned about in the log
-    instead and left for the owner's call.
+    Scope: own jars AND jars inherited from the origin config's
+    spider alike. The inherited case was put to the owner on
+    2026-11-14 with the dry-run number (54 sites — the 俊哥/小盒子/
+    二月红 families, whose spiders are http and unpinned upstream)
+    and he ruled STRICT: drop those too. The log line says
+    "inherited" so the cost stays visible per family.
     """
     jar = ns.get("jar")
     if not (isinstance(jar, str) and jar.startswith("http")):
@@ -884,13 +882,9 @@ def govern_jar(ns, inherited=False):
         ns["jar"] = base + ";md5;" + JAR_PINS[base]
         return True
     if base.lower().startswith("http://") and not pin:
-        if inherited:
-            print(f"[jar-warn] {ns.get('key', '?')} "
-                  f"({ns.get('name', '')}): inherited http jar "
-                  f"without md5 pin: {base[:80]}")
-            return True
+        kind = "inherited " if inherited else ""
         print(f"[jar-drop] {ns.get('key', '?')} ({ns.get('name', '')}): "
-              f"http jar without md5 pin: {base[:80]}")
+              f"{kind}http jar without md5 pin: {base[:80]}")
         return False
     if pin:
         known = JAR_PINS.get(base)

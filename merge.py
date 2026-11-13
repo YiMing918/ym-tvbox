@@ -23,12 +23,45 @@ Product governance (wave2):
   dropped, never invented), and ext.flag / flag entries are stripped of
   literal escape residue such as backslash-n and real control characters.
 
+Product governance (wave3, external-review fixes):
+- sources: a fetched document only counts as a source when it is a
+  JSON object with a list-valued "sites"; anything else (maintenance
+  payloads, multi-config indexes, arrays) falls through to the next
+  mirror instead of silently counting as a (useless) source. Site
+  entries that are not objects are skipped, and site types are
+  normalised to int (string "3" used to crash the merge comparison).
+- relative references: the URL that actually served each config is
+  kept, and relative api / jar / spider / file-like ext values are
+  resolved against it. A merged config is served from THIS repo, so
+  leaving "./api/drpy2.min.js" relative would point at files that do
+  not exist here. ext values that are plain parameters (not paths)
+  are left untouched.
+- dedupe: jar-source identity is (api, type, effective jar, full ext
+  digest) — two sites sharing one engine file but carrying different
+  rule files are different sites and both survive; the old signature
+  was api-only (plus a truncated ext host for a few template apis),
+  which silently dropped such sites.
+- CMS probing is tri-state like lives: a JSON/XML body must carry the
+  expected structure to count as alive; 404/410 or DNS failure must be
+  confirmed by a second slow pass to count as dead; everything else
+  (403/429/5xx, timeouts, odd bodies) is "uncertain" and the endpoint
+  is KEPT — the runner's network is not the user's network.
+- dependency check: file dependencies of the final site list (jar,
+  .js/.json/.txt api and ext files) are probed with the same
+  two-strike rule; a site whose required file is confirmed dead is
+  dropped and logged instead of shipping as a broken entry.
+  MERGE_SKIP_DEP_PROBE=1 skips this probe.
+- regression fuse: when the previous output is present (the Actions
+  checkout provides it) and the new merge would shrink the site count
+  below 80% of it, the run aborts and keeps the previous file.
+
 Pure standard library. Run: python3 merge.py
 Exit code is non-zero (and the output file is left untouched) if the
 merged result looks broken, so a bad day upstream never replaces a
 good config with garbage.
 """
 
+import hashlib
 import ipaddress
 import json
 import os
@@ -38,7 +71,7 @@ import sys
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
-from urllib.parse import quote, urlsplit, urlunsplit
+from urllib.parse import quote, urljoin, urlsplit, urlunsplit
 
 CTX = ssl.create_default_context()
 CTX.check_hostname = False
@@ -109,19 +142,83 @@ SEED_ADS = ["wan.51img1.com", "iqiyi.hbuioo.com", "vip.ffzyad.com", "lf1-cdn-tos
 
 
 def norm_api(a):
-    return re.sub(r"/+$", "", str(a).strip().lower())
+    """Canonical form of a CMS api URL for dedupe.
+
+    Only the scheme and host are case-insensitive; the old version
+    lowercased the WHOLE URL, which could merge two distinct endpoints
+    whose paths differ only by case. Default ports and fragments are
+    dropped; path/query case is preserved.
+    """
+    s = str(a).strip()
+    try:
+        p = urlsplit(s)
+        if not p.hostname:
+            return re.sub(r"/+$", "", s.lower())
+        host = p.hostname.lower()
+        netloc = host
+        try:
+            port = p.port
+        except ValueError:
+            port = None
+        if port and not (p.scheme.lower() == "http" and port == 80) \
+                and not (p.scheme.lower() == "https" and port == 443):
+            netloc = f"{host}:{port}"
+        if p.username:
+            userinfo = p.username
+            if p.password:
+                userinfo += ":" + p.password
+            netloc = userinfo + "@" + netloc
+        return urlunsplit((p.scheme.lower(), netloc,
+                           re.sub(r"/+$", "", p.path), p.query, ""))
+    except Exception:
+        return re.sub(r"/+$", "", s.lower())
 
 
-def probe(api):
+def _cms_attempt(api):
+    """One CMS probe attempt -> ("alive"|"dead"|"uncertain", detail).
+
+    "dead" is only a candidate (404/410 or DNS failure) and needs a
+    second agreeing attempt before the endpoint is dropped. A body
+    counts as alive only when it carries the expected CMS structure —
+    the old substring check ('"list"' anywhere in the text) let error
+    pages pass, and the old binary verdict dropped endpoints that were
+    merely refusing the runner (403/429) or briefly unreachable.
+    """
     sep = "&" if "?" in api else "?"
     try:
         req = urllib.request.Request(api + sep + "ac=list", headers=UA)
         with urllib.request.urlopen(req, timeout=10, context=CTX) as r:
-            body = r.read(4096).decode("utf-8", "ignore")
-        return ('"code":1' in body.replace(" ", "") or '"list"' in body
-                or "<rss" in body or "<list" in body or '"vod_name"' in body)
+            body = r.read(65536).decode("utf-8", "ignore")
+    except urllib.error.HTTPError as e:
+        if e.code in (404, 410):
+            return "dead", f"HTTP {e.code}"
+        return "uncertain", f"HTTP {e.code}"
+    except urllib.error.URLError as e:
+        reason = str(getattr(e, "reason", e))
+        if "Name or service not known" in reason or "getaddrinfo" in reason \
+                or "NameResolution" in reason \
+                or "Temporary failure in name" in reason:
+            return "dead", f"DNS: {reason}"
+        return "uncertain", f"URLError: {reason}"
+    except Exception as e:
+        return "uncertain", f"{type(e).__name__}: {e}"
+    text = body.strip()
+    if text.startswith("<"):
+        if "<rss" in text or "<list" in text:
+            return "alive", "xml list"
+        return "uncertain", "xml without list structure"
+    obj = None
+    try:
+        obj = json.loads(text)
     except Exception:
-        return False
+        try:
+            obj = load_cfg(body.encode("utf-8", "ignore"))
+        except Exception:
+            return "uncertain", "unparsable body"
+    if isinstance(obj, dict) and ("list" in obj or "class" in obj
+                                  or obj.get("code") == 1):
+        return "alive", "json list"
+    return "uncertain", "json without list/class structure"
 
 
 # ---------------------------------------------------------------------------
@@ -467,37 +564,235 @@ def clean_parses(parses):
     return cleaned, stats
 
 
-TEMPLATE = ("csp_XBPQ", "csp_XYQ", "csp_BiQ", "csp_XPath", "csp_AppYs",
-            "csp_AppTT", "csp_AppRJ", "csp_XYQHiker", "csp_BiliGuard")
+def valid_cfg(got):
+    """A fetched document counts as a usable source only when it is a
+    JSON object with a list-valued "sites". Maintenance payloads
+    ({"error": ...}), multi-config indexes ({"urls": [...]}) and JSON
+    arrays used to count as sources — or crash .get() outright."""
+    return isinstance(got, dict) and isinstance(got.get("sites"), list)
 
 
-def ext_host(ext):
+_FILE_EXTS = (".js", ".json", ".txt", ".jar", ".md", ".py")
+
+
+def _looks_like_rel_file(v):
+    """True for relative references that denote a file path (and so can
+    be resolved against the config's URL). ext is often a plain
+    parameter string instead — e.g. ".json/txt/ken.txt" is a format
+    hint, not a path — so only './', '../' and bare dir/... file
+    shapes qualify."""
+    if not isinstance(v, str):
+        return False
+    s = v.strip()
+    if not s or "://" in s or s.startswith(("csp_", "http:", "https:")):
+        return False
+    low = s.lower()
+    if s.startswith(("./", "../")):
+        return True
+    return "/" in s and not s.startswith(".") \
+        and low.endswith(_FILE_EXTS)
+
+
+def resolve_rel(value, base):
+    """Resolve a relative file reference against the URL that served
+    its config; anything else is returned unchanged."""
+    if base and _looks_like_rel_file(value):
+        try:
+            return urljoin(base, value.strip())
+        except Exception:
+            return value
+    return value
+
+
+def resolve_site_refs(s, base):
+    """Return a copy of site s with relative api/jar/ext resolved
+    against the origin config's URL."""
+    ns = dict(s)
+    if isinstance(ns.get("api"), str):
+        ns["api"] = resolve_rel(ns["api"], base)
+    if isinstance(ns.get("jar"), str):
+        ns["jar"] = resolve_rel(ns["jar"], base)
+    if isinstance(ns.get("ext"), str):
+        ns["ext"] = resolve_rel(ns["ext"], base)
+    return ns
+
+
+def clean_sites(cfg):
+    """Normalise one config's site list in place: non-object entries
+    are dropped (they used to crash s.get()), and "type" is normalised
+    to int (a string "3" used to reach a >= comparison and crash the
+    whole run; a string "1" silently missed CMS probing)."""
+    raw = cfg.get("sites")
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for s in raw:
+        if not isinstance(s, dict):
+            continue
+        t = _to_int(s.get("type"))
+        if t is None:
+            t = 0  # unrecognisable type: fall back to the file-wide default
+        if t != s.get("type"):
+            s = dict(s)
+            s["type"] = t
+        out.append(s)
+    return out
+
+
+def ext_digest(ext):
+    """Full-content digest of an ext value (never truncated): two
+    rule files that differ anywhere must produce different digests."""
+    if ext is None:
+        return ""
     if isinstance(ext, str):
-        m = re.search(r"https?://([^/\"']+)", ext)
-        return m.group(1).lower() if m else ext[:40]
-    return json.dumps(ext, sort_keys=True, ensure_ascii=False)[:60]
+        canon = ext.strip()
+    else:
+        canon = json.dumps(ext, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha1(canon.encode("utf-8", "ignore")).hexdigest()
 
 
-def t3_sig(s):
+def site_sig(s, spider):
+    """Identity of a jar/special source for dedupe: same engine file
+    with different rule files = different sites. Identity is (api,
+    type, effective jar, full ext digest). The jar that will actually
+    be bound (the site's own, else its origin config's spider) is part
+    of the identity, because the same csp_ name backed by a different
+    jar is not the same implementation."""
     api = str(s.get("api", ""))
-    if any(api.startswith(t) for t in TEMPLATE):
-        return (api, ext_host(s.get("ext", "")))
-    return (api,)
+    jar = s.get("jar") or spider or ""
+    jar = str(jar).split(";")[0].strip()
+    return (api, s.get("type"), jar, ext_digest(s.get("ext")))
+
+
+# ---------------------------------------------------------------------------
+# dependency governance (jar / rule-file liveness for the final list)
+# ---------------------------------------------------------------------------
+
+def dep_urls_of(site):
+    """File dependencies a site cannot load without: its jar, a
+    file-like api (drpy engine .js) and a file-like ext (rule file).
+    Non-file values (csp_ names, tokens, parameter strings) are not
+    dependencies."""
+    deps = []
+    jar = site.get("jar")
+    if isinstance(jar, str) and jar.startswith("http"):
+        deps.append(jar.split(";")[0].strip())
+    for field in ("api", "ext"):
+        v = site.get(field)
+        if isinstance(v, str) and v.startswith("http"):
+            try:
+                path = urlsplit(v).path.lower()
+            except Exception:
+                continue
+            if path.endswith(_FILE_EXTS):
+                deps.append(v)
+    return deps
+
+
+def _dep_attempt(url):
+    """One dependency probe (small ranged GET) -> verdict like
+    _cms_attempt: only 404/410 or DNS failure count as dead, and only
+    as a candidate needing a second agreeing attempt."""
+    try:
+        h = dict(UA)
+        h["Range"] = "bytes=0-1023"
+        req = urllib.request.Request(url, headers=h)
+        with urllib.request.urlopen(req, timeout=8, context=CTX) as r:
+            r.read(2048)
+        return "alive", "GET ok"
+    except urllib.error.HTTPError as e:
+        if e.code in (404, 410):
+            return "dead", f"HTTP {e.code}"
+        return "uncertain", f"HTTP {e.code}"
+    except urllib.error.URLError as e:
+        reason = str(getattr(e, "reason", e))
+        if "Name or service not known" in reason or "getaddrinfo" in reason \
+                or "NameResolution" in reason \
+                or "Temporary failure in name" in reason:
+            return "dead", f"DNS: {reason}"
+        return "uncertain", f"URLError: {reason}"
+    except Exception as e:
+        return "uncertain", f"{type(e).__name__}: {e}"
+
+
+# Bound the probe cost however large the merged list grows; URLs past
+# the window are treated as uncertain (their sites are kept).
+DEP_PROBE_WINDOW = 150
+
+
+def govern_deps(out_sites, report):
+    """Drop final-list sites whose required file dependency is
+    confirmed dead (two agreeing definitive answers). Returns the
+    filtered (tag, site) list; `report` counts are adjusted."""
+    url_sites = {}
+    for idx, (_tag, s) in enumerate(out_sites):
+        for u in dep_urls_of(s):
+            url_sites.setdefault(u, []).append(idx)
+    urls = list(url_sites.keys())
+    if not urls:
+        return out_sites
+    window, overflow = urls[:DEP_PROBE_WINDOW], urls[DEP_PROBE_WINDOW:]
+    if overflow:
+        print(f"[deps] {len(overflow)} dependency URLs beyond probe "
+              f"window ({DEP_PROBE_WINDOW}) treated as uncertain")
+    verdicts = {}
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        for u, (v, _d) in zip(window, ex.map(_dep_attempt, window)):
+            verdicts[u] = v
+    dead_cand = [u for u in window if verdicts[u] == "dead"]
+    if dead_cand:
+        with ThreadPoolExecutor(max_workers=4) as ex:
+            for u, (v, _d) in zip(dead_cand, ex.map(_dep_attempt, dead_cand)):
+                if v != "dead":
+                    verdicts[u] = "uncertain"
+    dead_urls = {u for u in window if verdicts[u] == "dead"}
+    if not dead_urls:
+        alive_n = sum(1 for u in window if verdicts[u] == "alive")
+        print(f"[deps] {len(window)} dependency files probed: "
+              f"{alive_n} alive, {len(window) - alive_n} uncertain, 0 dead")
+        return out_sites
+    drop_idx = set()
+    for u in dead_urls:
+        drop_idx.update(url_sites[u])
+    kept_sites = []
+    for idx, (tag, s) in enumerate(out_sites):
+        if idx in drop_idx:
+            dead = [u for u in dep_urls_of(s) if u in dead_urls]
+            print(f"[deps-drop] {s.get('key', '?')} "
+                  f"({s.get('name', '')}): dead dependency {dead[0][:90]}")
+            report[tag] = report.get(tag, 0) - 1
+            continue
+        kept_sites.append((tag, s))
+    print(f"[deps] dropped {len(drop_idx)} sites with confirmed-dead "
+          f"dependencies ({len(dead_urls)} dead files)")
+    return kept_sites
 
 
 def main():
     cfgs = []
     for tag, urls in SOURCES:
-        got = None
+        got, got_url = None, ""
         for u in urls:
             try:
-                got = load_cfg(fetch(u))
-                break
+                cand = load_cfg(fetch(u))
             except Exception as e:
                 print(f"[warn] {tag} fetch failed ({u[:60]}...): {e}", file=sys.stderr)
+                continue
+            if not valid_cfg(cand):
+                # Parses as JSON but is not a usable single config
+                # (maintenance payload, multi-config index, array…):
+                # fall through to the next mirror instead of counting
+                # it as a source.
+                print(f"[warn] {tag} unusable document from {u[:60]}... "
+                      f"(not an object with a sites list); trying next",
+                      file=sys.stderr)
+                continue
+            got, got_url = cand, u
+            break
         if got is not None:
-            cfgs.append((tag, got))
-            print(f"[ok] {tag}: {len(got.get('sites', []))} sites")
+            got["sites"] = clean_sites(got)
+            cfgs.append((tag, got, got_url))
+            print(f"[ok] {tag}: {len(got['sites'])} sites")
     if len(cfgs) < 3:
         print(f"[abort] only {len(cfgs)} sources fetched", file=sys.stderr)
         return 1
@@ -506,27 +801,32 @@ def main():
     cms_apis, seed_norm = {}, {norm_api(a) for _, _, a in SEED_SITES}
     for _, _, a in SEED_SITES:
         cms_apis[norm_api(a)] = a
-    for _, cfg in cfgs:
+    for _, cfg, _base in cfgs:
         for s in cfg.get("sites", []):
             if s.get("type") in (0, 1) and str(s.get("api", "")).startswith("http"):
                 cms_apis.setdefault(norm_api(s["api"]), s["api"])
     print(f"[..] probing {len(cms_apis)} CMS endpoints")
     keys = list(cms_apis.keys())
-    alive = set()
+    verdicts = {}
     with ThreadPoolExecutor(max_workers=24) as ex:
-        for n, ok in zip(keys, ex.map(probe, [cms_apis[k] for k in keys])):
-            if ok:
-                alive.add(n)
-    # second, slower pass over the failures: parallel probing gets some
-    # endpoints refused/rate-limited even though they are actually up
-    failed = [k for k in keys if k not in alive]
-    if failed:
-        print(f"[..] re-probing {len(failed)} failures slowly")
+        for n, (v, _d) in zip(keys, ex.map(_cms_attempt, [cms_apis[k] for k in keys])):
+            verdicts[n] = v
+    # Only "dead" candidates are re-probed (slowly): dropping an
+    # endpoint needs two agreeing definitive answers. "uncertain"
+    # endpoints are KEPT — a runner-side 403/timeout says nothing
+    # about the user's network.
+    dead_cand = [k for k in keys if verdicts[k] == "dead"]
+    if dead_cand:
+        print(f"[..] confirming {len(dead_cand)} dead candidates slowly")
         with ThreadPoolExecutor(max_workers=6) as ex:
-            for n, ok in zip(failed, ex.map(probe, [cms_apis[k] for k in failed])):
-                if ok:
-                    alive.add(n)
-    print(f"[ok] CMS alive: {len(alive)} / {len(cms_apis)}")
+            for n, (v, _d) in zip(dead_cand, ex.map(_cms_attempt, [cms_apis[k] for k in dead_cand])):
+                if v != "dead":
+                    verdicts[n] = "uncertain"
+    alive = {k for k in keys if verdicts[k] == "alive"}
+    kept = {k for k in keys if verdicts[k] != "dead"}
+    print(f"[ok] CMS alive: {len(alive)}, uncertain kept: "
+          f"{len(kept) - len(alive)}, dead dropped: "
+          f"{len(keys) - len(kept)} / {len(cms_apis)} probed")
 
     out_sites, used_keys, seen_t3, report = [], set(), set(), {}
 
@@ -546,25 +846,32 @@ def main():
 
     seen_cms = set()
     for k, n, a in SEED_SITES:
-        if norm_api(a) in alive:
+        if norm_api(a) in kept:
             seen_cms.add(norm_api(a))
             add_site("my", {"key": k, "name": n, "type": 1, "api": a,
                             "searchable": 1, "quickSearch": 1, "filterable": 1}, "")
-    for tag, cfg in cfgs:
+    for tag, cfg, base in cfgs:
         spider = cfg.get("spider", "")
+        if isinstance(spider, str):
+            spider = resolve_rel(spider, base)
         for s in cfg.get("sites", []):
+            # Resolve relative references against the URL that served
+            # this config BEFORE any dedupe/identity decision, so the
+            # merged output never points at files relative to a repo
+            # that does not contain them.
+            s = resolve_site_refs(s, base)
             t = s.get("type", 0)
             api = str(s.get("api", ""))
             if not api:
                 continue
             if t in (0, 1):
                 n = norm_api(api)
-                if n in seen_cms or n not in alive:
+                if n in seen_cms or n not in kept:
                     continue
                 seen_cms.add(n)
                 add_site(tag, s, spider)
             else:
-                sig = t3_sig(s)
+                sig = site_sig(s, spider)
                 if sig in seen_t3:
                     continue
                 seen_t3.add(sig)
@@ -585,14 +892,38 @@ def main():
             report[tg] -= 1
         out_sites = out_sites[:CAP]
 
+    # Dependency governance: a site whose jar / engine / rule file is
+    # confirmed dead ships as a broken entry — drop it instead (the
+    # MIN_SITES fuse below still guards against a mass-death day).
+    if os.environ.get("MERGE_SKIP_DEP_PROBE", "") != "1":
+        out_sites = govern_deps(out_sites, report)
+    else:
+        print("[deps] probe skipped (MERGE_SKIP_DEP_PROBE)")
+
     sites = [s for _, s in out_sites]
     if len(sites) < MIN_SITES:
         print(f"[abort] only {len(sites)} sites merged (< {MIN_SITES}); keeping old file", file=sys.stderr)
         return 1
 
+    # Regression fuse: the Actions checkout leaves the previous output
+    # in place; if this merge would shrink the catalogue far below it,
+    # something upstream changed shape — keep the previous file.
+    prev_n = 0
+    try:
+        with open(OUTPUT, encoding="utf-8") as f:
+            prev = json.load(f)
+        if isinstance(prev, dict) and isinstance(prev.get("sites"), list):
+            prev_n = len(prev["sites"])
+    except Exception:
+        prev_n = 0
+    if prev_n >= MIN_SITES and len(sites) < prev_n * 0.8:
+        print(f"[abort] merged {len(sites)} sites vs previous {prev_n} "
+              f"(< 80%); keeping old file", file=sys.stderr)
+        return 1
+
     parses, seen_p = [], set()
-    for _, cfg in cfgs:
-        for p in cfg.get("parses", []):
+    for _, cfg, _b in cfgs:
+        for p in cfg.get("parses") if isinstance(cfg.get("parses"), list) else []:
             if not isinstance(p, dict):
                 continue
             u = p.get("url", "")
@@ -616,8 +947,8 @@ def main():
     for l in SEED_LIVES:
         seen_l.add(l["url"])
         lives_candidates.append(l)
-    for _, cfg in cfgs:
-        for l in cfg.get("lives", []):
+    for _, cfg, _b in cfgs:
+        for l in cfg.get("lives") if isinstance(cfg.get("lives"), list) else []:
             if not isinstance(l, dict):
                 continue
             u = l.get("url", "")
@@ -639,15 +970,18 @@ def main():
           f"{lstats['probe_skipped']})")
 
     flags, ads = list(SEED_FLAGS), list(SEED_ADS)
-    for _, cfg in cfgs:
-        for f in cfg.get("flags", []):
+    for _, cfg, _b in cfgs:
+        for f in cfg.get("flags") if isinstance(cfg.get("flags"), list) else []:
             if f not in flags:
                 flags.append(f)
-        for a in cfg.get("ads", []):
+        for a in cfg.get("ads") if isinstance(cfg.get("ads"), list) else []:
             if a not in ads:
                 ads.append(a)
 
-    final = {"spider": cfgs[-1][1].get("spider", ""), "wallpaper": "",
+    top_spider = cfgs[-1][1].get("spider", "")
+    if isinstance(top_spider, str):
+        top_spider = resolve_rel(top_spider, cfgs[-1][2])
+    final = {"spider": top_spider, "wallpaper": "",
              "lives": lives, "sites": sites, "parses": parses,
              "flags": flags, "ads": ads}
     with open(OUTPUT, "w", encoding="ascii") as f:

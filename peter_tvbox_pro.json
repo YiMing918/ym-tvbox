@@ -1,5 +1,5 @@
 {
- "spider": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe",
+ "spider": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e",
  "wallpaper": "",
  "lives": [
   {
@@ -46,22 +46,22 @@
    "timeout": 10
   },
   {
+   "name": "\u51b0\u8336",
+   "type": 0,
+   "playerType": 2,
+   "url": "https://bc.188766.xyz/?ip=&json=true",
+   "ua": "bingcha/1.1(mianfeifenxiang)"
+  },
+  {
    "name": "Kimentanm",
    "type": 0,
    "url": "https://down.nigx.cn/raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
    "playerType": 2
-  },
-  {
-   "name": "\u7efc\u5408\u76f4\u64ad",
-   "type": 0,
-   "playerType": 2,
-   "url": "http://193.123.86.190:14888/TV/iptv.php",
-   "ua": "bingcha/1.1 (mianfeifenxiang) "
   }
  ],
  "sites": [
   {
-   "key": "my_bfzy",
+   "key": "seed_bfzy",
    "name": "\u66b4\u98ce\u8d44\u6e90",
    "type": 1,
    "api": "https://bfzyapi.com/api.php/provide/vod/",
@@ -70,7 +70,7 @@
    "filterable": 1
   },
   {
-   "key": "my_lzzy",
+   "key": "seed_lzzy",
    "name": "\u91cf\u5b50\u8d44\u6e90",
    "type": 1,
    "api": "https://cj.lziapi.com/api.php/provide/vod/",
@@ -79,7 +79,7 @@
    "filterable": 1
   },
   {
-   "key": "my_snzy",
+   "key": "seed_snzy",
    "name": "\u7d22\u5c3c\u8d44\u6e90",
    "type": 1,
    "api": "https://suoniapi.com/api.php/provide/vod/",
@@ -88,7 +88,7 @@
    "filterable": 1
   },
   {
-   "key": "my_sdzy",
+   "key": "seed_sdzy",
    "name": "\u95ea\u7535\u8d44\u6e90",
    "type": 1,
    "api": "https://sdzyapi.com/api.php/provide/vod/",
@@ -97,7 +97,7 @@
    "filterable": 1
   },
   {
-   "key": "my_zdzy",
+   "key": "seed_zdzy",
    "name": "\u6700\u5927\u8d44\u6e90",
    "type": 1,
    "api": "https://api.zuidapi.com/api.php/provide/vod/",
@@ -106,7 +106,7 @@
    "filterable": 1
   },
   {
-   "key": "my_gszy",
+   "key": "seed_gszy",
    "name": "\u5149\u901f\u8d44\u6e90",
    "type": 1,
    "api": "https://api.guangsuapi.com/api.php/provide/vod/",
@@ -115,7 +115,7 @@
    "filterable": 1
   },
   {
-   "key": "my_hnzy",
+   "key": "seed_hnzy",
    "name": "\u7ea2\u725b\u8d44\u6e90",
    "type": 1,
    "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
@@ -124,7 +124,7 @@
    "filterable": 1
   },
   {
-   "key": "my_hhzy",
+   "key": "seed_hhzy",
    "name": "\u8c6a\u534e\u8d44\u6e90",
    "type": 1,
    "api": "https://hhzyapi.com/api.php/provide/vod/",
@@ -133,7 +133,7 @@
    "filterable": 1
   },
   {
-   "key": "my_jszy",
+   "key": "seed_jszy",
    "name": "\u6781\u901f\u8d44\u6e90",
    "type": 1,
    "api": "https://jszyapi.com/api.php/provide/vod/",
@@ -142,7 +142,7 @@
    "filterable": 1
   },
   {
-   "key": "my_ffzy",
+   "key": "seed_ffzy",
    "name": "\u975e\u51e1\u8d44\u6e90",
    "type": 1,
    "api": "https://cj.ffzyapi.com/api.php/provide/vod/",
@@ -151,7 +151,7 @@
    "filterable": 1
   },
   {
-   "key": "my_mdzy",
+   "key": "seed_mdzy",
    "name": "\u9b54\u90fd\u52a8\u6f2b",
    "type": 1,
    "api": "https://www.mdzyapi.com/api.php/provide/vod/",
@@ -160,7 +160,7 @@
    "filterable": 1
   },
   {
-   "key": "my_ikun",
+   "key": "seed_ikun",
    "name": "ikun\u8d44\u6e90",
    "type": 1,
    "api": "https://ikunzyapi.com/api.php/provide/vod/",
@@ -169,7 +169,7 @@
    "filterable": 1
   },
   {
-   "key": "my_ukzy",
+   "key": "seed_ukzy",
    "name": "U\u9177\u8d44\u6e90",
    "type": 1,
    "api": "https://api.ukuapi.com/api.php/provide/vod/",
@@ -178,7 +178,7 @@
    "filterable": 1
   },
   {
-   "key": "my_taopian",
+   "key": "seed_taopian",
    "name": "\u6dd8\u7247\u8d44\u6e90",
    "type": 1,
    "api": "https://taopianapi.com/cjapi/mc/vod/json.html",
@@ -309,6 +309,68 @@
    "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
   },
   {
+   "key": "fm_\u5149\u76d8",
+   "name": "\ud83d\udcc0\u2503\u5149\u76d8\u2503APP",
+   "type": 3,
+   "api": "csp_AppQi",
+   "ext": "http://103.217.190.91:5566|hagYExMdMkeWfemK",
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
+   "key": "fm_\u884c\u52a8",
+   "name": "\ud83d\ude0c\u2503\u884c\u52a8\u2503APP",
+   "type": 3,
+   "api": "csp_AppDrama2",
+   "ext": {
+    "appName": "\u534e\u8c0a",
+    "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCr8SzZhjYy+rsya1K09t8d2K50pWFoBkgUqMpKOiW+3IEVKd4eTdvg9RSOjQ82kypL6R9BnsmrS1V8s4PVDwjQbUtYhTPPC9Hz16qY7rpD6m0d2vr09/UpWQ5uOy9PR0QTrsioveZ+DIe9jc3C+zBCu/kZSY/R8stwJoiitki3gwIDAQAB",
+    "dataKey": "V04XQZNYRWN6T0JODZFIAG5CTZB3PT0=",
+    "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+    "pkg": "com.lxf.sncgtzxyx",
+    "host": "",
+    "site": "https://1851089669.cdn.123clouddisk.com/1851089669/44107727",
+    "version": "6.0.0.1",
+    "decrypt": "1"
+   },
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
+   "key": "fm_\u518d\u6765",
+   "name": "\u270c\ufe0f\u2503\u518d\u6765\u2503APP",
+   "type": 3,
+   "api": "csp_AppDrama2",
+   "ext": {
+    "appName": "\u7535\u5f71\u5929\u5802",
+    "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCduNEnfxGaLuQRk5ABzXHhPV43zi00sCHjLo8BYc+Wi6xXm2b4v0i28Sq4WlNCKhseft9fz8kO/qLr6/022o1RcuOU7e4GFL3U9WnNODwRBYSYWd+K8nqpI/tAUDmZEBGRWqjrc7x6aMl3A+xpnWkLbPCLsuhbuuUE3tv09oeOpwIDAQAB",
+    "dataKey": "D2KREWRIBVNAUJJYEDL4VFHOY2Q0PQ==",
+    "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+    "pkg": "com.dytiantang.one",
+    "host": "",
+    "site": "https://dyttandroid04-1372779881.cos.ap-shanghai.myqcloud.com/app_dyttandroid.txt",
+    "version": "3.0.0.7",
+    "decrypt": "0"
+   },
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
+   "key": "fm_\u4e00\u7897",
+   "name": "\ud83e\udd63\u2503\u4e00\u7897\u2503APP",
+   "type": 3,
+   "api": "csp_AppDrama2",
+   "ext": {
+    "appName": "\u6a58\u6c41",
+    "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCr8SzZhjYy+rsya1K09t8d2K50pWFoBkgUqMpKOiW+3IEVKd4eTdvg9RSOjQ82kypL6R9BnsmrS1V8s4PVDwjQbUtYhTPPC9Hz16qY7rpD6m0d2vr09/UpWQ5uOy9PR0QTrsioveZ+DIe9jc3C+zBCu/kZSY/R8stwJoiitki3gwIDAQAB",
+    "dataKey": "OW1WBLFZCLJ0WTNJQMRSZ2DYSGNBPT0=",
+    "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+    "pkg": "com.mxj.wylcjbxyx",
+    "host": "",
+    "site": "https://123-1349250429.cos.ap-shanghai.myqcloud.com/app.txt",
+    "version": "3.0.2.4",
+    "decrypt": "1"
+   },
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
    "key": "fm_\u97e9\u5708",
    "name": "\u2b55\u2503\u97e9\u5708 \u2503APP",
    "type": 3,
@@ -422,6 +484,22 @@
    "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
   },
   {
+   "key": "fm_\u65b9\u821f",
+   "name": "\ud83d\udc37\u2503\u65b9\u821f\u2503\u52a8\u6f2b",
+   "type": 3,
+   "api": "csp_AppGet",
+   "ext": "https://www.cyfz.top|e72cdfd629e8895d",
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
+   "key": "fm_\u756a\u85af",
+   "name": "\ud83c\udf60\u2503\u756a\u85af\u2503\u52a8\u6f2b",
+   "type": 3,
+   "api": "csp_AppGet",
+   "ext": "https://app.omofun1.top|66dc309cbeeca454",
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
    "key": "fm_csp_FirstAid",
    "name": "\ud83d\ude91\u2503\u6025\u6551\u2503\u6559\u5b66",
    "type": 3,
@@ -448,6 +526,22 @@
       "type_id": "kugou"
      }
     ]
+   },
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
+   "key": "fm_MTV",
+   "name": "\ud83c\udfa7\u2503\u660e\u661f\u2503MV",
+   "type": 3,
+   "api": "csp_Bili",
+   "playerType": 2,
+   "ext": {
+    "json": "https://img2.gelonghui.com/library/2b4eb-8fb08a6b-f9f1-48d8-816a-1bc712a85fefnull",
+    "cookie": ""
+   },
+   "style": {
+    "type": "rect",
+    "ratio": 1.333
    },
    "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
   },
@@ -499,18 +593,67 @@
    "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
   },
   {
-   "key": "fm_\u513f\u7ae5",
-   "name": "\ud83d\udcda\u2503\u513f\u7ae5\u2503\u542f\u8499",
+   "key": "fm_csp_\u5c11\u513f",
+   "name": "\ud83d\udcda\u2503\u5c11\u513f\u2503\u6559\u80b2",
    "type": 3,
-   "api": "./api/drpy2.min.js",
-   "searchable": 0,
-   "quickSearch": 0,
-   "changeable": 0,
+   "api": "csp_Bili",
+   "playerType": 2,
+   "ext": {
+    "json": "https://img2.gelonghui.com/library/1903b-eb0f1675-2437-4e72-bcf0-427b1626d79fnull",
+    "cookie": ""
+   },
    "style": {
     "type": "rect",
-    "ratio": 1.597
+    "ratio": 1.333
    },
-   "ext": "./js/\u5154\u5c0f\u8d1d.js",
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
+   "key": "fm_csp_\u5c0f\u5b66",
+   "name": "\ud83d\udcda\u2503\u5c0f\u5b66\u2503\u8bfe\u5802",
+   "type": 3,
+   "api": "csp_Bili",
+   "playerType": 2,
+   "ext": {
+    "json": "https://img2.gelonghui.com/library/a1140-144855fe-3eaa-44f3-b689-6812c233de54null",
+    "cookie": ""
+   },
+   "style": {
+    "type": "rect",
+    "ratio": 1.333
+   },
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
+   "key": "fm_csp_\u521d\u4e2d",
+   "name": "\ud83d\udcda\u2503\u521d\u4e2d\u2503\u8bfe\u5802",
+   "type": 3,
+   "api": "csp_Bili",
+   "playerType": 2,
+   "ext": {
+    "json": "https://img2.gelonghui.com/library/ba156-73e16cad-8257-4f33-b8c0-e051e72e546dnull",
+    "cookie": ""
+   },
+   "style": {
+    "type": "rect",
+    "ratio": 1.333
+   },
+   "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
+  },
+  {
+   "key": "fm_csp_\u9ad8\u4e2d",
+   "name": "\ud83d\udcda\u2503\u9ad8\u4e2d\u2503\u8bfe\u5802",
+   "type": 3,
+   "api": "csp_Bili",
+   "playerType": 2,
+   "ext": {
+    "json": "https://img2.gelonghui.com/library/e44b3-4a82ab48-e014-49b2-bb66-ee5207e8f195null",
+    "cookie": ""
+   },
+   "style": {
+    "type": "rect",
+    "ratio": 1.333
+   },
    "jar": "https://ss1.eisite.cn/autoupload/f/eja2s/20261102/WU58/0X0/fm261102c.png;md5;6a396033ae45efee57ba789f91d7123e"
   },
   {
@@ -541,6 +684,16 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
+   "key": "my_YGP",
+   "name": "\ud83d\udd14\u2506\u65b0\u7247\u2506\u9884\u544a",
+   "type": 3,
+   "api": "csp_YGP",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
    "key": "my_FishConfig",
    "name": "\ud83c\udf7c\u2506\u8bbe\u7f6e\u2506\u4e2d\u5fc3",
    "type": 3,
@@ -567,6 +720,18 @@
    "type": 3,
    "api": "csp_ALLLive",
    "searchable": 1,
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_bili",
+   "name": "\ud83c\udfa8\u2506\u7b14\u89e6\u2506\u7409\u7483",
+   "type": 3,
+   "api": "csp_Bili",
+   "searchable": 1,
+   "quickSearch": 1,
+   "ext": {
+    "cookie": ""
+   },
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
@@ -632,6 +797,61 @@
    "quickSearch": 1,
    "filterable": 1,
    "ext": "ARO+hB5vdFdHClVkrLOIgsdq6Ox6dBaesfwPqkaGkkI/kFSRmoG2vqoBgQJ4rQUfq9S/OqwEWkP8qRb4VM8DrYnl2UGeGnTvJjwdn+dbV8Nh",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_AppZy_qiushui",
+   "name": "\ud83e\udeb7\u2506\u79cb\u6c34\u25064K",
+   "type": 3,
+   "api": "csp_AppZy",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "ext": "AXYmhdoG4mVUI1O/8DD7P+twDiSLZh1j9iNOR/xHURJp2Aw4rTsWEymW/RcJqLNohr1iR09cYEj6cCGDSNc95aBhNQfelqiC0gTqRSXniGO3",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_jz",
+   "name": "\ud83c\udf75\u2506\u716e\u96ea\u25064K",
+   "type": 3,
+   "api": "csp_App88",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "ext": "AUeoWDxT/Sza6llGoZlPCelc2ZgSZNx8QBoJAONichQm4mIf8nslnxOIU1wrq2vvzWouK156R9sXK/CRGs6G6fc=",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_hy",
+   "name": "\ud83c\udf3c\u2506\u68e0\u68a8\u25064K",
+   "type": 3,
+   "api": "csp_App88",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "ext": "Ae8DpdkJGH5s9XIrvlLd8DvpiYdkSSaoIDmmvofda4Gpr9yX8k0a4w1wNmnu4CZ4Nnh03XkYIwooJ+psbf6P8ZY=",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_FourK",
+   "name": "\ud83c\udf14\u2506\u671b\u8212\u25064K",
+   "type": 3,
+   "api": "csp_App88",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "ext": "AV3cDzESDsTIWJ1e0GZQUmOQKfNDMpFhWqSa4cvJKZlVZDKPOBzRbNq+YsDIeVJfxJIlcvy9/9MMJLQR9Yn4P+ABIUU4LXEL+WXhRFcPEDBpGlxkMDqSvKpFJvmPoKC/IA==",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_SanJiaoZhou",
+   "name": "\ud83c\udf25\ufe0f\u2506\u4e91\u5f52\u25064K",
+   "type": 3,
+   "api": "csp_App88",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "ext": "AYw+57aVirMpHulq+pwyxEX1UGkmWBETcX32Yp6ZkkvTAnu06xitsJuZdymTwZ70YgSiX+Ga4XisFPKK2Pv4ERJ/y0iGIy9FkpAAVFLF8ltrlb/FEg6CdBcfjWgMUXsibWacZGVzOWczRslQaFUHS2M=",
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
@@ -771,6 +991,30 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
+   "key": "my_\u4f59\u6e29",
+   "name": "\ud83e\udde3\u2506\u4f59\u6e29\u25064K",
+   "type": 3,
+   "api": "csp_App88",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "AQ97WpArbhKNw60bLglQNeYUtD0UDI1f65KexQmYfUaCO+V3+a8GbSmYodUtb12Q0LQHfv6KdocBICzIhrySNikxI0hWUixd5n/optwTcVcU",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u591c\u732b",
+   "name": "\ud83e\udd89\u2506\u591c\u732b\u25064K",
+   "type": 3,
+   "api": "csp_App88",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "AR/RtwIvqcmx6ZGW8sbi7eFkPpUl48Y1f1lgZfeNDxJrNKwGVF/fADYHz0psPEF7KvDaccyt60bwK9lzVNUIhPUxyKFOo7u9iPyZxUTbxyAZ",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
    "key": "my_\u62fc\u56fe",
    "name": "\ud83e\udde9\u2506\u62fc\u56fe\u25064K",
    "type": 3,
@@ -780,6 +1024,58 @@
    "filterable": 1,
    "changeable": 0,
    "ext": "Ad2ohQzN3yKRQEHDYDkK1JK8CL3Se9zIBI5Q4VBRKeR6pIWjoaXOktd6l4RWPQi46M/xcnQCEN8R1PIqXGBDZPds5tolkQ4pUoWAaOKxXmPk",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u55d1\u5267",
+   "name": "\ud83c\udf7f\u2506\u55d1\u5267\u25064K",
+   "type": 3,
+   "api": "csp_NiuLai",
+   "searchable": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "Ab6RU4ow2BTC3y169gXHkoGyOzagKI89ksf5hxcm0/J5a7/pusSapfK8Oy6MtmlqAq8DsECmgbQ377MzwhHsU61D51ptVLqXXNu87y1TOl17",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u51dd\u5149",
+   "name": "\u2728\u2506\u51dd\u5149\u25064K",
+   "type": 3,
+   "api": "csp_NiuLai",
+   "searchable": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "AbHckdJkP3IQGfQAetQhutxB3VjOrW67VMoOo8mAdc9grkAgbVv7bUgWbHKHHabksz8nJklfQrFKo56OYXkhQ936PGDo/33ZU4cnkGGALgUlbfxoJoT/TJ/KZwRlYHiajg==",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u7d20\u7b3a",
+   "name": "\ud83d\udcdc\u2506\u7d20\u7b3a\u25064K",
+   "type": 3,
+   "api": "csp_NiuLai",
+   "searchable": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "Aaf7w5/rzYE9yZfGXQS8eAKVq3W9pLaxvlvi6ZGZLpR8O3YSm7sXFS22QD04sh5rKbTiwymnUVmJuU564xlueIWO8sp8Q1lhlLJThJy5Yert",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u957f\u6cfd",
+   "name": "\ud83c\udfde\ufe0f\u2506\u957f\u6cfd\u25064K",
+   "type": 3,
+   "api": "csp_App88",
+   "ext": "AbUqYzi9KxmcqEBrph2PStNUDPxq/XlzxDHJ/Ho29gXr8NgMOEJGFKBsrdYb5xNb+w+Xaj3203DI9YWo5wBv6zGULMNZneW1yESyfC1/S1BM",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u4e91\u5cab",
+   "name": "\u26f0\ufe0f\u2506\u4e91\u5cab\u25064K",
+   "type": 3,
+   "api": "csp_NiuLai",
+   "searchable": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "Af9dBxsQCjGtIKQ47cJEAnzHtmsGI04C7DCRpNBZk7hshaMWsb76puB4aGapQk4JgYpBV2BKnAQ6GRcUI+/vzYduXc8ItUUvkHR/+LR3Y+NT",
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
@@ -829,11 +1125,92 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
+   "key": "my_\u7af9\u9690",
+   "name": "\ud83c\udf8b\u2506\u7af9\u9690\u2506APP",
+   "type": 3,
+   "api": "csp_NiuLai",
+   "searchable": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "ASOaI+0HH0pDfWQ9VwPhMaOaO+WarJ6umTa/qwrJ+cbO4qRPAyjfTVh51M3iYZq/nEN+givTp7FLvjhWgQh8WCdjm82k8bbHm80C9j41tlvo",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u7389\u9636",
+   "name": "\ud83c\udfdb\ufe0f\u2506\u7389\u9636\u2506APP",
+   "type": 3,
+   "api": "csp_NiuLai",
+   "searchable": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "AR1skS0Mq97cRrUjisQHhwxFfgXFonkw2eX4zfToon+DcScGRXGViBnNIsG5DYOtYkAp0CTia3vGvMluKl75/eMH49CGi2ZWYJa1wyldHjNH",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u9999\u7bc6",
+   "name": "\ud83e\ude94\u2506\u9999\u7bc6\u2506APP",
+   "type": 3,
+   "api": "csp_NiuLai",
+   "searchable": 1,
+   "filterable": 1,
+   "changeable": 0,
+   "ext": "AYVQFckfgSMV740pmmoXzEeC6ljk5SNI/vhWnsIgCUWttSOCyil7DK8MLbeYpwWSgUvM0jcGIDuwi43iiO0FSFX1ofrxXH3IU944OtJbNlpMo9hvLoJTJ2RQVjWu3HU58w==",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
    "key": "my_\u5170\u82b7",
    "name": "\ud83c\udf37\u2506\u5170\u82b7\u2506APP",
    "api": "csp_AppUn",
    "type": 3,
    "ext": "AZd2zeWnJd10mMjpA2gpKlWDq7ggxf6XDxDuTaoinynvJ3eEi1bZPxC2qgkkAiACxISnMdRC37ODaT/tTEd9foyUox+SNWIsGzujicg5VFm7",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u758f\u5f71",
+   "name": "\ud83c\udf3a\u2506\u758f\u5f71\u2506APP",
+   "api": "csp_AppUn",
+   "type": 3,
+   "ext": "AcWh+ygRkvJAOf11TNsY/RqlWx9GJlpo3j4tzpUl+u3fVki/utnqUPm2SGUaMOiuwO9ab8dc4NOr/Kone+3t4Pvvqo19sUMAcLVWyXq8gKIr",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u6795\u971c",
+   "name": "\u2744\ufe0f\u2506\u6795\u971c\u2506APP",
+   "api": "csp_AppUn",
+   "type": 3,
+   "ext": "Ae6vu7b7i5h70Oy94HyVp82ZDRF6HrMNdCYNTQ442xkG4kY88mkG1x34awtkrrUdk56x2qehUzy3YCLubZhewqD5a5lQeSsfcnYh8z8+qVVL",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u89c2\u6f9c",
+   "name": "\ud83c\udf0a\u2506\u89c2\u6f9c\u2506APP",
+   "api": "csp_AppUn",
+   "type": 3,
+   "ext": "AVV1qWzQBjKvN7CKup9rpdodlSeTxhlrSJPwshkidi4LdlbDt81YkaxBlOnImlhpaCXFZ3rlaVHkoA57wMFZIEUb0eGUhm8upw9Vw/Qq5sdr",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u5b5f\u846d",
+   "name": "\ud83c\udf3f\u2506\u5b5f\u846d\u2506APP",
+   "api": "csp_AppUn",
+   "type": 3,
+   "ext": "AUGjHXVq+vxRJ+qgE4Hsi3sV94g5u8cFfUgjY4diiOxY3cUhBhbqUlPOKbfo6yzjh2BrmyNZGnV3r5j/VfAvnDP1bmLlrwPQ1H2o6cF9VjrH",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u5357\u679d",
+   "name": "\ud83c\udf33\u2506\u5357\u679d\u2506APP",
+   "api": "csp_AppUn",
+   "type": 3,
+   "ext": "AUj9LzI2v0nALIaWIMvrw0mqpqAfYqjLEaEdBg2Kpjpynjba5tcMRsocodhKWXuxaxWXNQhmHVm/5ch0t87+Ck3kUcf8gS3HStDFKx/zWH77",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u6c90\u8f9e",
+   "name": "\ud83d\udca7\u2506\u6c90\u8f9e\u2506APP",
+   "api": "csp_AppUn",
+   "type": 3,
+   "ext": "AYdXH70UMM8plqsXPmZuN9zEJQV/2vpn2nM5OAeVwvV966SO86n0qc/65IvyNOY7I8FscuN2i4tnXSoa2eVVhCbvIzsK+OAWQcMwpKHy1zZg",
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
@@ -987,6 +1364,78 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
+   "key": "my_FishDuoduo",
+   "name": "\ud83c\udf40\u2506\u591a\u591a\u25064K",
+   "type": 3,
+   "api": "csp_FishCloud",
+   "searchable": 1,
+   "ext": {
+    "site": [
+     "https://tv.yydsys.top",
+     "https://tv.yydsys.cc",
+     "https://tv.214521.xyz"
+    ]
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_Fishhuajuan",
+   "name": "\ud83c\udf38\u2506\u82b1\u5377\u25064K",
+   "type": 3,
+   "api": "csp_FishCloud",
+   "searchable": 1,
+   "ext": {
+    "site": [
+     "https://www.hjzhencai.top",
+     "https://www.huanjuanwp.shop"
+    ]
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_FishHuban",
+   "name": "\ud83d\udc05\u2506\u864e\u6591\u25064K",
+   "type": 3,
+   "api": "csp_FishCloud",
+   "searchable": 1,
+   "ext": {
+    "site": [
+     "http://xhban.xyz",
+     "http://38.76.197.172:16969"
+    ]
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_Fishshayang",
+   "name": "\ud83e\udd2d\u2506\u50bb\u6837\u25064K",
+   "type": 3,
+   "api": "csp_FishCloud",
+   "searchable": 1,
+   "ext": {
+    "site": [
+     "http://xsayang.fun",
+     "http://38.76.197.172:12521"
+    ]
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_Fishgege",
+   "name": "\ud83d\udcab\u2506\u516b\u96f6\u25064K",
+   "type": 3,
+   "api": "csp_FishCloud",
+   "searchable": 1,
+   "ext": {
+    "site": [
+     "https://woog.nxog.eu.org",
+     "https://ogkk.nxog.eu.org",
+     "https://woog.430520.xyz"
+    ]
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
    "key": "my_ShuangXing",
    "name": "\ud83c\udf1f\u2506\u53cc\u661f\u25064K",
    "type": 3,
@@ -1080,6 +1529,17 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
+   "key": "my_SaoHuo",
+   "name": "\ud83c\udf36\ufe0f\u2506\u9a9a\u706b\u2506\u5f71\u89c6",
+   "type": 3,
+   "api": "csp_SaoHuo",
+   "searchable": 1,
+   "filterable": 1,
+   "changeable": 1,
+   "ext": "https://shdy5.us",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
    "key": "my_Duboku",
    "name": "\ud83c\udfaf\u2506\u72ec\u64ad\u2506\u5f71\u89c6",
    "type": 3,
@@ -1168,6 +1628,37 @@
    "api": "csp_XgAnime",
    "searchable": 1,
    "quickSearch": 1,
+   "filterable": 1,
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_Manbo",
+   "name": "\ud83d\udd7a\u2506\u66fc\u6ce2\u2506\u52a8\u6f2b",
+   "type": 3,
+   "api": "csp_AppGet",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "ext": "AUzH3yIWvgQkyhQw17uONTsfuN8PupZ/LJdr5C31Y/CWlzSNmarYI5kaJYN5c0p6+Oq0tXuTutQo9MHHytxulL5kmapDuAK5+2NTlpsUgBnr0tOamm69Fwb+jFDQ7VW46qf5EFY+Ea3PHzkpfeObKPM=",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_Gugu",
+   "name": "\ud83d\udc24\u2506\u5495\u5495\u2506\u52a8\u6f2b",
+   "type": 3,
+   "api": "csp_AppGet",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "ext": "ARKK6LQnl4dB2QciLugEzZ8QD2WdbeK23tPAre1QOEbbL5BfB8cV39JNfSd2+Xhcqr/z+V5To0krLYHUX7NtRtwYBC44/9ayncZMomdbv4ZCBNOUsBEedUQx7SWf1J0pE0BsLG9QlR8tURwRwx/sqT0=",
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_Jianpian",
+   "name": "\ud83e\uddf2\u2506\u8350\u7247\u2506\u78c1\u529b",
+   "type": 3,
+   "api": "csp_Jianpian",
+   "searchable": 1,
    "filterable": 1,
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
@@ -1276,6 +1767,122 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
+   "key": "my_\u5c11\u513f\u6559\u80b2",
+   "name": "\ud83e\uddd2\u2506\u5c11\u513f\u2506\u6559\u80b2",
+   "type": 3,
+   "api": "csp_Bili",
+   "style": {
+    "type": "rect",
+    "ratio": 1.597
+   },
+   "searchable": 0,
+   "quickSearch": 0,
+   "changeable": 0,
+   "ext": {
+    "json": "https://nos.netease.com/ysf/89370c8ddf36b5e1beb4d71adb921bda.txt"
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u5c0f\u5b66\u8bfe\u5802",
+   "name": "\ud83d\udcda\u2506\u5c0f\u5b66\u2506\u8bfe\u5802",
+   "type": 3,
+   "api": "csp_Bili",
+   "style": {
+    "type": "rect",
+    "ratio": 1.597
+   },
+   "searchable": 0,
+   "quickSearch": 0,
+   "changeable": 0,
+   "ext": {
+    "json": "https://nos.netease.com/ysf/d7a21cf34ede56f5c686ecfba5fc7e3f.txt"
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u521d\u4e2d\u8bfe\u5802",
+   "name": "\ud83d\udcd0\u2506\u521d\u4e2d\u2506\u8bfe\u5802",
+   "type": 3,
+   "api": "csp_Bili",
+   "style": {
+    "type": "rect",
+    "ratio": 1.597
+   },
+   "searchable": 0,
+   "quickSearch": 0,
+   "changeable": 0,
+   "ext": {
+    "json": "https://nos.netease.com/ysf/8f55d520f8d70056695740ef151744a7.txt"
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_\u9ad8\u4e2d\u6559\u80b2",
+   "name": "\ud83c\udf93\u2506\u9ad8\u4e2d\u2506\u8bfe\u5802",
+   "type": 3,
+   "api": "csp_Bili",
+   "style": {
+    "type": "rect",
+    "ratio": 1.597
+   },
+   "searchable": 0,
+   "quickSearch": 0,
+   "changeable": 0,
+   "ext": {
+    "json": "https://nos.netease.com/ysf/c66a4b5356141c49fd45ec51568017b4.txt"
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_BiliHeji",
+   "name": "\ud83c\udf89\u2506\u7b14\u7483\u2506\u5408\u96c6",
+   "type": 3,
+   "api": "csp_Bili",
+   "searchable": 1,
+   "quickSearch": 1,
+   "changeable": 0,
+   "ext": {
+    "json": "https://nos.netease.com/ysf/0075389dca9afadd4614e9713765ff17.txt"
+   },
+   "style": {
+    "type": "rect",
+    "ratio": 1.433
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "name": "\ud83c\udf89\u2506\u7b14\u7483\u2506\u6b4c\u66f2",
+   "key": "my_BiliGequ",
+   "type": 3,
+   "api": "csp_Bili",
+   "searchable": 0,
+   "quickSearch": 0,
+   "changeable": 0,
+   "ext": {
+    "json": "https://nos.netease.com/ysf/6496356286589c68f52c2f99c0c674c7.txt"
+   },
+   "style": {
+    "type": "rect",
+    "ratio": 1.433
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_Kanqiu",
+   "name": "\u26bd\u2506\u770b\u7403\u2506\u4f53\u80b2",
+   "type": 3,
+   "api": "csp_Kanqiu",
+   "searchable": 0,
+   "filterable": 1,
+   "indexs": 0,
+   "ext": "http://www.88kanqiu.one",
+   "style": {
+    "type": "list"
+   },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
    "key": "my_Sir88",
    "name": "\ud83c\udfdf\ufe0f\u2506\u8d85\u5168\u2506\u4f53\u80b2",
    "type": 3,
@@ -1293,6 +1900,16 @@
    "name": "\ud83c\udfc0\u2506\u7403\u901a\u2506\u4f53\u80b2",
    "type": 3,
    "api": "csp_QiutongTY",
+   "searchable": 0,
+   "filterable": 0,
+   "changeable": 1,
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_GuaziTY",
+   "name": "\ud83e\udd5c\u2506\u74dc\u5b50\u2506\u4f53\u80b2",
+   "type": 3,
+   "api": "csp_GuaziTY",
    "searchable": 0,
    "filterable": 0,
    "changeable": 1,
@@ -1377,6 +1994,17 @@
      }
     ]
    },
+   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
+  },
+  {
+   "key": "my_push_agent",
+   "name": "\ud83d\udc8c\u2506\u63a8\u9001\u2506\u63a5\u6536",
+   "type": 3,
+   "api": "csp_Push",
+   "searchable": 0,
+   "changeable": 0,
+   "indexs": 0,
+   "timeout": 60,
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
@@ -1807,6 +2435,23 @@
    "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
   },
   {
+   "key": "wex_biliych",
+   "name": "\ud83c\udd71\u54d4\u54d4\u2503\u6b4c\u66f2\ud83c\udd71",
+   "type": 3,
+   "api": "csp_BiliGuard",
+   "searchable": 0,
+   "quickSearch": 1,
+   "filterable": 1,
+   "style": {
+    "type": "rect",
+    "ratio": 1.433
+   },
+   "ext": {
+    "json": "https://support-chat.rongcloud.cn/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBYkU9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3083f43a14e6b59f4bfe248478a3a8765b34bfdd/bilisong.txt"
+   },
+   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
+  },
+  {
    "key": "wex_\u5c11\u513f\u6559\u80b2",
    "name": "\ud83d\udcda\u5c11\u513f\u2503\u6559\u80b2\ud83d\udcda",
    "type": 3,
@@ -1820,6 +2465,57 @@
    "changeable": 0,
    "ext": {
     "json": "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/3C3AB7A_773_ertong_20250828171550247newMediaImage.txt"
+   },
+   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
+  },
+  {
+   "key": "wex_\u5c0f\u5b66\u8bfe\u5802",
+   "name": "\ud83d\udcda\u5c0f\u5b66\u2503\u8bfe\u5802\ud83d\udcda",
+   "type": 3,
+   "api": "csp_BiliGuard",
+   "style": {
+    "type": "rect",
+    "ratio": 1.597
+   },
+   "searchable": 0,
+   "quickSearch": 0,
+   "changeable": 0,
+   "ext": {
+    "json": "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/4A3AA71_773_xiaoxue_20250828171535645newMediaImage.txt"
+   },
+   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
+  },
+  {
+   "key": "wex_\u521d\u4e2d\u8bfe\u5802",
+   "name": "\ud83d\udcda\u521d\u4e2d\u2503\u8bfe\u5802\ud83d\udcda",
+   "type": 3,
+   "api": "csp_BiliGuard",
+   "style": {
+    "type": "rect",
+    "ratio": 1.597
+   },
+   "searchable": 0,
+   "quickSearch": 0,
+   "changeable": 0,
+   "ext": {
+    "json": "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/19B1839_773_chuzhong_20250828171521929newMediaImage.txt"
+   },
+   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
+  },
+  {
+   "key": "wex_\u9ad8\u4e2d\u6559\u80b2",
+   "name": "\ud83d\udcda\u9ad8\u4e2d\u2503\u8bfe\u5802\ud83d\udcda",
+   "type": 3,
+   "api": "csp_BiliGuard",
+   "style": {
+    "type": "rect",
+    "ratio": 1.597
+   },
+   "searchable": 0,
+   "quickSearch": 0,
+   "changeable": 0,
+   "ext": {
+    "json": "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/345A587_773_gaozhong_20250828171449997newMediaImage.txt"
    },
    "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
   },
@@ -1930,630 +2626,6 @@
     "type": "list"
    },
    "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
-  },
-  {
-   "key": "wex_\u4f18\u7199",
-   "name": "\ud83d\udc93\u6211\u7684\u2503\u4f18\u7199\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_WexWoucpanGuard",
-   "searchable": 1,
-   "changeable": 1,
-   "timeout": 50,
-   "style": {
-    "type": "list"
-   },
-   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
-  },
-  {
-   "key": "wex_\u5f02\u52a8",
-   "name": "\ud83d\udc93\u6211\u7684\u2503\u5f02\u52a8\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_WexWoydpanGuard",
-   "searchable": 1,
-   "changeable": 1,
-   "timeout": 50,
-   "style": {
-    "type": "list"
-   },
-   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
-  },
-  {
-   "key": "wex_WexWo123panGuard",
-   "name": "\ud83d\udc93\u6211\u7684\u2503123\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_WexWo123panGuard",
-   "searchable": 1,
-   "changeable": 1,
-   "timeout": 50,
-   "style": {
-    "type": "list"
-   },
-   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
-  },
-  {
-   "key": "wex_xunlei",
-   "name": "\ud83d\udc93\u6211\u7684\u2503\u8baf\u857e\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_WexWoXunLeiPanGuard",
-   "searchable": 1,
-   "changeable": 1,
-   "timeout": 50,
-   "style": {
-    "type": "list"
-   },
-   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
-  },
-  {
-   "key": "wex_baidu",
-   "name": "\ud83d\udc93\u6211\u7684\u2503\u767e\u5ea6\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_WexWoBaiduPanGuard",
-   "searchable": 1,
-   "changeable": 1,
-   "timeout": 50,
-   "style": {
-    "type": "list"
-   },
-   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
-  },
-  {
-   "key": "wex_push_agent",
-   "name": "\u63a8\u9001",
-   "type": 3,
-   "api": "csp_PushGuard",
-   "searchable": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/10/05/4ef0c536f599d55d11bc5815ab160a2f.jpg;md5;c3bb107baf51fc8f90daf950c539727f"
-  },
-  {
-   "key": "k4_drpy_js_\u8c46\u74e3",
-   "name": "\ud83d\udd25\u805a\u73a9\u76d2\u5b504K",
-   "type": 3,
-   "api": "https://jihulab.com/yydfys/yydf/-/raw/main/yydf/lib/drpy2.min.js",
-   "ext": "https://jihulab.com/yydfys/yydf/-/raw/main/yydf/lib/douban.js",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u8c46\u74e3",
-   "name": "\ud83d\udd25\u516c\u4f17\u53f7\uff1a\u805a\u73a9\u76d2",
-   "type": 3,
-   "api": "csp_DouDou",
-   "searchable": 0,
-   "quickSearch": 0,
-   "filterable": 0,
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_csp_Mp4Mov",
-   "name": "\ud83e\uddf2\u2503Mp4\u25034k",
-   "type": 3,
-   "api": "csp_Mp4Mov",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "jar": "https://agit.ai/guot54/ygbh/raw/branch/master/JAR/83.jar"
-  },
-  {
-   "key": "k4_csp_SixV",
-   "name": "\ud83d\udc95\u2503\u78c1\u529b\u25034K",
-   "type": 3,
-   "api": "csp_SixV",
-   "searchable": 1,
-   "ext": "https://www.6vdy.org/",
-   "jar": "https://github.moeyy.xyz/raw.githubusercontent.com/CandyMuj/ResourceInterface/main/TVBox/candymuj.jar;md5;64690215b0987464819e01f94be0251c"
-  },
-  {
-   "key": "k4_\u4e03\u65b0",
-   "name": "\ud83d\udc7c\u2503\u4e03\u65b0\u25032K",
-   "type": 3,
-   "api": "csp_XBPQ",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "http://rihou.vip:88/hccx/\u4e03\u65b0\u5f71\u89c6.json",
-   "jar": "http://rihou.vip:88/hccx/HeChengChaXiu.jar"
-  },
-  {
-   "key": "k4_\u4e00\u8d77\u770b ",
-   "name": "\u2764\u2503\u4e00\u8d77\u25032K",
-   "type": 3,
-   "api": "csp_YQKan",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 1,
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_ \u5728\u7ebf\u2503\u76f4\u64ad1",
-   "name": "\ud83d\udcfa\u2503\u7ade\u6280\u2503\u76f4\u64ad",
-   "type": 3,
-   "api": "csp_Yj1211",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_ \u5728\u7ebf\u2503\u76f4\u64ad2",
-   "name": "\ud83d\udcfa\u2503\u7f51\u7ea2\u2503\u76f4\u64ad",
-   "type": 3,
-   "api": "http://alist.xn--z7x900a.live/ddrpy2.m.js",
-   "ext": "http://alist.xn--z7x900a.live/JustLive.js",
-   "gridview": "0-0-H",
-   "style": {
-    "type": "rect",
-    "ratio": 1.68
-   },
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_cctv",
-   "name": "\ud83d\udcfa\u2503\u592e\u89c6\u2503\u5927\u5168",
-   "type": 3,
-   "api": "csp_CCTV",
-   "searchable": 0,
-   "filterable": 0,
-   "ext": "http://rihou.vip:88/hccx/\u592e\u89c6\u5927\u5168.json",
-   "jar": "http://rihou.vip:88/hccx/HeChengChaXiu.jar"
-  },
-  {
-   "key": "k4_py_cctv_\u5c11\u513f",
-   "name": "\ud83d\udcfa\u2503\u592e\u89c6\u2503\u5c11\u513f",
-   "type": 3,
-   "api": "py_cctv_full",
-   "searchable": 0,
-   "quickSearch": 0,
-   "filterable": 1,
-   "ext": "http://rihou.vip:88/hccx/py_\u592e\u89c6\u5c11\u513f.py",
-   "jar": "http://rihou.vip:88/hccx/HeChengChaXiu.jar"
-  },
-  {
-   "key": "k4_drpy_js_360\u5f71\u89c6",
-   "name": "\ud83e\udde1\u2503360\u2503\u5b98\u6e90",
-   "type": 3,
-   "api": "https://jihulab.com/yw88075/tvbox/-/raw/main/dr/lib/drpy2.min.js",
-   "ext": "https://jihulab.com/yw88075/tvbox/-/raw/main/dr/js/360%E5%BD%B1%E8%A7%86.js",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u5c0f\u67da",
-   "name": "\ud83c\udf4a\u2503\u5c0f\u67da\u2503App",
-   "type": 3,
-   "api": "csp_AppSK",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 1,
-   "ext": "FbjPcVZY48PN/RIZ5QqOrsp7JoZYCZdLEy9R9ri6ykNdUNSIsT3IgxCP9qyzByO7ZG6Z030vgWoyXGNlCJx9KFpYXtyZ3B/cLTtO0SAclaw3AOm0fS9oLx2taGF6hg==",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u5357\u574a",
-   "name": "\ud83c\udf83\u2503\u5357\u574a\u2503App",
-   "type": 3,
-   "api": "csp_AppMao",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 1,
-   "ext": "FbjDcUxPqpfNr0QF4QvE6sExbd4UXJxJXzdL462ywU1XScGa5G6Hj0/c+Ou1GW6rdX6N2XIhnD46QzIsRoZ8bk4fG4OYi0iCaWwRj2ddkaI+FqHtLjQhalHqIy0+kpiTv2eOfJYxTshgoxEZvRX9BA0UIrOurFxHa4dPZw==",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_fok",
-   "name": "\ud83c\udf19\u2503\u5938\u514b\u2503\u5f71\u89c6",
-   "type": 3,
-   "api": "csp_XBPQ",
-   "jar": "https://jihulab.com/xiaohutx/meisha/-/raw/main/1.jar;md5;bb155c3f0133bbce4756ad52003f5968",
-   "ext": {
-    "\u5206\u7c7burl": "https://www.freeok.vip/vod-show/{cateId}-{area}-------{catePg}---{year}.html",
-    "\u5206\u7c7b": "FREE\u7535\u5f71&FREE\u5267\u96c6&FREE\u52a8\u6f2b&FREE\u7efc\u827a&FREE\u77ed\u5267&FREE\u5c11\u513f",
-    "\u5206\u7c7b\u503c": "1&2&3&4&12&5",
-    "\u64ad\u653e\u8bf7\u6c42\u5934": "User-Agent$Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
-    "\u526f\u6807\u9898": "<div class=\"module-item-note\">&&</div>",
-    "\u55c5\u63a2\u8bcd": "m3u8#.m3u8#.mp4#freeok.mp4#/obj/",
-    "\u7ebf\u8def\u6570\u7ec4": "data-dropdown-value=&&</div>[\u4e0d\u5305\u542b:\u5938\u514b]",
-    "\u7ebf\u8def\u6807\u9898": "<span>&&</small>",
-    "\u5bfc\u6f14": "\u5bfc\u6f14\uff1a&&</div>",
-    "\u4e3b\u6f14": "\u4e3b\u6f14\uff1a&&</div>",
-    "\u7b80\u4ecb": "<p>&&</p>"
-   }
-  },
-  {
-   "key": "k4_\u8010\u770b",
-   "name": "\ud83d\udd76\u2503\u8010\u770b\u2503\u5f71\u89c6",
-   "type": 3,
-   "api": "csp_XBPQ",
-   "jar": "https://jihulab.com/xiaohutx/meisha/-/raw/main/1.jar",
-   "ext": "http://xiaohu.xzam.cn/XBPQ/nk.json"
-  },
-  {
-   "key": "k4_\u5357\u74dc",
-   "name": "\ud83c\udf83\u2503\u5357\u74dc\u2503App",
-   "type": 3,
-   "api": "csp_NanGua",
-   "playerType": 2,
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 1,
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_csp_Nmys",
-   "name": "\ud83c\udf3e\u2503\u519c\u6c11\u2503\u76f4\u8fde",
-   "type": 3,
-   "api": "csp_Nmys",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 1,
-   "ext": "https://agit.ai/fantaiying/fty/raw/branch/master/ext/nmys.json",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u8350\u7247",
-   "name": "\ud83e\uddf2\u2503\u8350\u7247\u2503\u78c1\u529b",
-   "type": 3,
-   "api": "http://rihou.vip:55/lib/drpy2.min.js",
-   "ext": "http://rihou.vip:55/lib/jianpian.js",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_77",
-   "name": "\ud83d\udc52\u2503\u4e03\u4e03\u2503App",
-   "type": 3,
-   "api": "csp_Kunyu77",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 1,
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u5948\u98de\u4e2d\u6587",
-   "name": "\ud83c\udf97\u2503\u5948\u98de\u2503\u79d2\u64ad",
-   "type": 3,
-   "api": "csp_XYQHiker",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "http://qrh.yimkj.cn/ym/lib/nfzw.json",
-   "jar": "http://qrh.yimkj.cn/ym/lib/ttkx.jar;md5;c253e1930a210fa5141e5418f1f90949"
-  },
-  {
-   "key": "k4_\u4e5d\u516d",
-   "name": "\ud83c\udf80\u2503\u4e5d\u516d\u2503\u76f4\u8fde",
-   "type": 3,
-   "api": "csp_Cs1369",
-   "playerType": 2,
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 1,
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u5929\u5929",
-   "name": "\ud83d\udca1\u2503\u5929\u5929\u2503\u5f71\u89c6",
-   "type": 3,
-   "api": "csp_TTian",
-   "playerType": 1,
-   "ext": "http://op.ysdqjs.cn",
-   "jar": "http://tv.nxog.top/m/jar.php?id=ou;md5;59a98ed1869e26027a3ff8d6070003f8"
-  },
-  {
-   "key": "k4_\u8d5b\u6587",
-   "name": "\ud83c\udf69\u2503\u8d5b\u6587\u2503\u8d44\u6e90",
-   "type": 3,
-   "api": "csp_AppYsV2",
-   "ext": "http://xiutan.shiyifacai.com/zuoan/api.php/app/",
-   "jar": "http://xiaohu.xzam.cn/jar/1.jar;md5;6120d08f4eb1edce507bfcd1b339c482"
-  },
-  {
-   "key": "k4_\u8c6a\u534e\u8d44\u6e90",
-   "name": "\ud83c\udfa5\u2503\u8c6a\u534e\u2503\u8d44\u6e90",
-   "type": 1,
-   "api": "https://hhzyapi.com/api.php/provide/vod/?ac=list",
-   "searchable": 1,
-   "quickSearch": 1,
-   "categories": [
-    "\u5185\u5730\u5267",
-    "\u9999\u6e2f\u5267",
-    "\u6b27\u7f8e\u5267",
-    "\u97e9\u5267",
-    "\u65e5\u5267",
-    "\u9a6c\u6cf0\u5267",
-    "\u53f0\u6e7e\u5267",
-    "\u52a8\u753b\u7247",
-    "\u4e2d\u56fd\u52a8\u6f2b",
-    "\u65e5\u672c\u52a8\u6f2b",
-    "\u6b27\u7f8e\u52a8\u6f2b",
-    "\u5267\u60c5\u7247",
-    "\u6218\u4e89\u7247",
-    "\u52a8\u4f5c\u7247",
-    "\u79d1\u5e7b\u7247",
-    "\u8bb0\u5f55\u7247",
-    "\u7231\u60c5\u7247",
-    "\u559c\u5267\u7247",
-    "\u707e\u96be\u7247",
-    "\u60ac\u7591\u7247",
-    "\u72af\u7f6a\u7247",
-    "\u5927\u9646\u7efc\u827a",
-    "\u65e5\u97e9\u7efc\u827a",
-    "\u6e2f\u53f0\u7efc\u827a",
-    "\u6b27\u7f8e\u7efc\u827a"
-   ]
-  },
-  {
-   "key": "k4_drpy_js_310\u76f4\u64ad",
-   "name": "\u26bd310\u76f4\u64ad",
-   "type": 3,
-   "api": "https://github.moeyy.xyz/raw.githubusercontent.com/gaotianliuyun/gao/master/lib/drpy2.min.js",
-   "changeable": 0,
-   "style": {
-    "type": "rect",
-    "ratio": 1
-   },
-   "ext": "https://github.moeyy.xyz/raw.githubusercontent.com/gaotianliuyun/gao/master/js/310\u76f4\u64ad.js",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u77ed\u5267one",
-   "name": "\ud83e\udd70\u2503\u77ed\u5267\u2503\u89c6\u9891",
-   "type": 3,
-   "api": "csp_Panda",
-   "ext": "https://d.kstore.space/download/6296/json/\u77ed\u5267.json",
-   "jar": "http://like.xn--z7x900a.live:66/jar/PandaQ231205.jar;md5;9cc29f6286b2fe7910628852929c4bdb"
-  },
-  {
-   "key": "k4_csp_WoGG",
-   "name": "\ud83d\udc7d\u2503\u73a9\u5076\u25034K\u2460",
-   "type": 3,
-   "api": "csp_WoGG",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "ext": "http://127.0.0.1:9978/file/tvfan/token.txt+4k|auto|fhd$$$https://api.wogg.xyz/$$$\u5f39",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u73a9\u6211\u54e5\u54e5",
-   "name": "\u6d4b\u2503\u73a9\u6211\u2503\u54e5\u54e5",
-   "type": 3,
-   "api": "csp_XYQHikerAL",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "http://rihou.vip:55/lib/\u73a9\u6211\u54e5\u54e5.json",
-   "jar": "http://rihou.vip:55/lib/ttkx.jar;md5;c253e1930a210fa5141e5418f1f90949"
-  },
-  {
-   "key": "k4_PanSou",
-   "name": "\ud83e\udd8a\u2503\u76d8\u641c\u2503\u641c\u7d22",
-   "type": 3,
-   "api": "csp_PanSou",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "ext": "http://127.0.0.1:9978/file/tvfan/token.txt+4k|auto|fhd",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_UpYun",
-   "name": "\ud83d\ude3b\u2503Up\u641c\u2503\u641c\u7d22",
-   "type": 3,
-   "api": "csp_UpYun",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "ext": "http://127.0.0.1:9978/file/tvfan/token.txt+4k|auto|fhd",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u4e03\u591c",
-   "name": "\ud83d\ude3e\u2503\u4e03\u591c\u2503\u641c\u7d22",
-   "type": 3,
-   "api": "csp_Dovx",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "ext": "http://127.0.0.1:9978/file/tvfan/token.txt+4k|auto|fhd",
-   "jar": "https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1707044072121/fan.txt;md5;c3e8c08b4cd6f7fd0f868ea48dd42cb2"
-  },
-  {
-   "key": "k4_\u963f\u91cc\u4e91\u76d8\u767b\u5f55",
-   "name": "\ud83d\udc32\u963f\u91cc\u2503\u4e91\u76d8\u767b\u5f55",
-   "type": 3,
-   "api": "csp_AliYunPan",
-   "searchable": 0,
-   "quickSearch": 0,
-   "filterable": 0,
-   "ext": "http://127.0.0.1:9978/file/TVBox/tok.txt",
-   "jar": "http://tv.nxog.top/m/jar.php?id=ou;md5;34c50af4380beab4dbfeae6c9b41939b"
-  },
-  {
-   "key": "k4_push_agent",
-   "name": "\ud83d\udcfd\u63a8\u9001",
-   "type": 3,
-   "api": "csp_PushAgent",
-   "playerType": 1,
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 0,
-   "jar": "http://tv.nxog.top/m/jar.php?id=ou;md5;d437c6e042174f181efd9649a1a33f48",
-   "ext": "http://127.0.0.1:9978/file/tvbox/tok.txt"
-  },
-  {
-   "key": "og_\u8c46\u74e31",
-   "name": "\ud83d\udce2\u516c\u544a\u505c\u66f4",
-   "type": 3,
-   "api": "csp_Notice",
-   "searchable": 1,
-   "jar": "https://ncstatic-file.clewm.net/rsrc/2026/0307/11/f3b31497ca266ea4f8a89c88e9385f48.jpg;md5;ff4f99fad585f4935fcaa06e3092e44a",
-   "ext": "https://xn--dkw0c.v.nxog.top/m/\u516c\u544a?b=\u6b27\u6b4c"
-  },
-  {
-   "key": "og_\u5938\u5feb3",
-   "name": "\u2764\u88c5\u6b4cAPP",
-   "type": 3,
-   "api": "csp_PanWebShare",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "changeable": 1,
-   "ext": {
-    "site": [
-     "https://ogkk.nxog.eu.org"
-    ]
-   },
-   "jar": "https://ncstatic-file.clewm.net/rsrc/2026/0820/00/fabb11d153077bd3f42e017a99d88e9e.jpg;md5;445f75929716e42ffc40a31cec0f9fe0"
-  },
-  {
-   "key": "og_py_douban",
-   "name": "\ud83d\udce2\u63a5\u53e3\u8f6f\u4ef6\u6c38\u8fdc\u514d\u8d39",
-   "type": 3,
-   "api": "https://cdn.jsdmirror.com/gh/ouhaibo1980/tvbox@main/py/py_douban.py",
-   "searchable": 0,
-   "filterable": 0,
-   "changeable": 0,
-   "jar": "https://ncstatic-file.clewm.net/rsrc/2026/0820/00/fabb11d153077bd3f42e017a99d88e9e.jpg;md5;445f75929716e42ffc40a31cec0f9fe0"
-  },
-  {
-   "key": "org_Douban",
-   "name": "\ud83d\udc2e\u3010\u514d\u8d39\u5206\u4eab\u3011\ud83d\udc2e",
-   "type": 3,
-   "api": "csp_NewDouBanGuard",
-   "indexs": 1,
-   "searchable": 0,
-   "quickSearch": 0,
-   "filterable": 0,
-   "ext": "https://cdn.waimaimingtang.com/file/images/bwc/20260414181247-ae51abfbfe.txt",
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_\u82b1\u5377",
-   "name": "\ud83d\udc93\u82b1\u5377\u25034K\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_AiNewHuaJuanGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_\u73a9\u5076",
-   "name": "\ud83d\udc93\u200d\u73a9\u5076\u25034K\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_AiNewWoggGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewGuanYing",
-   "name": "\ud83d\udc93\u200d\u89c2\u5f71\u25034K\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_AiNewGuanYingGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiQwMkv",
-   "name": "\ud83d\udc93\u200d\u4e03\u5473\u25034K\ud83d\udc93\u200d",
-   "type": 3,
-   "api": "csp_AiQwMkvGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewPianKu",
-   "name": "\ud83d\udc93\u76d8\u5e93\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewPianKuGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewHuBan",
-   "name": "\ud83d\udc93\u864e\u6591\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewHuBanGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewMuOu",
-   "name": "\ud83d\udc93\u6728\u5076\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewMuOuGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewDuoDuo",
-   "name": "\ud83d\udc93\u591a\u591a\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewDuoDuoGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewKuaiYing",
-   "name": "\ud83d\udc93\u5feb\u5f71\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewKuaiYingGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewLaBi",
-   "name": "\ud83d\udc93\u8721\u7b14\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewLaBiGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewShanDian",
-   "name": "\ud83d\udc93\u95ea\u7535\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewShanDianGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewJuTou",
-   "name": "\ud83d\udc93\u5267\u900f\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewJuTouGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
-  },
-  {
-   "key": "org_AiNewLibvio",
-   "name": "\ud83d\udc93\u7acb\u64ad\u25034K\ud83d\udc93",
-   "type": 3,
-   "api": "csp_AiNewLibvioGuard",
-   "searchable": 1,
-   "quickSearch": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/12/7b563c7039830e7c712e93f27fd2e102.jpg;md5;541366f5860ceb66e1c3005f5a299afe"
   }
  ],
  "parses": [
@@ -3200,7 +3272,6 @@
   "static-mozai.4gtv.tv",
   "mozai.4gtv.tv",
   "pv.vipwm.cc",
-  "http://itvba.xyz/tv/jar/fty1020.jar",
   "mimg.0c1q0l.cn",
   "www.googletagmanager.com",
   "www.google-analytics.com",

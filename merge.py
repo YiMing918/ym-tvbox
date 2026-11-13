@@ -68,14 +68,80 @@ import os
 import re
 import ssl
 import sys
+import time
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
-from urllib.parse import quote, urljoin, urlsplit, urlunsplit
+from urllib.parse import parse_qsl, quote, urlencode, urljoin, urlsplit, urlunsplit
 
+# TLS policy (round-2 review M1): the default context VERIFIES
+# certificates. The old code ran CERT_NONE globally, so every source
+# fetch and every probe of ~100 third-party hosts accepted any cert.
+# Probe targets are a dynamic set that cannot be allowlisted, so a
+# host whose certificate genuinely fails verification is retried ONCE
+# with the unverified context and logged as [tls-unverified] — broken-
+# cert upstreams keep working, everyone else gets real verification,
+# and the log shows exactly who is on the exemption path.
 CTX = ssl.create_default_context()
-CTX.check_hostname = False
-CTX.verify_mode = ssl.CERT_NONE
+CTX_UNVERIFIED = ssl.create_default_context()
+CTX_UNVERIFIED.check_hostname = False
+CTX_UNVERIFIED.verify_mode = ssl.CERT_NONE
+TLS_UNVERIFIED_HOSTS = set()
+
+
+def _is_ssl_error(e):
+    seen, stack = set(), [e]
+    while stack:
+        x = stack.pop()
+        if id(x) in seen:
+            continue
+        seen.add(id(x))
+        if isinstance(x, ssl.SSLError):
+            return True
+        stack.append(getattr(x, "reason", None))
+        if isinstance(x, OSError) and x.args:
+            stack.extend(a for a in x.args if isinstance(a, BaseException))
+    return "CERTIFICATE" in str(e) or "SSL" in str(type(e).__name__)
+
+
+def urlopen(req, timeout):
+    """urlopen with verified TLS; on a certificate failure only, retry
+    unverified and record the host (dynamic exemption, see above)."""
+    try:
+        return urllib.request.urlopen(req, timeout=timeout, context=CTX)
+    except Exception as e:
+        if not _is_ssl_error(e):
+            raise
+        host = ""
+        try:
+            host = urlsplit(req.full_url).hostname or ""
+        except Exception:
+            pass
+        if host and host not in TLS_UNVERIFIED_HOSTS:
+            TLS_UNVERIFIED_HOSTS.add(host)
+            print(f"[tls-unverified] {host}: certificate failed "
+                  f"verification, retried without it ({e})")
+        return urllib.request.urlopen(req, timeout=timeout,
+                                      context=CTX_UNVERIFIED)
+
+
+def _dns_is_dead(reason):
+    """DNS verdict shared by all probes (round-2 NEW-2: this logic was
+    copy-pasted in three places). A TEMPORARY resolution failure
+    (EAI_AGAIN — the resolver itself hiccuped) is NOT death evidence:
+    it used to count as a dead candidate and two strikes landed within
+    minutes of each other in the same run, so a resolver wobble could
+    kill a healthy endpoint. Only permanent NXDOMAIN-style answers
+    count as dead candidates."""
+    if "Temporary failure" in reason or "EAI_AGAIN" in reason:
+        return False
+    return ("Name or service not known" in reason
+            or "getaddrinfo" in reason
+            or "NameResolution" in reason
+            or "No address associated" in reason
+            or "nodename nor servname" in reason)
+
+
 UA = {"User-Agent": "okhttp/3.15"}
 OUTPUT = "peter_tvbox_pro.json"
 CAP = 220
@@ -90,10 +156,46 @@ def idn(url):
     return urlunsplit((p.scheme, netloc, p.path, p.query, p.fragment))
 
 
+FETCH_CAP = 32 * 1024 * 1024  # a config is a few MB at most; a runaway
+                                # or hostile body must not eat the runner
+
+
 def fetch(url, timeout=25):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
-        return r.read()
+    """Fetch a source config: size-capped (round-2 M14 — the old read()
+    had no limit) and retried once on transient failures, because the
+    single-URL sources (fm, org) used to lose a whole day to one blip
+    (multi-URL sources fell through to their mirror instead)."""
+    last = None
+    for attempt in (1, 2):
+        try:
+            req = urllib.request.Request(url, headers=UA)
+            with urlopen(req, timeout=timeout) as r:
+                clen = r.headers.get("Content-Length")
+                if clen and int(clen) > FETCH_CAP:
+                    raise ValueError(f"source too large: {clen} bytes")
+                chunks, total = [], 0
+                while True:
+                    chunk = r.read(1 << 20)
+                    if not chunk:
+                        break
+                    total += len(chunk)
+                    if total > FETCH_CAP:
+                        raise ValueError("source exceeds 32MB cap")
+                    chunks.append(chunk)
+                return b"".join(chunks)
+        except Exception as e:
+            last = e
+            transient = (isinstance(e, urllib.error.HTTPError)
+                         and e.code >= 500) \
+                or isinstance(e, (urllib.error.URLError, TimeoutError,
+                                  ConnectionError))
+            if attempt == 1 and transient:
+                print(f"[fetch] transient failure for {url[:60]}... "
+                      f"({e}); retrying once")
+                time.sleep(3)
+                continue
+            raise
+    raise last
 
 
 def load_cfg(raw_bytes):
@@ -174,6 +276,33 @@ def norm_api(a):
         return re.sub(r"/+$", "", s.lower())
 
 
+# Probe/dedupe identity of a CMS endpoint (round-2 M3): norm_api plus
+# the volatile LISTING parameters stripped. The same resource station
+# was shipped twice when one config wrote .../vod/ and another wrote
+# .../vod/?ac=list — the probe parameters are not part of the
+# endpoint's identity. Parameters that can carry meaning (tokens,
+# grouping: anything NOT in this set) are preserved, and the api URL
+# stored in the product is always the first-seen original.
+_PROBE_PARAMS = {"ac", "ids", "at", "pg", "t", "wd", "type", "area",
+                 "year", "lang", "letter", "state", "version", "by",
+                 "order"}
+
+
+def probe_key(api):
+    n = norm_api(api)
+    try:
+        p = urlsplit(n)
+        if not p.query:
+            return n
+        kept = [(k, v) for k, v in parse_qsl(p.query,
+                                             keep_blank_values=True)
+                if k not in _PROBE_PARAMS]
+        return urlunsplit((p.scheme, p.netloc, p.path,
+                           urlencode(kept), ""))
+    except Exception:
+        return n
+
+
 def _cms_attempt(api):
     """One CMS probe attempt -> ("alive"|"dead"|"uncertain", detail).
 
@@ -187,7 +316,7 @@ def _cms_attempt(api):
     sep = "&" if "?" in api else "?"
     try:
         req = urllib.request.Request(api + sep + "ac=list", headers=UA)
-        with urllib.request.urlopen(req, timeout=10, context=CTX) as r:
+        with urlopen(req, timeout=10) as r:
             body = r.read(65536).decode("utf-8", "ignore")
     except urllib.error.HTTPError as e:
         if e.code in (404, 410):
@@ -195,9 +324,7 @@ def _cms_attempt(api):
         return "uncertain", f"HTTP {e.code}"
     except urllib.error.URLError as e:
         reason = str(getattr(e, "reason", e))
-        if "Name or service not known" in reason or "getaddrinfo" in reason \
-                or "NameResolution" in reason \
-                or "Temporary failure in name" in reason:
+        if _dns_is_dead(reason):
             return "dead", f"DNS: {reason}"
         return "uncertain", f"URLError: {reason}"
     except Exception as e:
@@ -215,7 +342,10 @@ def _cms_attempt(api):
             obj = load_cfg(body.encode("utf-8", "ignore"))
         except Exception:
             return "uncertain", "unparsable body"
-    if isinstance(obj, dict) and ("list" in obj or "class" in obj
+    # "list"/"class" must actually BE lists (round-2 NEW-3): key
+    # presence alone let bodies like {"list": null, ...} pass as alive.
+    if isinstance(obj, dict) and (isinstance(obj.get("list"), list)
+                                  or isinstance(obj.get("class"), list)
                                   or obj.get("code") == 1):
         return "alive", "json list"
     return "uncertain", "json without list/class structure"
@@ -315,7 +445,7 @@ def _live_attempt(url, ua, timeout):
     headers = {"User-Agent": ua} if ua else UA
     try:
         req = urllib.request.Request(url, headers=headers, method="HEAD")
-        with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+        with urlopen(req, timeout=timeout) as r:
             r.read(512)
         return "alive", "HEAD ok"
     except urllib.error.HTTPError as e:
@@ -327,8 +457,7 @@ def _live_attempt(url, ua, timeout):
                 h = dict(headers)
                 h["Range"] = "bytes=0-1023"
                 req = urllib.request.Request(url, headers=h)
-                with urllib.request.urlopen(req, timeout=timeout,
-                                            context=CTX) as r:
+                with urlopen(req, timeout=timeout) as r:
                     r.read(2048)
                 return "alive", "GET ok (HEAD refused)"
             except urllib.error.HTTPError as e2:
@@ -342,8 +471,7 @@ def _live_attempt(url, ua, timeout):
         return "uncertain", f"HTTP {e.code}"
     except urllib.error.URLError as e:
         reason = str(getattr(e, "reason", e))
-        if "Name or service not known" in reason or "getaddrinfo" in reason \
-                or "NameResolution" in reason or "Temporary failure in name" in reason:
+        if _dns_is_dead(reason):
             return "dead", f"DNS: {reason}"
         return "uncertain", f"URLError: {reason}"
     except Exception as e:
@@ -697,7 +825,7 @@ def _dep_attempt(url):
         h = dict(UA)
         h["Range"] = "bytes=0-1023"
         req = urllib.request.Request(url, headers=h)
-        with urllib.request.urlopen(req, timeout=8, context=CTX) as r:
+        with urlopen(req, timeout=8) as r:
             r.read(2048)
         return "alive", "GET ok"
     except urllib.error.HTTPError as e:
@@ -706,13 +834,75 @@ def _dep_attempt(url):
         return "uncertain", f"HTTP {e.code}"
     except urllib.error.URLError as e:
         reason = str(getattr(e, "reason", e))
-        if "Name or service not known" in reason or "getaddrinfo" in reason \
-                or "NameResolution" in reason \
-                or "Temporary failure in name" in reason:
+        if _dns_is_dead(reason):
             return "dead", f"DNS: {reason}"
         return "uncertain", f"URLError: {reason}"
     except Exception as e:
         return "uncertain", f"{type(e).__name__}: {e}"
+
+
+# ---------------------------------------------------------------------------
+# jar governance (round-2 M2/M4): the product redistributes third-party
+# spider jars — code the app executes. Two rules, per the owner's
+# ruling: (1) an http:// jar WITHOUT an md5 pin is dropped with its
+# site (plaintext transport + no integrity check = undetectable
+# tampering); https unpinned jars are kept (TLS is the integrity
+# check) and counted in the log. (2) One jar URL = one md5: the same
+# base URL arrived with up to 3 different pins (a dynamic jar.php
+# endpoint whose snapshots drifted); the first-seen pin wins for the
+# whole run and later variants are rewritten to it, and an unpinned
+# occurrence inherits the pin. merge.py never downloads jars to verify
+# pins (that is the app's job at load time) — this is consistency
+# governance, not verification.
+# ---------------------------------------------------------------------------
+
+JAR_PINS = {}
+
+
+def govern_jar(ns, inherited=False):
+    """Normalise ns['jar'] in place; return False to drop the site.
+
+    Scope note: the drop rule applies to a site's OWN jar. A jar
+    INHERITED from the origin config's spider is the interface
+    author's engine for the whole interface — in the 2026-11-14 dry
+    run, dropping on inherited jars would have removed 54 sites
+    (the 俊哥/小盒子/二月红 families, whose spiders are http and
+    unpinned upstream), far beyond the 3-site scope the drop ruling
+    was made against, so inherited jars are warned about in the log
+    instead and left for the owner's call.
+    """
+    jar = ns.get("jar")
+    if not (isinstance(jar, str) and jar.startswith("http")):
+        return True
+    parts = jar.split(";md5;")
+    base = parts[0].strip()
+    pin = parts[1].strip().lower() if len(parts) > 1 else ""
+    if not pin and base in JAR_PINS:
+        # Not truly unpinned: another site in this run carries the
+        # pin for this exact jar — inherit it (checked before the
+        # http-drop rule below, which is for jars nobody pins).
+        ns["jar"] = base + ";md5;" + JAR_PINS[base]
+        return True
+    if base.lower().startswith("http://") and not pin:
+        if inherited:
+            print(f"[jar-warn] {ns.get('key', '?')} "
+                  f"({ns.get('name', '')}): inherited http jar "
+                  f"without md5 pin: {base[:80]}")
+            return True
+        print(f"[jar-drop] {ns.get('key', '?')} ({ns.get('name', '')}): "
+              f"http jar without md5 pin: {base[:80]}")
+        return False
+    if pin:
+        known = JAR_PINS.get(base)
+        if known is None:
+            JAR_PINS[base] = pin
+        elif known != pin:
+            ns["jar"] = base + ";md5;" + known
+            print(f"[jar-pin] {base[:70]}: conflicting pin "
+                  f"{pin[:8]}.. unified to first-seen {known[:8]}..")
+    elif base in JAR_PINS:
+        ns["jar"] = base + ";md5;" + JAR_PINS[base]
+    return True
 
 
 # Bound the probe cost however large the merged list grows; URLs past
@@ -798,13 +988,13 @@ def main():
         return 1
 
     # ---- probe every CMS endpoint (seed + discovered) ----
-    cms_apis, seed_norm = {}, {norm_api(a) for _, _, a in SEED_SITES}
+    cms_apis = {}
     for _, _, a in SEED_SITES:
-        cms_apis[norm_api(a)] = a
+        cms_apis[probe_key(a)] = a
     for _, cfg, _base in cfgs:
         for s in cfg.get("sites", []):
             if s.get("type") in (0, 1) and str(s.get("api", "")).startswith("http"):
-                cms_apis.setdefault(norm_api(s["api"]), s["api"])
+                cms_apis.setdefault(probe_key(s["api"]), s["api"])
     print(f"[..] probing {len(cms_apis)} CMS endpoints")
     keys = list(cms_apis.keys())
     verdicts = {}
@@ -839,16 +1029,20 @@ def main():
         used_keys.add(key)
         ns = dict(s)
         ns["key"] = key
+        inherited = False
         if ns.get("type", 0) >= 3 and not ns.get("jar") and spider:
             ns["jar"] = spider
+            inherited = True
+        if not govern_jar(ns, inherited=inherited):
+            return
         out_sites.append((tag, ns))
         report[tag] = report.get(tag, 0) + 1
 
     seen_cms = set()
     for k, n, a in SEED_SITES:
-        if norm_api(a) in kept:
-            seen_cms.add(norm_api(a))
-            add_site("my", {"key": k, "name": n, "type": 1, "api": a,
+        if probe_key(a) in kept:
+            seen_cms.add(probe_key(a))
+            add_site("seed", {"key": k, "name": n, "type": 1, "api": a,
                             "searchable": 1, "quickSearch": 1, "filterable": 1}, "")
     for tag, cfg, base in cfgs:
         spider = cfg.get("spider", "")
@@ -865,7 +1059,7 @@ def main():
             if not api:
                 continue
             if t in (0, 1):
-                n = norm_api(api)
+                n = probe_key(api)
                 if n in seen_cms or n not in kept:
                     continue
                 seen_cms.add(n)
@@ -944,16 +1138,26 @@ def main():
           f"{pstats['flag_entries_deduped']}])")
 
     lives_candidates, seen_l = [], set()
+
+    def _live_key(entry):
+        # Round-2 M10: dedupe on (name, unwrapped target). The same
+        # playlist arrived via different proxy prefixes
+        # (ghfast.top/https://... vs gh-proxy.com/https://...) and
+        # exact-string dedupe kept both, burning quota slots.
+        u = str(entry.get("url", ""))
+        i = max(u.rfind("http://"), u.rfind("https://"))
+        return (str(entry.get("name", "")), u[i:] if i > 0 else u)
+
     for l in SEED_LIVES:
-        seen_l.add(l["url"])
+        seen_l.add(_live_key(l))
         lives_candidates.append(l)
     for _, cfg, _b in cfgs:
         for l in cfg.get("lives") if isinstance(cfg.get("lives"), list) else []:
             if not isinstance(l, dict):
                 continue
             u = l.get("url", "")
-            if u and u not in seen_l:
-                seen_l.add(u)
+            if u and _live_key(l) not in seen_l:
+                seen_l.add(_live_key(l))
                 lives_candidates.append(l)
     lives, lstats = govern_lives(
         lives_candidates,
@@ -975,12 +1179,56 @@ def main():
             if f not in flags:
                 flags.append(f)
         for a in cfg.get("ads") if isinstance(cfg.get("ads"), list) else []:
-            if a not in ads:
-                ads.append(a)
+            # Round-2 M11: ads entries are domain matchers — a full
+            # URL that slipped in upstream (one jar URL did) can never
+            # match a request host and only bloats the list.
+            a2 = str(a).strip()
+            if not re.fullmatch(r"[A-Za-z0-9.-]+\.[A-Za-z]{2,}", a2):
+                print(f"[ads-drop] not a bare domain: {a2[:70]}")
+                continue
+            if a2 not in ads:
+                ads.append(a2)
 
-    top_spider = cfgs[-1][1].get("spider", "")
-    if isinstance(top_spider, str):
-        top_spider = resolve_rel(top_spider, cfgs[-1][2])
+    # Global spider (round-2 M5 + NEW-1): the old code took the LAST
+    # fetched source's spider — the lowest-priority source — so the
+    # product's main engine silently changed hands whenever a source
+    # failed or recovered, and the chosen file was never liveness-
+    # probed at all. Now: walk sources in priority order, apply the
+    # same jar governance as sites (http without an md5 pin is
+    # unpinned code — skip), and take the first spider that is not
+    # confirmed-dead as a file dependency. If every candidate is
+    # confirmed dead, fall back to the first candidate (a possibly-
+    # stale engine beats none) and say so loudly.
+    def _dep_confirmed_dead(url):
+        v, _ = _dep_attempt(url)
+        if v != "dead":
+            return False
+        v2, _ = _dep_attempt(url)
+        return v2 == "dead"
+
+    top_spider, first_cand = "", ""
+    _skip_probe = os.environ.get("MERGE_SKIP_DEP_PROBE", "") == "1"
+    for _tag, _cfg, _base in cfgs:
+        cand = _cfg.get("spider", "")
+        if not isinstance(cand, str) or not cand:
+            continue
+        cand = resolve_rel(cand, _base)
+        cbase = cand.split(";md5;")[0].strip()
+        if cbase.lower().startswith("http://") and ";md5;" not in cand:
+            print(f"[spider] skipping {_tag}'s spider: http without "
+                  f"md5 pin ({cbase[:70]})")
+            continue
+        if not first_cand:
+            first_cand = cand
+        if _skip_probe or not _dep_confirmed_dead(cbase):
+            top_spider = cand
+            print(f"[spider] global spider from {_tag}: {cbase[:70]}")
+            break
+        print(f"[spider] {_tag}'s spider confirmed dead, trying next")
+    if not top_spider and first_cand:
+        top_spider = first_cand
+        print("[spider] WARNING: every candidate confirmed dead; "
+              "falling back to the first candidate")
     final = {"spider": top_spider, "wallpaper": "",
              "lives": lives, "sites": sites, "parses": parses,
              "flags": flags, "ads": ads}
@@ -988,6 +1236,10 @@ def main():
         json.dump(final, f, ensure_ascii=True, indent=1)
     print(f"[done] {len(sites)} sites, {len(parses)} parses, {len(lives)} lives -> {OUTPUT}")
     print("[done] per source:", report)
+    if TLS_UNVERIFIED_HOSTS:
+        print(f"[tls] {len(TLS_UNVERIFIED_HOSTS)} host(s) were served "
+              f"over unverified TLS this run: "
+              f"{sorted(TLS_UNVERIFIED_HOSTS)}")
     return 0
 
 

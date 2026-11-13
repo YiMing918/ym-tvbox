@@ -9,6 +9,11 @@ on:
 permissions:
   contents: write
 
+# 手动触发与定时运行互斥排队，避免两轮同时推送互相覆盖
+concurrency:
+  group: update-tvbox
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -22,9 +27,22 @@ jobs:
           python-version: '3.12'
 
       - name: Fetch, probe and merge sources
-        run: python merge.py
+        id: merge
+        run: |
+          set +e
+          python merge.py 2>&1 | tee merge.log
+          code=${PIPESTATUS[0]}
+          if [ $code -ne 0 ]; then
+            if grep -q "^\[abort\]" merge.log; then
+              echo "::warning::merge.py 保护性退出（熔断/源不足），保留上一版配置"
+              echo "fused=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            exit $code
+          fi
 
       - name: Commit if changed
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -33,13 +51,15 @@ jobs:
           else
             git add peter_tvbox_pro.json
             git commit -m "Auto-update merged TVBox config"
+            git pull --rebase origin main
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Purge jsDelivr cache（让 CDN 立即跟上新配置，失败不拦更新）
-        if: always()
+        if: steps.commit.outputs.changed == 'true'
         run: |
-          curl -s "https://purge.jsdelivr.net/gh/YiMing918/ym-tvbox@main/peter_tvbox_pro.json" || true
+          curl -s "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/peter_tvbox_pro.json" || true
 
       - name: 心跳保活（防 GitHub 60 天无活动停用定时任务）
         if: always()
@@ -52,6 +72,7 @@ jobs:
             date -u +"%Y-%m-%dT%H:%M:%SZ" > .heartbeat
             git add .heartbeat
             git commit -m "heartbeat: 保活定时任务"
+            git pull --rebase origin main
             git push
           else
             echo "仓库近期有活动，无需心跳提交"

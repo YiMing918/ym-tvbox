@@ -1,0 +1,82 @@
+name: 部署包自动刷新
+
+# 发版（Release 发布）时，自动按下面的清单从该标签的代码重打「手机部署包」，
+# 并刷新到这个 Release（同名覆盖、旧日期的包会删掉，只留最新一个）。
+# 也可以在 Actions 页手动运行：填一个已经存在的 Release 标签，给它补包/刷新包。
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "已存在的 Release 标签（如 v1.0.0）"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-pack
+  cancel-in-progress: false
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 确定标签与包名
+        id: t
+        env:
+          REL_TAG: ${{ github.event.release.tag_name }}
+          IN_TAG: ${{ inputs.tag }}
+        run: |
+          TAG="${REL_TAG:-$IN_TAG}"
+          if [ -z "$TAG" ]; then echo "::error::没有拿到 Release 标签"; exit 1; fi
+          ZIP="ym-tvbox-deploy-$(TZ=Asia/Shanghai date +%Y%m%d).zip"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "zip=$ZIP" >> "$GITHUB_OUTPUT"
+          echo "本次处理：$TAG -> $ZIP"
+
+      - name: 拉取该标签的代码
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.t.outputs.tag }}
+
+      - name: 按清单打包
+        env:
+          ZIP: ${{ steps.t.outputs.zip }}
+        run: |
+          set -euo pipefail
+          rm -rf stage && mkdir stage
+          while IFS= read -r f; do
+            [ -n "$f" ] || continue
+            if [ ! -f "$f" ]; then echo "::error::清单里的文件不存在：$f"; exit 1; fi
+            mkdir -p "stage/$(dirname "$f")"
+            cp "$f" "stage/$f"
+          done <<'PACKLIST'
+          .github/workflows/update.yml
+          LICENSE
+          README.md
+          docs/ym-tvbox-actions.png
+          merge.py
+          peter_tvbox_pro.json
+          PACKLIST
+          cd stage
+          find . -type f | sed 's|^\./||' | LC_ALL=C sort | zip -q -X -D "../$ZIP" -@
+          cd ..
+          sha256sum "$ZIP" > SHA256SUMS.txt
+          echo "包内文件："
+          unzip -Z1 "$ZIP"
+          cat SHA256SUMS.txt
+
+      - name: 刷新到 Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.t.outputs.tag }}
+          ZIP: ${{ steps.t.outputs.zip }}
+        run: |
+          set -euo pipefail
+          gh release view "$TAG" > /dev/null
+          gh release view "$TAG" --json assets --jq '.assets[].name' | grep -E '^ym-tvbox-deploy-[0-9]{8}\.zip$' | grep -vx "$ZIP" | while read -r a; do echo "删除旧包：$a"; gh release delete-asset "$TAG" "$a" -y; done || true
+          gh release upload "$TAG" "$ZIP" SHA256SUMS.txt --clobber
+          echo "已刷新到 Release $TAG：$ZIP + SHA256SUMS.txt"

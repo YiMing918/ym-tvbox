@@ -32,10 +32,10 @@ jobs:
         run: |
           TAG="${REL_TAG:-$IN_TAG}"
           if [ -z "$TAG" ]; then echo "::error::没有拿到 Release 标签"; exit 1; fi
-          ZIP="ym-tvbox-deploy-$(TZ=Asia/Shanghai date +%Y%m%d).zip"
+          ZIPNAME="ym-tvbox-deploy-$(TZ=Asia/Shanghai date +%Y%m%d).zip"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "zip=$ZIP" >> "$GITHUB_OUTPUT"
-          echo "本次处理：$TAG -> $ZIP"
+          echo "zip=$ZIPNAME" >> "$GITHUB_OUTPUT"
+          echo "本次处理：$TAG -> $ZIPNAME"
 
       - name: 拉取该标签的代码
         uses: actions/checkout@v4
@@ -44,7 +44,7 @@ jobs:
 
       - name: 按清单打包
         env:
-          ZIP: ${{ steps.t.outputs.zip }}
+          ZIPNAME: ${{ steps.t.outputs.zip }}
         run: |
           set -euo pipefail
           rm -rf stage && mkdir stage
@@ -61,22 +61,24 @@ jobs:
           merge.py
           peter_tvbox_pro.json
           PACKLIST
+          find stage -type f -exec touch -d '1980-01-01 00:00:00' {} +
           cd stage
-          find . -type f | sed 's|^\./||' | LC_ALL=C sort | zip -q -X -D "../$ZIP" -@
+          find . -type f | sed 's|^\./||' | LC_ALL=C sort | zip -q -X -D "../$ZIPNAME" -@
           cd ..
-          sha256sum "$ZIP" > SHA256SUMS.txt
+          sha256sum "$ZIPNAME" > SHA256SUMS.txt
           echo "包内文件："
-          unzip -Z1 "$ZIP"
+          unzip -Z1 "$ZIPNAME"
           cat SHA256SUMS.txt
 
       - name: 刷新到 Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.t.outputs.tag }}
-          ZIP: ${{ steps.t.outputs.zip }}
+          ZIPNAME: ${{ steps.t.outputs.zip }}
         run: |
           set -euo pipefail
           gh release view "$TAG" > /dev/null
-          gh release view "$TAG" --json assets --jq '.assets[].name' | grep -E '^ym-tvbox-deploy-[0-9]{8}\.zip$' | grep -vx "$ZIP" | while read -r a; do echo "删除旧包：$a"; gh release delete-asset "$TAG" "$a" -y; done || true
-          gh release upload "$TAG" "$ZIP" SHA256SUMS.txt --clobber
-          echo "已刷新到 Release $TAG：$ZIP + SHA256SUMS.txt"
+          gh release delete-asset "$TAG" "ym-tvbox-SHA256SUMS.txt" -y || true
+          gh release view "$TAG" --json assets --jq '.assets[].name' | grep -E '^ym-tvbox-deploy-[0-9]{8}\.zip$' | grep -vx "$ZIPNAME" | while read -r a; do echo "删除旧包：$a"; gh release delete-asset "$TAG" "$a" -y; done || true
+          gh release upload "$TAG" "$ZIPNAME" SHA256SUMS.txt --clobber
+          echo "已刷新到 Release $TAG：$ZIPNAME + SHA256SUMS.txt"

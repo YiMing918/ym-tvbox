@@ -1,13 +1,10 @@
 # ym-tvbox
 
-![更新](https://img.shields.io/badge/%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0-%E6%AF%8F%E6%97%A5%2005%3A30-brightgreen)
-![站点](https://img.shields.io/badge/%E6%94%B6%E5%BD%95%E7%AB%99%E7%82%B9-约220-blue)
-![上游](https://img.shields.io/badge/%E4%B8%8A%E6%B8%B8%E6%BA%90-6%20%E4%B8%AA-orange)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 个人专属 TVBox / 影视仓影视接口。多源聚合，每日自动探活合并，永久地址直达。**零基础也能用：下面每一步都拆开了写，照着点就行。**
 
-直达链接：[配置地址（点开就是成品）](https://raw.githubusercontent.com/YiMing918/ym-tvbox/main/peter_tvbox_pro.json) · [下载最新版存档包](https://github.com/YiMing918/ym-tvbox/releases/latest) · [博客教程](https://bk.ymaym.top/post/ym-tvbox-guide)
+![更新](https://img.shields.io/badge/%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0-%E6%AF%8F%E6%97%A5%2005%3A30-brightgreen) ![站点](https://img.shields.io/badge/%E6%94%B6%E5%BD%95%E7%AB%99%E7%82%B9-约220-blue) ![上游](https://img.shields.io/badge/%E4%B8%8A%E6%B8%B8%E6%BA%90-6%20%E4%B8%AA-orange) ![License](https://img.shields.io/badge/license-MIT-green)
+
+**直达链接**：[配置地址（点开就是成品）](https://raw.githubusercontent.com/YiMing918/ym-tvbox/main/peter_tvbox_pro.json) · [下载最新版存档包](https://github.com/YiMing918/ym-tvbox/releases/latest) · [博客教程](https://bk.ymaym.top/post/ym-tvbox-guide)
 
 ## 目录
 

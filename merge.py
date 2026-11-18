@@ -667,9 +667,30 @@ def clean_parse(p, stats):
     return out
 
 
+# Type-3 pseudo entries whose "url" is an aggregator keyword, not a URL
+# (the only two such entries in the shipped product: Json聚合 / Web聚合).
+# They are whitelisted by (normalised type == 3 AND url in this set);
+# anything else must pass the same address governance as lives.
+_PARSE_PSEUDO_URLS = {"Demo", "Web"}
+
+
+def _parse_is_pseudo(p):
+    return _to_int(p.get("type")) == 3 and p.get("url") in _PARSE_PSEUDO_URLS
+
+
 def clean_parses(parses):
-    """Clean a merged parses list; returns (cleaned, stats)."""
+    """Clean a merged parses list; returns (cleaned, stats).
+
+    URL governance (C-17): parses previously had no address checks at
+    all, unlike lives. Each non-pseudo entry now goes through
+    lives_drop_reason with the same categories (non-http(s), loopback /
+    private / link-local / reserved, placeholder hosts are dropped and
+    logged). Plain http stays allowed, as for lives. Type-3 Demo/Web
+    aggregator pseudo entries are whitelisted via _parse_is_pseudo.
+    """
     stats = {"input": len(parses), "skipped_non_dict": 0,
+             "dropped_invalid_url": 0, "dropped_loopback_private": 0,
+             "dropped_placeholder": 0, "pseudo_whitelisted": 0,
              "type_already_int": 0, "type_converted": 0, "type_defaulted": 0,
              "playerType_already_int": 0, "playerType_converted": 0,
              "playerType_dropped_invalid": 0,
@@ -681,6 +702,15 @@ def clean_parses(parses):
         if not isinstance(p, dict):
             stats["skipped_non_dict"] += 1
             continue
+        if _parse_is_pseudo(p):
+            stats["pseudo_whitelisted"] += 1
+        else:
+            reason = lives_drop_reason(p.get("url", ""))
+            if reason:
+                stats[f"dropped_{reason}"] += 1
+                print(f"[parses-drop:{reason}] {p.get('name', '?')}: "
+                      f"{str(p.get('url', ''))[:80]}")
+                continue
         cleaned.append(clean_parse(p, stats))
     for p in cleaned:
         ext = p.get("ext")
@@ -1120,6 +1150,12 @@ def main():
                 parses.append(p)
     parses = parses[:40]
     parses, pstats = clean_parses(parses)
+    print(f"[parses] url governance: dropped "
+          f"{pstats['dropped_invalid_url'] + pstats['dropped_loopback_private'] + pstats['dropped_placeholder']} "
+          f"(invalid {pstats['dropped_invalid_url']}, loopback/private "
+          f"{pstats['dropped_loopback_private']}, placeholder "
+          f"{pstats['dropped_placeholder']}); pseudo whitelisted "
+          f"{pstats['pseudo_whitelisted']}")
     print(f"[parses] cleaned: {pstats['output']} entries "
           f"(type int {pstats['type_already_int']}, string->int "
           f"{pstats['type_converted']}, defaulted {pstats['type_defaulted']}; "

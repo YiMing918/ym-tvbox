@@ -1,0 +1,80 @@
+name: Update TVBox config
+
+on:
+  schedule:
+    # 21:30 UTC = 05:30 Beijing time, daily
+    - cron: '30 21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# 手动触发与定时运行互斥排队，避免两轮同时推送互相覆盖
+concurrency:
+  group: update-tvbox
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch, probe and merge sources
+        id: merge
+        run: |
+          set +e
+          python merge.py 2>&1 | tee merge.log
+          code=${PIPESTATUS[0]}
+          if [ $code -ne 0 ]; then
+            if grep -q "^\[abort\]" merge.log; then
+              echo "::warning::merge.py 保护性退出（熔断/源不足），保留上一版配置"
+              echo "fused=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            exit $code
+          fi
+
+      - name: Commit if changed
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- peter_tvbox_pro.json; then
+            echo "No changes in merged config."
+          else
+            git add peter_tvbox_pro.json
+            git commit -m "Auto-update merged TVBox config"
+            git pull --rebase origin main
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Purge jsDelivr cache（让 CDN 立即跟上新配置，失败不拦更新）
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          curl -s "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/peter_tvbox_pro.json" || true
+
+      - name: 心跳保活（防 GitHub 60 天无活动停用定时任务）
+        # 不用 if: always()（与 ym-cfip 对齐）：合并步骤失败时心跳提交会把
+        # 失败轮伪装成有活动，让坏掉的管线看起来还活着；默认 success() 门控即可
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          last=$(git log -1 --format=%ct)
+          now=$(date +%s)
+          if [ $(( (now - last) / 86400 )) -ge 25 ]; then
+            date -u +"%Y-%m-%dT%H:%M:%SZ" > .heartbeat
+            git add .heartbeat
+            git commit -m "heartbeat: 保活定时任务"
+            git pull --rebase origin main
+            git push
+          else
+            echo "仓库近期有活动，无需心跳提交"
+          fi

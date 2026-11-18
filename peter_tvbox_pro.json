@@ -792,28 +792,6 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
-   "key": "my_AppZy_wanqing",
-   "name": "\ud83c\udf07\u2506\u665a\u6674\u25064K",
-   "type": 3,
-   "api": "csp_AppZy",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "ARO+hB5vdFdHClVkrLOIgsdq6Ox6dBaesfwPqkaGkkI/kFSRmoG2vqoBgQJ4rQUfq9S/OqwEWkP8qRb4VM8DrYnl2UGeGnTvJjwdn+dbV8Nh",
-   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
-  },
-  {
-   "key": "my_AppZy_qiushui",
-   "name": "\ud83e\udeb7\u2506\u79cb\u6c34\u25064K",
-   "type": 3,
-   "api": "csp_AppZy",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "AXYmhdoG4mVUI1O/8DD7P+twDiSLZh1j9iNOR/xHURJp2Aw4rTsWEymW/RcJqLNohr1iR09cYEj6cCGDSNc95aBhNQfelqiC0gTqRSXniGO3",
-   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
-  },
-  {
    "key": "my_jz",
    "name": "\ud83c\udf75\u2506\u716e\u96ea\u25064K",
    "type": 3,
@@ -2626,6 +2604,24 @@
    "name": "\ud83e\udd21\u5171\u548c\u2503\u52a8\u6f2b\ud83e\udd21",
    "type": 3,
    "api": "csp_AnimeAiGongHeGuoGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/17/ff5af105e608d6389b89d59586515c70.jpg;md5;5a934007fb34ec762c2e7d25dbdc865d"
+  },
+  {
+   "key": "wex_AnimeXiFan",
+   "name": "\ud83e\udd21\u7a00\u996d\u2503\u52a8\u6f2b\ud83e\udd21",
+   "type": 3,
+   "api": "csp_AnimeXiFanGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/17/ff5af105e608d6389b89d59586515c70.jpg;md5;5a934007fb34ec762c2e7d25dbdc865d"
+  },
+  {
+   "key": "wex_AnimeCiYuanCheng",
+   "name": "\ud83e\udd21\u6b21\u5143\u2503\u52a8\u6f2b\ud83e\udd21",
+   "type": 3,
+   "api": "csp_AnimeCiYuanChengGuard",
    "searchable": 1,
    "changeable": 0,
    "jar": "http://oss4liview.moji.com/thd_file/2026/11/17/ff5af105e608d6389b89d59586515c70.jpg;md5;5a934007fb34ec762c2e7d25dbdc865d"

@@ -78,7 +78,7 @@ jobs:
         run: |
           set -euo pipefail
           gh release view "$TAG" > /dev/null
-          gh release delete-asset "$TAG" "ym-tvbox-SHA256SUMS.txt" -y || true
+          gh release delete-asset "$TAG" "SHA256SUMS.txt" -y || true
           gh release view "$TAG" --json assets --jq '.assets[].name' | grep -E '^ym-tvbox-deploy-[0-9]{8}\.zip$' | grep -vx "$ZIPNAME" | while read -r a; do echo "删除旧包：$a"; gh release delete-asset "$TAG" "$a" -y; done || true
           gh release upload "$TAG" "$ZIPNAME" SHA256SUMS.txt --clobber
           echo "已刷新到 Release $TAG：$ZIPNAME + SHA256SUMS.txt"

@@ -52,8 +52,13 @@ jobs:
           else
             git add peter_tvbox_pro.json
             git commit -m "Auto-update merged TVBox config"
-            git pull --rebase origin main
-            git push
+            pushed=0
+            for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then pushed=1; break; fi
+            git rebase --abort 2>/dev/null || true
+            if [ "$i" -lt 3 ]; then echo "push 失败，10 秒后重试（第 $i 次）"; sleep 10; fi
+            done
+            if [ "$pushed" != "1" ]; then echo "::error::push 重试 3 次仍失败"; exit 1; fi
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -63,6 +68,7 @@ jobs:
           curl -s "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/peter_tvbox_pro.json" || true
 
       - name: 心跳保活（防 GitHub 60 天无活动停用定时任务）
+        if: steps.merge.outputs.fused != 'true'
         # 不用 if: always()（与 ym-cfip 对齐）：合并步骤失败时心跳提交会把
         # 失败轮伪装成有活动，让坏掉的管线看起来还活着；默认 success() 门控即可
         run: |
@@ -74,8 +80,13 @@ jobs:
             date -u +"%Y-%m-%dT%H:%M:%SZ" > .heartbeat
             git add .heartbeat
             git commit -m "heartbeat: 保活定时任务"
-            git pull --rebase origin main
-            git push
+            pushed=0
+            for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then pushed=1; break; fi
+            git rebase --abort 2>/dev/null || true
+            if [ "$i" -lt 3 ]; then echo "push 失败，10 秒后重试（第 $i 次）"; sleep 10; fi
+            done
+            if [ "$pushed" != "1" ]; then echo "::error::push 重试 3 次仍失败"; exit 1; fi
           else
             echo "仓库近期有活动，无需心跳提交"
           fi

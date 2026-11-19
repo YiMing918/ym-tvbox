@@ -2027,6 +2027,18 @@
    "jar": "http://oss4liview.moji.com/thd_file/2026/11/17/ff5af105e608d6389b89d59586515c70.jpg;md5;5a934007fb34ec762c2e7d25dbdc865d"
   },
   {
+   "key": "wex_Doubanaaaa",
+   "name": "\ud83d\udc2e\u3010\u66f4\u65b0\u65e5\u671f:20261117\u3011\ud83d\udc2e",
+   "type": 3,
+   "api": "csp_NewDouBanGuard",
+   "indexs": 1,
+   "searchable": 0,
+   "quickSearch": 0,
+   "filterable": 0,
+   "ext": "https://cdn.waimaimingtang.com/file/images/bwc/20260414181247-ae51abfbfe.txt",
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/17/ff5af105e608d6389b89d59586515c70.jpg;md5;5a934007fb34ec762c2e7d25dbdc865d"
+  },
+  {
    "key": "wex_Wexconfig",
    "name": "\ud83d\udc2e\u914d\u7f6e\u2503\u4e2d\u5fc3\ud83d\udc2e",
    "type": 3,
@@ -2613,15 +2625,6 @@
    "name": "\ud83e\udd21\u7a00\u996d\u2503\u52a8\u6f2b\ud83e\udd21",
    "type": 3,
    "api": "csp_AnimeXiFanGuard",
-   "searchable": 1,
-   "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/17/ff5af105e608d6389b89d59586515c70.jpg;md5;5a934007fb34ec762c2e7d25dbdc865d"
-  },
-  {
-   "key": "wex_AnimeCiYuanCheng",
-   "name": "\ud83e\udd21\u6b21\u5143\u2503\u52a8\u6f2b\ud83e\udd21",
-   "type": 3,
-   "api": "csp_AnimeCiYuanChengGuard",
    "searchable": 1,
    "changeable": 0,
    "jar": "http://oss4liview.moji.com/thd_file/2026/11/17/ff5af105e608d6389b89d59586515c70.jpg;md5;5a934007fb34ec762c2e7d25dbdc865d"

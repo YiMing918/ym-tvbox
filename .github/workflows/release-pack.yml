@@ -55,6 +55,7 @@ jobs:
             cp "$f" "stage/$f"
           done <<'PACKLIST'
           .github/workflows/update.yml
+          .github/workflows/release-pack.yml          
           LICENSE
           README.md
           docs/ym-tvbox-actions.png

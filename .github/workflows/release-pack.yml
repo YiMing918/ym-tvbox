@@ -54,8 +54,8 @@ jobs:
             mkdir -p "stage/$(dirname "$f")"
             cp "$f" "stage/$f"
           done <<'PACKLIST'
-          .github/workflows/update.yml
-          .github/workflows/release-pack.yml          
+          .github/workflows/update.yml          
+      .github/workflows/release-pack.yml
           LICENSE
           README.md
           docs/ym-tvbox-actions.png

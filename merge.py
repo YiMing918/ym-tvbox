@@ -74,19 +74,21 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import parse_qsl, quote, urlencode, urljoin, urlsplit, urlunsplit
 
-# TLS policy (round-2 review M1): the default context VERIFIES
-# certificates. The old code ran CERT_NONE globally, so every source
-# fetch and every probe of ~100 third-party hosts accepted any cert.
-# Probe targets are a dynamic set that cannot be allowlisted, so a
-# host whose certificate genuinely fails verification is retried ONCE
-# with the unverified context and logged as [tls-unverified] — broken-
-# cert upstreams keep working, everyone else gets real verification,
-# and the log shows exactly who is on the exemption path.
+# TLS policy (round-2 review M1, tightened 2026-11-19 audit 中4):
+# certificates are VERIFIED and a verification failure is NOT
+# silently retried without verification any more (the old code
+# retried once with CERT_NONE and only logged [tls-unverified]).
+# A cert failure is now treated as a plain fetch/probe failure: a
+# source fetch falls through to its mirror / the source-count fuse,
+# and probes classify it "uncertain" (kept), so a broken-cert host
+# degrades through the existing fuses instead of being trusted
+# blindly. Affected hosts are collected and logged as [tls-failed].
+# Pre-change check (2026-11-19): the https sources (all via
+# raw.githubusercontent.com) and a sample of seed CMS hosts all pass
+# verification from the sandbox; no sampled host needed the old
+# unverified path.
 CTX = ssl.create_default_context()
-CTX_UNVERIFIED = ssl.create_default_context()
-CTX_UNVERIFIED.check_hostname = False
-CTX_UNVERIFIED.verify_mode = ssl.CERT_NONE
-TLS_UNVERIFIED_HOSTS = set()
+TLS_FAILED_HOSTS = set()
 
 
 def _is_ssl_error(e):
@@ -105,24 +107,23 @@ def _is_ssl_error(e):
 
 
 def urlopen(req, timeout):
-    """urlopen with verified TLS; on a certificate failure only, retry
-    unverified and record the host (dynamic exemption, see above)."""
+    """urlopen with verified TLS only. A certificate failure is
+    recorded as [tls-failed] and re-raised — callers treat it as a
+    fetch failure / uncertain probe, never as unverified success."""
     try:
         return urllib.request.urlopen(req, timeout=timeout, context=CTX)
     except Exception as e:
-        if not _is_ssl_error(e):
-            raise
-        host = ""
-        try:
-            host = urlsplit(req.full_url).hostname or ""
-        except Exception:
-            pass
-        if host and host not in TLS_UNVERIFIED_HOSTS:
-            TLS_UNVERIFIED_HOSTS.add(host)
-            print(f"[tls-unverified] {host}: certificate failed "
-                  f"verification, retried without it ({e})")
-        return urllib.request.urlopen(req, timeout=timeout,
-                                      context=CTX_UNVERIFIED)
+        if _is_ssl_error(e):
+            host = ""
+            try:
+                host = urlsplit(req.full_url).hostname or ""
+            except Exception:
+                pass
+            if host and host not in TLS_FAILED_HOSTS:
+                TLS_FAILED_HOSTS.add(host)
+                print(f"[tls-failed] {host}: certificate failed "
+                      f"verification; treating as failure ({e})")
+        raise
 
 
 def _dns_is_dead(reason):
@@ -148,6 +149,26 @@ CAP = 220
 MIN_SITES = 120
 
 
+def _log_url(url, limit=80):
+    """URL safe for log lines (audit low-7): userinfo (any embedded
+    username/password) is stripped, leaving scheme/host/port/path.
+    Used ONLY for logging — the product data itself is never altered
+    by this helper."""
+    s = str(url)
+    try:
+        p = urlsplit(s)
+        if p.hostname:
+            try:
+                port = p.port
+            except ValueError:
+                port = None
+            netloc = p.hostname + ((f":{port}") if port else "")
+            s = urlunsplit((p.scheme, netloc, p.path, p.query, ""))
+    except Exception:
+        pass
+    return s[:limit]
+
+
 def idn(url):
     from urllib.parse import urlsplit, urlunsplit
     p = urlsplit(url)
@@ -171,7 +192,14 @@ def fetch(url, timeout=25):
             req = urllib.request.Request(url, headers=UA)
             with urlopen(req, timeout=timeout) as r:
                 clen = r.headers.get("Content-Length")
-                if clen and int(clen) > FETCH_CAP:
+                try:
+                    clen_n = int(clen) if clen else 0
+                except (TypeError, ValueError):
+                    # Non-numeric Content-Length (audit low-2): ignore
+                    # the header instead of discarding the whole source;
+                    # the streaming cap below still bounds the body.
+                    clen_n = 0
+                if clen_n > FETCH_CAP:
                     raise ValueError(f"source too large: {clen} bytes")
                 chunks, total = [], 0
                 while True:
@@ -190,7 +218,7 @@ def fetch(url, timeout=25):
                 or isinstance(e, (urllib.error.URLError, TimeoutError,
                                   ConnectionError))
             if attempt == 1 and transient:
-                print(f"[fetch] transient failure for {url[:60]}... "
+                print(f"[fetch] transient failure for {_log_url(url, 60)}... "
                       f"({e}); retrying once")
                 time.sleep(3)
                 continue
@@ -203,7 +231,16 @@ def load_cfg(raw_bytes):
     try:
         return json.loads(raw)
     except Exception:
-        lines = [ln for ln in raw.splitlines() if not ln.strip().startswith("//")]
+        lines = []
+        for ln in raw.splitlines():
+            stripped = ln.strip()
+            # Guard (audit low-3): strip only a whole-line // comment
+            # that contains no quote characters. A quoted line may be
+            # string content that merely starts with //, and dropping
+            # it would silently corrupt the config.
+            if stripped.startswith("//") and '"' not in ln and "'" not in ln:
+                continue
+            lines.append(ln)
         return json.loads("\n".join(lines), strict=False)
 
 
@@ -516,7 +553,7 @@ def govern_lives(candidates, probe_enabled=True):
             stats[f"dropped_{reason}"] += 1
             name = entry.get("name", "?") if isinstance(entry, dict) else "?"
             print(f"[lives-drop:{reason}] {name}: "
-                  f"{str(entry.get('url', ''))[:80] if isinstance(entry, dict) else entry!r}")
+                  f"{_log_url(entry.get('url', '')) if isinstance(entry, dict) else entry!r}")
             continue
         kept.append(entry)
     if not probe_enabled:
@@ -543,12 +580,12 @@ def govern_lives(candidates, probe_enabled=True):
             elif verdict == "dead":
                 stats["dropped_probe_dead"] += 1
                 print(f"[lives-drop:probe_dead] {entry.get('name', '?')}: "
-                      f"{entry['url'][:80]} ({detail})")
+                      f"{_log_url(entry['url'])} ({detail})")
             else:
                 # Cannot tell jitter from a dead address -> keep, but say so.
                 stats["probe_uncertain_kept"] += 1
                 print(f"[lives-probe-uncertain] kept {entry.get('name', '?')}: "
-                      f"{entry['url'][:80]} ({detail})")
+                      f"{_log_url(entry['url'])} ({detail})")
                 survivors.append(entry)
         survivors.extend(overflow)
         if not survivors and kept:
@@ -709,7 +746,7 @@ def clean_parses(parses):
             if reason:
                 stats[f"dropped_{reason}"] += 1
                 print(f"[parses-drop:{reason}] {p.get('name', '?')}: "
-                      f"{str(p.get('url', ''))[:80]}")
+                      f"{_log_url(p.get('url', ''))}")
                 continue
         cleaned.append(clean_parse(p, stats))
     for p in cleaned:
@@ -812,14 +849,36 @@ def ext_digest(ext):
 def site_sig(s, spider):
     """Identity of a jar/special source for dedupe: same engine file
     with different rule files = different sites. Identity is (api,
-    type, effective jar, full ext digest). The jar that will actually
-    be bound (the site's own, else its origin config's spider) is part
-    of the identity, because the same csp_ name backed by a different
-    jar is not the same implementation."""
+    type, effective jar, full ext digest, key). The jar that will
+    actually be bound (the site's own, else its origin config's
+    spider) is part of the identity, because the same csp_ name
+    backed by a different jar is not the same implementation. The
+    upstream key is part of the identity too (audit low-4): two
+    entries sharing engine+rules but carrying different keys are
+    different named sites, not duplicates; entries with the same key
+    (the same site republished by several sources) still dedupe."""
     api = str(s.get("api", ""))
     jar = s.get("jar") or spider or ""
     jar = str(jar).split(";")[0].strip()
-    return (api, s.get("type"), jar, ext_digest(s.get("ext")))
+    return (api, s.get("type"), jar, ext_digest(s.get("ext")),
+            str(s.get("key", "") or ""))
+
+
+def site_addr_drop_reason(s, spider):
+    """Address governance for type>=2 sites (audit 中3): returns
+    (field, reason) when the site's http(s) api, or its effective jar
+    (own jar, else the origin config's spider), points at a loopback /
+    private / link-local / placeholder host — the same categories
+    lives/parses already drop via lives_drop_reason. Non-http api
+    values (csp_ engine names etc.) are not URLs and are not judged."""
+    for field, val in (("api", s.get("api")),
+                       ("jar", s.get("jar") or spider)):
+        if isinstance(val, str) and val.strip().lower().startswith(
+                ("http://", "https://")):
+            reason = lives_drop_reason(val.split(";")[0].strip())
+            if reason in ("loopback_private", "placeholder"):
+                return field, reason
+    return None, None
 
 
 # ---------------------------------------------------------------------------
@@ -914,7 +973,7 @@ def govern_jar(ns, inherited=False):
     if base.lower().startswith("http://") and not pin:
         kind = "inherited " if inherited else ""
         print(f"[jar-drop] {ns.get('key', '?')} ({ns.get('name', '')}): "
-              f"{kind}http jar without md5 pin: {base[:80]}")
+              f"{kind}http jar without md5 pin: {_log_url(base)}")
         return False
     if pin:
         known = JAR_PINS.get(base)
@@ -922,7 +981,7 @@ def govern_jar(ns, inherited=False):
             JAR_PINS[base] = pin
         elif known != pin:
             ns["jar"] = base + ";md5;" + known
-            print(f"[jar-pin] {base[:70]}: conflicting pin "
+            print(f"[jar-pin] {_log_url(base, 70)}: conflicting pin "
                   f"{pin[:8]}.. unified to first-seen {known[:8]}..")
     elif base in JAR_PINS:
         ns["jar"] = base + ";md5;" + JAR_PINS[base]
@@ -973,7 +1032,7 @@ def govern_deps(out_sites, report):
         if idx in drop_idx:
             dead = [u for u in dep_urls_of(s) if u in dead_urls]
             print(f"[deps-drop] {s.get('key', '?')} "
-                  f"({s.get('name', '')}): dead dependency {dead[0][:90]}")
+                  f"({s.get('name', '')}): dead dependency {_log_url(dead[0], 90)}")
             report[tag] = report.get(tag, 0) - 1
             continue
         kept_sites.append((tag, s))
@@ -990,14 +1049,14 @@ def main():
             try:
                 cand = load_cfg(fetch(u))
             except Exception as e:
-                print(f"[warn] {tag} fetch failed ({u[:60]}...): {e}", file=sys.stderr)
+                print(f"[warn] {tag} fetch failed ({_log_url(u, 60)}...): {e}", file=sys.stderr)
                 continue
             if not valid_cfg(cand):
                 # Parses as JSON but is not a usable single config
                 # (maintenance payload, multi-config index, array…):
                 # fall through to the next mirror instead of counting
                 # it as a source.
-                print(f"[warn] {tag} unusable document from {u[:60]}... "
+                print(f"[warn] {tag} unusable document from {_log_url(u, 60)}... "
                       f"(not an object with a sites list); trying next",
                       file=sys.stderr)
                 continue
@@ -1063,6 +1122,7 @@ def main():
         report[tag] = report.get(tag, 0) + 1
 
     seen_cms = set()
+    t3_addr_dropped = 0
     for k, n, a in SEED_SITES:
         if probe_key(a) in kept:
             seen_cms.add(probe_key(a))
@@ -1089,11 +1149,22 @@ def main():
                 seen_cms.add(n)
                 add_site(tag, s, spider)
             else:
+                bad_field, bad_reason = site_addr_drop_reason(s, spider)
+                if bad_reason:
+                    t3_addr_dropped += 1
+                    bad_val = s.get(bad_field) or spider or ""
+                    print(f"[site-drop:{bad_reason}] {s.get('key', '?')} "
+                          f"({s.get('name', '')}): {bad_field} "
+                          f"{_log_url(str(bad_val).split(';')[0])}")
+                    continue
                 sig = site_sig(s, spider)
                 if sig in seen_t3:
                     continue
                 seen_t3.add(sig)
                 add_site(tag, s, spider)
+    if t3_addr_dropped:
+        print(f"[sites] dropped {t3_addr_dropped} type>=2 site(s) on "
+              f"loopback/private/placeholder api or jar")
 
     if len(out_sites) > CAP:
         for trim_tag in ["org", "og", "k4"]:
@@ -1126,14 +1197,23 @@ def main():
     # Regression fuse: the Actions checkout leaves the previous output
     # in place; if this merge would shrink the catalogue far below it,
     # something upstream changed shape — keep the previous file.
+    # Audit low-1: a previous file that EXISTS but cannot be parsed
+    # must not silently disable this fuse via prev_n=0 — abort the
+    # run instead (the corrupt file is left untouched either way).
     prev_n = 0
-    try:
-        with open(OUTPUT, encoding="utf-8") as f:
-            prev = json.load(f)
-        if isinstance(prev, dict) and isinstance(prev.get("sites"), list):
+    if os.path.exists(OUTPUT):
+        try:
+            with open(OUTPUT, encoding="utf-8") as f:
+                prev = json.load(f)
+            if not (isinstance(prev, dict)
+                    and isinstance(prev.get("sites"), list)):
+                raise ValueError("previous output has no sites list")
             prev_n = len(prev["sites"])
-    except Exception:
-        prev_n = 0
+        except Exception as e:
+            print(f"[abort] previous {OUTPUT} exists but is unreadable "
+                  f"({e}); refusing to run without the regression fuse",
+                  file=sys.stderr)
+            return 1
     if prev_n >= MIN_SITES and len(sites) < prev_n * 0.8:
         print(f"[abort] merged {len(sites)} sites vs previous {prev_n} "
               f"(< 80%); keeping old file", file=sys.stderr)
@@ -1148,16 +1228,20 @@ def main():
             if u and u not in seen_p:
                 seen_p.add(u)
                 parses.append(p)
-    parses = parses[:40]
+    # Audit 中2: clean FIRST, cap afterwards — cleaning drops
+    # entries, and capping first meant the slots they freed were
+    # never backfilled from position 41 onwards.
     parses, pstats = clean_parses(parses)
+    parses = parses[:40]
     print(f"[parses] url governance: dropped "
           f"{pstats['dropped_invalid_url'] + pstats['dropped_loopback_private'] + pstats['dropped_placeholder']} "
           f"(invalid {pstats['dropped_invalid_url']}, loopback/private "
           f"{pstats['dropped_loopback_private']}, placeholder "
           f"{pstats['dropped_placeholder']}); pseudo whitelisted "
           f"{pstats['pseudo_whitelisted']}")
-    print(f"[parses] cleaned: {pstats['output']} entries "
-          f"(type int {pstats['type_already_int']}, string->int "
+    print(f"[parses] cleaned: {len(parses)} entries "
+          f"(pre-cap {pstats['output']}; "
+          f"type int {pstats['type_already_int']}, string->int "
           f"{pstats['type_converted']}, defaulted {pstats['type_defaulted']}; "
           f"playerType int {pstats['playerType_already_int']}, string->int "
           f"{pstats['playerType_converted']}, invalid dropped "
@@ -1206,6 +1290,13 @@ def main():
     flags, ads = list(SEED_FLAGS), list(SEED_ADS)
     for _, cfg, _b in cfgs:
         for f in cfg.get("flags") if isinstance(cfg.get("flags"), list) else []:
+            if not isinstance(f, str):
+                # Audit low-9: flags are matched as strings by the
+                # player; a non-string entry can never match and only
+                # bloats/corrupts the list.
+                print(f"[flags-drop] non-string flag skipped "
+                      f"({type(f).__name__})")
+                continue
             if f not in flags:
                 flags.append(f)
         for a in cfg.get("ads") if isinstance(cfg.get("ads"), list) else []:
@@ -1246,30 +1337,65 @@ def main():
         cbase = cand.split(";md5;")[0].strip()
         if cbase.lower().startswith("http://") and ";md5;" not in cand:
             print(f"[spider] skipping {_tag}'s spider: http without "
-                  f"md5 pin ({cbase[:70]})")
+                  f"md5 pin ({_log_url(cbase, 70)})")
             continue
         if not first_cand:
             first_cand = cand
         if _skip_probe or not _dep_confirmed_dead(cbase):
             top_spider = cand
-            print(f"[spider] global spider from {_tag}: {cbase[:70]}")
+            print(f"[spider] global spider from {_tag}: {_log_url(cbase, 70)}")
             break
         print(f"[spider] {_tag}'s spider confirmed dead, trying next")
     if not top_spider and first_cand:
         top_spider = first_cand
         print("[spider] WARNING: every candidate confirmed dead; "
               "falling back to the first candidate")
+    # Empty-component fuse (audit 中1): a merge that lost its global
+    # spider, every parse or every live entry is broken even when the
+    # site count looks fine — abort instead of writing it.
+    if not top_spider or not parses or not lives:
+        print(f"[abort] empty component in merged result "
+              f"(spider={'set' if top_spider else 'EMPTY'}, "
+              f"parses={len(parses)}, lives={len(lives)}); "
+              f"keeping old file", file=sys.stderr)
+        return 1
     final = {"spider": top_spider, "wallpaper": "",
              "lives": lives, "sites": sites, "parses": parses,
              "flags": flags, "ads": ads}
-    with open(OUTPUT, "w", encoding="ascii") as f:
-        json.dump(final, f, ensure_ascii=True, indent=1)
+    # Atomic write (audit high-12): write to a temp file in the same
+    # directory, fsync, verify it parses back as JSON, then
+    # os.replace() over the product. A crash mid-write can no longer
+    # leave the subscribed product as a truncated JSON; on any
+    # failure the old file stays untouched and the run errors out.
+    tmp_out = OUTPUT + ".tmp"
+    try:
+        with open(tmp_out, "w", encoding="ascii") as f:
+            json.dump(final, f, ensure_ascii=True, indent=1)
+            f.flush()
+            os.fsync(f.fileno())
+        with open(tmp_out, encoding="utf-8") as f:
+            check = json.load(f)
+        if not (isinstance(check, dict)
+                and isinstance(check.get("sites"), list)
+                and isinstance(check.get("parses"), list)
+                and isinstance(check.get("lives"), list)):
+            raise ValueError("written file failed structural check")
+        os.replace(tmp_out, OUTPUT)
+    except Exception as e:
+        try:
+            if os.path.exists(tmp_out):
+                os.remove(tmp_out)
+        except Exception:
+            pass
+        print(f"[abort] atomic write of {OUTPUT} failed ({e}); "
+              f"keeping old file", file=sys.stderr)
+        return 1
     print(f"[done] {len(sites)} sites, {len(parses)} parses, {len(lives)} lives -> {OUTPUT}")
     print("[done] per source:", report)
-    if TLS_UNVERIFIED_HOSTS:
-        print(f"[tls] {len(TLS_UNVERIFIED_HOSTS)} host(s) were served "
-              f"over unverified TLS this run: "
-              f"{sorted(TLS_UNVERIFIED_HOSTS)}")
+    if TLS_FAILED_HOSTS:
+        print(f"[tls] {len(TLS_FAILED_HOSTS)} host(s) failed TLS "
+              f"verification this run (treated as failures, no "
+              f"unverified retry): {sorted(TLS_FAILED_HOSTS)}")
     return 0
 
 

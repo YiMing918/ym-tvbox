@@ -830,39 +830,6 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
-   "key": "my_FourK",
-   "name": "\ud83c\udf14\u2506\u671b\u8212\u25064K",
-   "type": 3,
-   "api": "csp_App88",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "AV3cDzESDsTIWJ1e0GZQUmOQKfNDMpFhWqSa4cvJKZlVZDKPOBzRbNq+YsDIeVJfxJIlcvy9/9MMJLQR9Yn4P+ABIUU4LXEL+WXhRFcPEDBpGlxkMDqSvKpFJvmPoKC/IA==",
-   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
-  },
-  {
-   "key": "my_SanJiaoZhou",
-   "name": "\ud83c\udf25\ufe0f\u2506\u4e91\u5f52\u25064K",
-   "type": 3,
-   "api": "csp_App88",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 0,
-   "ext": "AYw+57aVirMpHulq+pwyxEX1UGkmWBETcX32Yp6ZkkvTAnu06xitsJuZdymTwZ70YgSiX+Ga4XisFPKK2Pv4ERJ/y0iGIy9FkpAAVFLF8ltrlb/FEg6CdBcfjWgMUXsibWacZGVzOWczRslQaFUHS2M=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
-  },
-  {
-   "key": "my_Luck",
-   "name": "\ud83c\udf40\u2506\u9752\u79be\u25064K",
-   "type": 3,
-   "api": "csp_Luck",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "ext": "AU/L2JHZ0SsU94LbxPA3emscXG7f5FFdKYn8MSdt/5Uktri/nmW4Z3nNYavRogzuAlOkPfPVG27z4OAdO+fyFhc=",
-   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
-  },
-  {
    "key": "my_KaiFan",
    "name": "\ud83c\udf5a\u2506\u5f00\u996d\u25064K",
    "type": 3,
@@ -988,18 +955,6 @@
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
-   "key": "my_\u4f59\u6e29",
-   "name": "\ud83e\udde3\u2506\u4f59\u6e29\u25064K",
-   "type": 3,
-   "api": "csp_App88",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1,
-   "changeable": 0,
-   "ext": "AQ97WpArbhKNw60bLglQNeYUtD0UDI1f65KexQmYfUaCO+V3+a8GbSmYodUtb12Q0LQHfv6KdocBICzIhrySNikxI0hWUixd5n/optwTcVcU",
-   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
-  },
-  {
    "key": "my_\u591c\u732b",
    "name": "\ud83e\udd89\u2506\u591c\u732b\u25064K",
    "type": 3,
@@ -1073,15 +1028,6 @@
    "filterable": 1,
    "changeable": 0,
    "ext": "Af9dBxsQCjGtIKQ47cJEAnzHtmsGI04C7DCRpNBZk7hshaMWsb76puB4aGapQk4JgYpBV2BKnAQ6GRcUI+/vzYduXc8ItUUvkHR/+LR3Y+NT",
-   "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
-  },
-  {
-   "key": "my_zhiqiu",
-   "name": "\u2618\ufe0f\u2506\u542c\u98ce\u2506\u77e5\u79cb",
-   "type": 3,
-   "api": "csp_zhiqiu",
-   "searchable": 1,
-   "ext": "ATuDzsbtXNA1mpnRWIpcUB8B2+hY3LMP/3Z1xXurADboE8cAKUOjUN6TXimsApauJg/X7yLotzgNXhCsjAn5wuQ=",
    "jar": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar;md5;53b51f8c239b727ce4cd18dc2c3b7a99"
   },
   {
@@ -2040,11 +1986,11 @@
    "quickSearch": 0,
    "filterable": 0,
    "ext": "https://cdn.waimaimingtang.com/file/images/bwc/20260414181247-ae51abfbfe.txt",
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_Doubanaaaa",
-   "name": "\ud83d\udc2e\u3010\u66f4\u65b0\u65e5\u671f:20261123\u3011\ud83d\udc2e",
+   "name": "\ud83d\udc2e\u3010\u66f4\u65b0\u65e5\u671f:20261124\u3011\ud83d\udc2e",
    "type": 3,
    "api": "csp_NewDouBanGuard",
    "indexs": 1,
@@ -2052,7 +1998,7 @@
    "quickSearch": 0,
    "filterable": 0,
    "ext": "https://cdn.waimaimingtang.com/file/images/bwc/20260414181247-ae51abfbfe.txt",
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_Wexconfig",
@@ -2065,7 +2011,7 @@
    "style": {
     "type": "list"
    },
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_MyPan",
@@ -2078,7 +2024,7 @@
    "style": {
     "type": "list"
    },
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_\u82b1\u5377",
@@ -2088,7 +2034,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_\u73a9\u5076",
@@ -2098,7 +2044,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewGuanYing",
@@ -2108,7 +2054,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiQwMkv",
@@ -2118,7 +2064,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewPianKu",
@@ -2128,7 +2074,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewHuBan",
@@ -2138,7 +2084,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewMuOu",
@@ -2148,7 +2094,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewDuoDuo",
@@ -2158,7 +2104,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewKuaiYing",
@@ -2168,7 +2114,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewLaBi",
@@ -2178,7 +2124,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewJuTou",
@@ -2188,7 +2134,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewLibvio",
@@ -2198,7 +2144,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_\u539f\u76d8",
@@ -2208,7 +2154,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_\u8717\u725b",
@@ -2218,7 +2164,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiPan1Me",
@@ -2228,7 +2174,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AiNewYiDong4K",
@@ -2238,7 +2184,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexHanXiaoQuan",
@@ -2248,7 +2194,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexAiGuaZi",
@@ -2258,7 +2204,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexAiDuBoKu",
@@ -2268,7 +2214,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexAiYueYue",
@@ -2278,7 +2224,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexAiWenCai",
@@ -2288,7 +2234,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexFengYe4K",
@@ -2298,7 +2244,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_\u8ce4\u8ce4",
@@ -2308,7 +2254,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_\u4e0b\u996d",
@@ -2318,7 +2264,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AppV7 | \u5927\u5e08\u5144",
@@ -2332,7 +2278,7 @@
     "proxyImg": false
    },
    "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AppV7 | \u7c89\u732a\u8ffd\u5267",
@@ -2346,21 +2292,7 @@
     "proxyImg": false
    },
    "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
-  },
-  {
-   "key": "wex_AppV7 | \u54b8\u9c7c",
-   "name": "\ud83d\udca5\u54b8\u9c7c\u2503\u79d2\u64ad\ud83d\udca5",
-   "type": 3,
-   "api": "csp_WexAppV7Guard",
-   "searchable": 1,
-   "changeable": 0,
-   "ext": {
-    "config": "AppV7Xy",
-    "proxyImg": false
-   },
-   "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AppV7 | \u8ffd\u5267\u8fbe\u4eba",
@@ -2374,7 +2306,7 @@
     "proxyImg": false
    },
    "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AppV7 | \u5c0f\u67da\u5b50",
@@ -2388,21 +2320,7 @@
     "proxyImg": false
    },
    "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
-  },
-  {
-   "key": "wex_AppV7 | \u5c0f\u67e0\u6aac",
-   "name": "\ud83d\udca5\u67e0\u6aac\u2503\u79d2\u64ad\ud83d\udca5",
-   "type": 3,
-   "api": "csp_WexAppV7Guard",
-   "searchable": 1,
-   "changeable": 0,
-   "ext": {
-    "config": "AppV7Xnm",
-    "proxyImg": false
-   },
-   "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AppV7 | \u8499\u592a\u5947",
@@ -2416,35 +2334,7 @@
     "proxyImg": false
    },
    "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
-  },
-  {
-   "key": "wex_AppV7 | \u96f6\u96f6\u4e03\u5f71\u89c6",
-   "name": "\ud83d\udca5\u96f6\u4e03\u2503\u79d2\u64ad\ud83d\udca5",
-   "type": 3,
-   "api": "csp_WexAppV7Guard",
-   "searchable": 1,
-   "changeable": 0,
-   "ext": {
-    "config": "AppV7Llq",
-    "proxyImg": false
-   },
-   "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
-  },
-  {
-   "key": "wex_AppV7 | \u5c0f\u67ff\u5b50",
-   "name": "\ud83d\udca5\u67ff\u5b50\u2503\u79d2\u64ad\ud83d\udca5",
-   "type": 3,
-   "api": "csp_WexAppV7Guard",
-   "searchable": 1,
-   "changeable": 0,
-   "ext": {
-    "config": "AppV7Xsz",
-    "proxyImg": false
-   },
-   "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AppV7 | \u5c0f\u9ec4\u4eba",
@@ -2458,7 +2348,7 @@
     "proxyImg": false
    },
    "timeout": 120,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexAiYiYs",
@@ -2468,7 +2358,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexAiReBo",
@@ -2478,7 +2368,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexAiBoBo",
@@ -2488,7 +2378,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_WexAiIkanBot",
@@ -2498,7 +2388,7 @@
    "searchable": 1,
    "quickSearch": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_LiveAiHuYa",
@@ -2507,7 +2397,7 @@
    "api": "csp_LiveAiHuYaGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_LiveAiDouYu",
@@ -2516,7 +2406,7 @@
    "api": "csp_LiveAiDouYuGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_LiveAiBiLi",
@@ -2525,7 +2415,7 @@
    "api": "csp_LiveAiBiLiGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_ManJuAiHongGuo",
@@ -2535,7 +2425,7 @@
    "api": "csp_ManJuAiHongGuoGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_ManJuAiHuoLong",
@@ -2545,7 +2435,7 @@
    "api": "csp_ManJuAiHuoLongGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_ManJuAiQiMao",
@@ -2555,7 +2445,7 @@
    "api": "csp_ManJuAiQiMaoGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_ManJuAiXiFan",
@@ -2565,7 +2455,7 @@
    "api": "csp_ManJuAiXiFanGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_ManJuAiHeMa",
@@ -2575,7 +2465,7 @@
    "api": "csp_ManJuAiHeMaGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_DuanJuAiHaoKan",
@@ -2585,7 +2475,7 @@
    "api": "csp_DuanJuAiHaoKanGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_DuanJuAiQiMiao",
@@ -2595,7 +2485,7 @@
    "api": "csp_DuanJuAiQiMiaoGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_DuanJuAiXingYa",
@@ -2605,7 +2495,7 @@
    "api": "csp_DuanJuAiXingYaGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_DuanJuAiWeiGuan",
@@ -2615,7 +2505,7 @@
    "api": "csp_DuanJuAiWeiGuanGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AnimeAiGongHeGuo",
@@ -2624,7 +2514,7 @@
    "api": "csp_AnimeAiGongHeGuoGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AnimeXiFan",
@@ -2633,7 +2523,7 @@
    "api": "csp_AnimeXiFanGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   },
   {
    "key": "wex_AnimeCiYuanCheng",
@@ -2642,7 +2532,105 @@
    "api": "csp_AnimeCiYuanChengGuard",
    "searchable": 1,
    "changeable": 0,
-   "jar": "http://oss4liview.moji.com/thd_file/2026/11/23/98f6124357b913bcb47d81339ca7725a.jpg;md5;924547ec8b148216d7636beb3213b60e"
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_AnimeAiMoDu",
+   "name": "\ud83e\udd21\u9b54\u90fd\u2503\u52a8\u6f2b\ud83e\udd21",
+   "type": 3,
+   "api": "csp_AnimeAiMoDuGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_BookHongGuo",
+   "name": "\ud83c\udf83\u200d\u5c0f\u7ea2\u2503\u542c\u4e66\ud83c\udf83",
+   "type": 3,
+   "api": "csp_BookHongGuoGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_BookHeMa",
+   "name": "\ud83c\udf83\u200d\u5c0f\u9a6c\u2503\u542c\u4e66\ud83c\udf83",
+   "type": 3,
+   "api": "csp_BookHeMaGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_BookAiYueTing",
+   "name": "\ud83c\udf83\u200d\u60a6\u5ead\u2503\u542c\u4e66\ud83c\udf83",
+   "type": 3,
+   "api": "csp_BookAiYueTingGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "timeout": 120,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_BookAi23TingShu",
+   "name": "\ud83c\udf83\u200d\u7231\u4e0a\u2503\u542c\u4e66\ud83c\udf83",
+   "type": 3,
+   "api": "csp_BookAi23TingShuGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_ChildrenAiBaoBao",
+   "name": "\ud83d\udc7c\u5b9d\u5b9d\u2503\u513f\u6b4c\ud83d\udc7c",
+   "type": 3,
+   "api": "csp_ChildrenAiBaoBaoGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "style": {
+    "type": "rect",
+    "ratio": 2
+   },
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_ChildrenAiBeiWa",
+   "name": "\ud83d\udc7c\u8d1d\u8d1d\u2503\u513f\u6b4c\ud83d\udc7c",
+   "type": 3,
+   "api": "csp_ChildrenAiBeiWaGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "style": {
+    "type": "rect",
+    "ratio": 2
+   },
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_ChildrenAiTuTu",
+   "name": "\ud83d\udc7c\u5154\u5154\u2503\u513f\u6b4c\ud83d\udc7c",
+   "type": 3,
+   "api": "csp_ChildrenAiTuTuGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "style": {
+    "type": "rect",
+    "ratio": 2
+   },
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
+  },
+  {
+   "key": "wex_MusicAiTangDou",
+   "name": "\ud83d\udc83\u8df3\u821e\u2503\u6559\u5b66\ud83d\udc83",
+   "type": 3,
+   "api": "csp_MusicAiTangDouGuard",
+   "searchable": 1,
+   "changeable": 0,
+   "style": {
+    "type": "rect",
+    "ratio": 2
+   },
+   "jar": "http://oss4liview.moji.com/thd_file/2026/11/24/0684202079fbec343ec03f772b72e928.jpg;md5;d773eab0709f62b0077f8112765eb6d2"
   }
  ],
  "parses": [

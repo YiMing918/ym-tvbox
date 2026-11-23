@@ -988,6 +988,37 @@ def govern_jar(ns, inherited=False):
     return True
 
 
+def collect_jar_pins(cfgs):
+    """Pre-collect the first-seen md5 pin per jar base URL, in source
+    priority order, BEFORE any site is governed (audit 2026-11-23).
+
+    govern_jar used to learn pins only as sites were processed, so
+    the outcome depended on processing order: an http jar whose
+    unpinned occurrence came BEFORE its pinned twin was dropped as
+    "http without pin" (and an https one shipped unpinned), while
+    the same pair in the opposite order inherited the pin and
+    survived — same input, different product. Pre-collecting makes
+    "unpinned inherits the known pin" and "one URL = first-seen pin"
+    hold regardless of where each occurrence sits."""
+    for _tag, cfg, _base in cfgs:
+        cands = []
+        spider = cfg.get("spider")
+        if isinstance(spider, str):
+            cands.append(spider)
+        for s in cfg.get("sites", []):
+            if isinstance(s, dict) and isinstance(s.get("jar"), str):
+                cands.append(s["jar"])
+        for jar in cands:
+            parts = jar.split(";md5;")
+            if len(parts) > 1:
+                base = parts[0].strip()
+                pin = parts[1].strip().lower()
+                if base and pin and base not in JAR_PINS:
+                    JAR_PINS[base] = pin
+    if JAR_PINS:
+        print(f"[jar] pre-collected pins for {len(JAR_PINS)} jar URL(s)")
+
+
 # Bound the probe cost however large the merged list grows; URLs past
 # the window are treated as uncertain (their sites are kept).
 DEP_PROBE_WINDOW = 150
@@ -1102,6 +1133,7 @@ def main():
           f"{len(keys) - len(kept)} / {len(cms_apis)} probed")
 
     out_sites, used_keys, seen_t3, report = [], set(), set(), {}
+    collect_jar_pins(cfgs)
 
     def add_site(tag, s, spider):
         key = f"{tag}_{s.get('key', 'x')}"

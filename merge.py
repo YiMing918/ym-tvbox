@@ -248,8 +248,8 @@ LC = "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/
 # priority order: earlier sources win dedupe conflicts
 SOURCES = [
     ("fm",  [LC + quote("feimao.json")]),
-    ("my",  [idn("http://我不是.摸鱼儿.top")]),
-    ("wex", [idn("http://tvbox.王二小放牛娃.top"), LC + quote("wangerxiao.json")]),
+    ("my",  [idn("https://我不是.摸鱼儿.top")]),  # 2026-11-24：http 改 https，内容逐字节相同（34922 字节，104 站）
+    ("wex", [LC + quote("wangerxiao.json"), idn("http://tvbox.王二小放牛娃.top")]),  # 2026-11-24：https 镜像放前面（95 站与原站完全相同），http 只当后备（该域名不支持 https）
     ("k4",  [LC + "4k.json"]),
     ("og",  [LC + quote("ouge.json")]),
     ("org", ["https://raw.githubusercontent.com/TVboxorg/TVbox/main/dist/official.json"]),

@@ -38,7 +38,7 @@ jobs:
           echo "本次处理：$TAG -> $ZIPNAME"
 
       - name: 拉取该标签的代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ steps.t.outputs.tag }}
 

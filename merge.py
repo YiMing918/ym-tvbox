@@ -172,6 +172,8 @@ def _log_url(url, limit=80):
 def idn(url):
     from urllib.parse import urlsplit, urlunsplit
     p = urlsplit(url)
+    if not p.hostname:
+        return url  # 没有主机名的串（空串/相对路径等）原样返回，别在 hostname 上崩
     host = p.hostname.encode("idna").decode()
     netloc = host + ((":" + str(p.port)) if p.port else "")
     return urlunsplit((p.scheme, netloc, p.path, p.query, p.fragment))

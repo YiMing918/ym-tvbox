@@ -1151,17 +1151,20 @@ def main():
             ns["jar"] = spider
             inherited = True
         if not govern_jar(ns, inherited=inherited):
-            return
+            return False
         out_sites.append((tag, ns))
         report[tag] = report.get(tag, 0) + 1
+        return True
 
     seen_cms = set()
     t3_addr_dropped = 0
     for k, n, a in SEED_SITES:
         if probe_key(a) in kept:
-            seen_cms.add(probe_key(a))
-            add_site("seed", {"key": k, "name": n, "type": 1, "api": a,
-                            "searchable": 1, "quickSearch": 1, "filterable": 1}, "")
+            # 去重登记必须等 add_site 真收下才做：先登记后收下的话，
+            # 本站被 jar 治理丢弃时会把同址的合规备选一起挡死（见下）。
+            if add_site("seed", {"key": k, "name": n, "type": 1, "api": a,
+                                "searchable": 1, "quickSearch": 1, "filterable": 1}, ""):
+                seen_cms.add(probe_key(a))
     for tag, cfg, base in cfgs:
         spider = cfg.get("spider", "")
         if isinstance(spider, str):
@@ -1180,8 +1183,11 @@ def main():
                 n = probe_key(api)
                 if n in seen_cms or n not in kept:
                     continue
-                seen_cms.add(n)
-                add_site(tag, s, spider)
+                # 先收下再登记：add_site 可能因 jar 不合规（STRICT）丢弃
+                # 本站，先登记会让低优先级源里同 CMS 的合规版本也被
+                # seen_cms 挡掉，两边都没有，站点静默丢失。
+                if add_site(tag, s, spider):
+                    seen_cms.add(n)
             else:
                 bad_field, bad_reason = site_addr_drop_reason(s, spider)
                 if bad_reason:
@@ -1194,8 +1200,9 @@ def main():
                 sig = site_sig(s, spider)
                 if sig in seen_t3:
                     continue
-                seen_t3.add(sig)
-                add_site(tag, s, spider)
+                # 同 CMS 路径：收下才登记，避免 jar 丢弃连带挡死备选。
+                if add_site(tag, s, spider):
+                    seen_t3.add(sig)
     if t3_addr_dropped:
         print(f"[sites] dropped {t3_addr_dropped} type>=2 site(s) on "
               f"loopback/private/placeholder api or jar")

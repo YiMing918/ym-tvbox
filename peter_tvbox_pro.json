@@ -3034,139 +3034,91 @@
    }
   },
   {
-   "name": "freejson",
-   "type": 0,
-   "url": "https://h5.freejson.xyz/player/?url="
-  },
-  {
-   "name": "365",
-   "type": 0,
-   "url": "https://chaxun.truechat365.com/?url=",
-   "ext": {
-    "flag": [
-     "qq",
-     "\u817e\u8baf",
-     "qiyi",
-     "iqiyi",
-     "\u7231\u5947\u827a",
-     "\u5947\u827a",
-     "youku",
-     "\u4f18\u9177",
-     "mgtv",
-     "\u8292\u679c",
-     "letv",
-     "\u4e50\u89c6",
-     "pptv",
-     "PPTV",
-     "sohu",
-     "bilibili",
-     "\u54d4\u54e9\u54d4\u54e9",
-     "\u54d4\u54e9"
-    ]
-   }
-  },
-  {
-   "name": "parwix\u7a33\u5b9a",
-   "type": 0,
-   "url": "https://jx.bozrc.com:4433/player/?url=",
-   "ext": {
-    "flag": [
-     "qq",
-     "\u817e\u8baf",
-     "qiyi",
-     "iqiyi",
-     "\u7231\u5947\u827a",
-     "\u5947\u827a",
-     "youku",
-     "\u4f18\u9177",
-     "mgtv",
-     "\u8292\u679c",
-     "letv",
-     "\u4e50\u89c6",
-     "pptv",
-     "PPTV",
-     "sohu",
-     "bilibili",
-     "\u54d4\u54e9\u54d4\u54e9",
-     "\u54d4\u54e9"
-    ]
-   }
-  },
-  {
-   "name": "parwix1",
-   "type": 0,
-   "url": "https://jx.parwix.com:4433/player/?url=",
-   "ext": {
-    "flag": [
-     "qq",
-     "\u817e\u8baf",
-     "qiyi",
-     "iqiyi",
-     "\u7231\u5947\u827a",
-     "\u5947\u827a",
-     "youku",
-     "\u4f18\u9177",
-     "mgtv",
-     "\u8292\u679c",
-     "letv",
-     "\u4e50\u89c6",
-     "pptv",
-     "PPTV",
-     "sohu",
-     "bilibili",
-     "\u54d4\u54e9\u54d4\u54e9",
-     "\u54d4\u54e9"
-    ]
-   }
-  },
-  {
-   "name": "parwix2",
-   "type": 0,
-   "url": "https://jx.parwix.com:4433/player/analysis.php?v=",
-   "ext": {
-    "flag": [
-     "qq",
-     "\u817e\u8baf",
-     "qiyi",
-     "iqiyi",
-     "\u7231\u5947\u827a",
-     "\u5947\u827a",
-     "youku",
-     "\u4f18\u9177",
-     "mgtv",
-     "\u8292\u679c",
-     "letv",
-     "\u4e50\u89c6",
-     "pptv",
-     "PPTV",
-     "sohu",
-     "bilibili",
-     "\u54d4\u54e9\u54d4\u54e9",
-     "\u54d4\u54e9"
-    ]
-   }
-  },
-  {
-   "name": "8090",
-   "url": "https://www.8090g.cn/?url=",
-   "type": 0
-  },
-  {
-   "name": "\u6cb9\u679c",
+   "name": "\u516c\u4f17\u53f7\uff1a\u80a5\u732b\u5b9d\u8d1d",
    "type": 1,
-   "url": "http://json.youguo520.top/fufeng/?url=",
+   "url": "http://json.84jia.com/home/api?type=ys&uid=335253&key=demprsyzBMQRVY0234&url=",
    "ext": {
     "flag": [
      "qq",
      "\u817e\u8baf",
      "qiyi",
-     "iqiyi",
+     "\u7231\u5947\u827a",
+     "\u5947\u827a",
+     "youku",
+     "\u4f18\u9177",
+     "tucheng",
+     "sohu",
+     "\u641c\u72d0",
+     "letv",
+     "\u4e50\u89c6",
+     "mgtv",
+     "\u8292\u679c",
+     "tnmb",
+     "seven",
+     "yzm",
+     "aliyun",
+     "RJuMao",
+     "bilibili",
+     "1905",
+     "xinvip",
+     "XAL",
+     "qiqi",
+     "XALS",
+     "YuMi-vip"
+    ]
+   }
+  },
+  {
+   "name": "\u795e\u79d8\u7684\u54e5\u54e5\u4eec",
+   "type": 1,
+   "url": "http://api.888484.xyz/\u795e\u79d8\u54e5\u54e5/super.php?v=",
+   "ext": {
+    "flag": [
+     "qq",
+     "\u817e\u8baf",
+     "qiyi",
+     "\u7231\u5947\u827a",
+     "\u5947\u827a",
+     "youku",
+     "\u4f18\u9177",
+     "tucheng",
+     "sohu",
+     "\u641c\u72d0",
+     "letv",
+     "\u4e50\u89c6",
+     "mgtv",
+     "\u8292\u679c",
+     "tnmb",
+     "seven",
+     "yzm",
+     "aliyun",
+     "RJuMao",
+     "bilibili",
+     "1905",
+     "xinvip",
+     "XAL",
+     "qiqi",
+     "XALS",
+     "YuMi-vip"
+    ]
+   }
+  },
+  {
+   "name": "789",
+   "type": 0,
+   "url": "https://m.789bh.com/?url=",
+   "ext": {
+    "flag": [
+     "qq",
+     "\u817e\u8baf",
+     "qiyi",
      "\u7231\u5947\u827a",
      "\u5947\u827a",
      "youku",
      "\u4f18\u9177",
      "mgtv",
      "\u8292\u679c",
+     "imgo",
      "letv",
      "\u4e50\u89c6",
      "pptv",
@@ -3177,22 +3129,16 @@
      "\u54d4\u54e9"
     ],
     "header": {
-     "User-Agent": "Dart/2.14 (dart:io)"
+     "User-Agent": "okhttp/4.1.0"
     }
    }
   },
   {
-   "name": "\u61d2\u61d21",
-   "type": 1,
-   "url": "http://123.57.56.94:9931/lanlan/?url="
-  },
-  {
-   "name": "EXO",
+   "name": "VIP",
    "type": 0,
-   "url": "https://rx.69mj.com/?url=",
+   "url": "https://6.789bh.com/?url=",
    "ext": {
     "flag": [
-     "rx",
      "qq",
      "\u817e\u8baf",
      "qiyi",
@@ -3201,7 +3147,153 @@
      "youku",
      "\u4f18\u9177",
      "mgtv",
+     "\u8292\u679c",
+     "imgo",
+     "letv",
+     "\u4e50\u89c6",
+     "pptv",
+     "PPTV",
+     "sohu",
+     "bilibili",
+     "\u54d4\u54e9\u54d4\u54e9",
+     "\u54d4\u54e9"
+    ],
+    "header": {
+     "User-Agent": "okhttp/4.1.0"
+    }
+   }
+  },
+  {
+   "name": "\u7c73\u996d",
+   "type": 1,
+   "url": "https://api.json.icu/api/?key=b1f3b1a9e1c0a42ae969db10bd315a95&url=",
+   "ext": {
+    "flag": [
+     "\u7231\u5947\u827a",
+     "\u5947\u827a",
+     "qq",
+     "\u817e\u8baf",
+     "youku",
+     "\u4f18\u9177",
+     "pptv",
+     "PPTV",
+     "letv",
+     "\u4e50\u89c6",
+     "leshi",
+     "bilibili",
+     "\u54d4\u54e9\u54d4\u54e9",
+     "\u54d4\u54e9",
+     "mgtv",
      "\u8292\u679c"
+    ],
+    "header": {
+     "User-Agent": "okhttp/4.1.0"
+    }
+   }
+  },
+  {
+   "name": "\u5168\u6c11",
+   "url": "http://api.wpsseo.cn/?v=",
+   "type": 0,
+   "ext": {
+    "flag": [
+     "qiyi",
+     "imgo",
+     "\u7231\u5947\u827a",
+     "\u5947\u827a",
+     "qq",
+     "\u817e\u8baf",
+     "youku",
+     "\u4f18\u9177",
+     "pptv",
+     "PPTV",
+     "letv",
+     "\u4e50\u89c6",
+     "leshi",
+     "bilibili",
+     "\u54d4\u54e9\u54d4\u54e9",
+     "\u54d4\u54e9",
+     "mgtv",
+     "\u8292\u679c",
+     "sohu",
+     "xigua",
+     "fun",
+     "\u98ce\u884c"
+    ],
+    "header": {
+     "User-Agent": "Mozilla/5.0"
+    }
+   },
+   "header": {
+    "User-Agent": "Mozilla/5.0"
+   }
+  },
+  {
+   "name": "8090",
+   "url": "https://www.8090.la/8090/?url=",
+   "type": 0,
+   "ext": {
+    "flag": [
+     "qiyi",
+     "imgo",
+     "\u7231\u5947\u827a",
+     "\u5947\u827a",
+     "qq",
+     "\u817e\u8baf",
+     "youku",
+     "\u4f18\u9177",
+     "pptv",
+     "PPTV",
+     "letv",
+     "\u4e50\u89c6",
+     "leshi",
+     "bilibili",
+     "\u54d4\u54e9\u54d4\u54e9",
+     "\u54d4\u54e9",
+     "mgtv",
+     "\u8292\u679c",
+     "sohu",
+     "xigua",
+     "fun",
+     "\u98ce\u884c"
+    ],
+    "header": {
+     "User-Agent": "Mozilla/5.0"
+    }
+   },
+   "header": {
+    "User-Agent": "Mozilla/5.0"
+   }
+  },
+  {
+   "name": "\u770b\u770b",
+   "type": 0,
+   "url": "https://jx.m3u8.pw/?url="
+  },
+  {
+   "name": "\u5de7\u6280",
+   "type": 1,
+   "url": "http://pandown.pro/app/kkdy.php?url=",
+   "ext": {
+    "flag": [
+     "qq",
+     "\u817e\u8baf",
+     "qiyi",
+     "\u7231\u5947\u827a",
+     "\u5947\u827a",
+     "youku",
+     "\u4f18\u9177",
+     "sohu",
+     "\u641c\u72d0",
+     "letv",
+     "\u4e50\u89c6",
+     "mgtv",
+     "\u8292\u679c",
+     "rx",
+     "ltnb",
+     "bilibili",
+     "1905",
+     "xigua"
     ]
    }
   }

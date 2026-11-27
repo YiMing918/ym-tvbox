@@ -23,11 +23,15 @@
 
 上游清单在下方 CONFIG 区，增删改一行即可。每个上游的失败原因记录在
 LOAD_LOG（同时写入临时目录 hongguo_shell/load.log 与手机下载目录
-/storage/emulated/0/Download/hongguo-debug.log，后者方便用户取回诊断；
-写不进去时静默跳过，绝不影响源本身工作）。
+/storage/emulated/0/Download/hongguo-debug.log；写不进去时静默跳过，
+绝不影响源本身工作）。iOS（映匣）没有可浏览的下载目录，文件日志用户
+拿不到，因此日志主通道是源内的「🛠 诊断日志」分类（首页分类末尾）：
+点开条目，详情页整段显示日志全文，截图即可发回诊断；安卓的下载目录
+双写保留作补充。
 """
 from __future__ import annotations
 import base64, hashlib, json, os, sys, tempfile, time, types, zlib
+from collections import deque
 import requests
 
 sys.path.append('..')
@@ -58,6 +62,9 @@ CONFIG = {
 }
 
 LOAD_LOG = []
+# 最近 400 行日志的内存环形缓冲：临时目录日志文件读不到时，
+# 应用内「🛠 诊断日志」分类靠它取数（见 _diag_log_lines）。
+_LOG_RING = deque(maxlen=400)
 _STATE = {'loaded': False, 'active': None, 'active_name': '', 'active_is_fallback': False,
           'web': None, 'use_web_home': False}
 
@@ -67,6 +74,10 @@ _DEBUG_LOG_PATH = '/storage/emulated/0/Download/hongguo-debug.log'
 def _log(msg):
     line = '%s %s' % (time.strftime('%H:%M:%S'), msg)
     LOAD_LOG.append(line)
+    try:
+        _LOG_RING.append(line)
+    except Exception:
+        pass
     for path in (os.path.join(_cache_dir(), 'load.log'), _DEBUG_LOG_PATH):
         try:
             with open(path, 'a', encoding='utf-8') as fh:
@@ -81,6 +92,77 @@ def _cache_dir():
     except Exception:
         pass
     return path
+
+# ───────────────────────── 应用内诊断入口 ─────────────────────────
+# iOS（映匣）没有可浏览的 Download 目录，文件日志用户拿不到，
+# 因此把诊断日志做进源内部：首页分类末尾挂一个「🛠 诊断日志」分类，
+# 点开是日志分段条目，详情页整段显示日志全文，用户截图即可发回。
+# 安卓的 Download 双写保留（见 _log），此入口是主通道。
+# 本节全部函数自保：任何异常都不得波及看剧功能。
+_DIAG_TID = '__hongguo_diag__'
+_DIAG_NAME = '🛠 诊断日志'
+_DIAG_CHUNK = 40        # 每个诊断条目包含的日志行数
+_DIAG_MAX_LINES = 600   # 诊断页最多展示的最近行数
+
+def _diag_log_lines():
+    """取当前可用日志行：优先临时目录 load.log（跨重启留存），
+    读不到或为空则用内存环形缓冲 _LOG_RING；两者都不可用返回空列表。"""
+    try:
+        path = os.path.join(_cache_dir(), 'load.log')
+        with open(path, 'r', encoding='utf-8', errors='replace') as fh:
+            lines = [ln.rstrip('\r\n') for ln in fh if ln.strip()]
+        if lines:
+            return lines[-_DIAG_MAX_LINES:]
+    except Exception:
+        pass
+    try:
+        return list(_LOG_RING)[-_DIAG_MAX_LINES:]
+    except Exception:
+        return []
+
+def _diag_category_result():
+    """把日志分段成 vod 条目（最新一段在最前），vod_id 编码其行号范围。"""
+    lines = _diag_log_lines()
+    if not lines:
+        return {'page': 1, 'pagecount': 1, 'limit': 1, 'total': 1, 'list': [
+            {'vod_id': 'diag:empty', 'vod_name': '暂无日志，先去点一集播放再回来看',
+             'vod_pic': '', 'vod_remarks': '🛠 诊断'}]}
+    chunks = []
+    for start in range(0, len(lines), _DIAG_CHUNK):
+        chunks.append((start, lines[start:start + _DIAG_CHUNK]))
+    chunks.reverse()
+    total = len(chunks)
+    rows = []
+    for idx, (start, part) in enumerate(chunks):
+        stamp = part[0][:8] if part and len(part[0]) >= 8 else ''
+        rows.append({
+            'vod_id': 'diag:%d:%d' % (start, start + len(part)),
+            'vod_name': '🛠 日志 %s 起 · %d 行（%d/%d）' % (stamp, len(part), idx + 1, total),
+            'vod_pic': '',
+            'vod_remarks': '最新' if idx == 0 else '',
+        })
+    return {'page': 1, 'pagecount': 1, 'limit': total, 'total': total, 'list': rows}
+
+def _diag_detail_result(vod_id):
+    """按 vod_id 里编码的行号范围返回日志全文（纯文本，详情页整段显示）。"""
+    if vod_id == 'diag:empty':
+        text = ('暂无日志。\n\n操作路径：先回到首页，随便点开一部剧，点第 1 集播放'
+                '（不管播不播得出来），然后回到首页分类最后的「🛠 诊断日志」，'
+                '点开最新一条，把详情页截图发回即可。')
+        return {'list': [{'vod_id': vod_id, 'vod_name': _DIAG_NAME,
+                          'vod_pic': '', 'vod_content': text, 'vod_remarks': '🛠 诊断'}]}
+    lines = _diag_log_lines()
+    part = []
+    try:
+        _, s, e = str(vod_id).split(':')
+        part = lines[int(s):int(e)]
+    except Exception:
+        part = []
+    if not part:
+        part = lines[-_DIAG_CHUNK:]
+    text = '\n'.join(part) if part else '（日志已不可用，请回分类页看最新一条）'
+    return {'list': [{'vod_id': vod_id, 'vod_name': _DIAG_NAME,
+                      'vod_pic': '', 'vod_content': text, 'vod_remarks': '🛠 诊断'}]}
 
 def _validate_source(src, name):
     if not (20000 <= len(src) <= 3000000):
@@ -1823,13 +1905,30 @@ class Spider(BaseSpider):
 
     def homeContent(self, filter):
         impl = self._home_impl()
-        return impl.homeContent(filter) if impl else {'class': [], 'filters': {}}
+        result = impl.homeContent(filter) if impl else {'class': [], 'filters': {}}
+        try:
+            # 分类末尾追加「🛠 诊断日志」入口（iOS 用户取日志的主通道）；
+            # 自保：追加失败就原样返回实现的结果，绝不影响首页。
+            if isinstance(result, dict):
+                classes = [c for c in (result.get('class') or []) if isinstance(c, dict)]
+                if not any(str(c.get('type_id')) == _DIAG_TID for c in classes):
+                    classes.append({'type_id': _DIAG_TID, 'type_name': _DIAG_NAME})
+                    result = dict(result)
+                    result['class'] = classes
+        except Exception:
+            pass
+        return result
 
     def homeVideoContent(self):
         impl = self._home_impl()
         return impl.homeVideoContent() if impl else {'list': []}
 
     def categoryContent(self, tid, pg, filter, extend):
+        if str(tid) == _DIAG_TID:
+            try:
+                return _diag_category_result()
+            except Exception:
+                return {'page': 1, 'pagecount': 1, 'limit': 0, 'total': 0, 'list': []}
         impl = self._home_impl()
         if impl:
             return impl.categoryContent(tid, pg, filter, extend)
@@ -1842,6 +1941,19 @@ class Spider(BaseSpider):
         return {'page': 1, 'pagecount': 1, 'limit': 0, 'total': 0, 'list': []}
 
     def detailContent(self, ids):
+        first = ''
+        try:
+            if isinstance(ids, (list, tuple)) and ids:
+                first = str(ids[0])
+            elif ids:
+                first = str(ids)
+        except Exception:
+            first = ''
+        if first.startswith('diag:'):
+            try:
+                return _diag_detail_result(first)
+            except Exception:
+                return {'list': []}
         if isinstance(ids, (list, tuple)) and ids:
             self._last_sid = str(ids[0])
         impl = self._active()

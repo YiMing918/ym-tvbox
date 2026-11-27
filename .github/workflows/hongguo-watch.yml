@@ -48,6 +48,8 @@ jobs:
         env:
           # 只用于读上游公开仓库的最近提交时间（提高 API 限额），可有可无
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 不生成 __pycache__，免得污染下面提交步骤的变化检测
+          PYTHONDONTWRITEBYTECODE: "1"
         run: python hongguo/tools/hongguo_watch.py
 
       - name: Commit if changed
@@ -55,10 +57,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -z "$(git status --porcelain -- hongguo/)" ]; then
+          if [ -z "$(git status --porcelain -- hongguo/status.json hongguo/upstream)" ]; then
             echo "No changes in hongguo/ (probe found nothing new)."
           else
             git add hongguo/status.json hongguo/upstream
+            if git diff --cached --quiet; then
+              echo "Nothing staged after add; treating as no change."
+              exit 0
+            fi
             git commit -m "hongguo-watch: ${{ steps.watch.outputs.summary }}"
             pushed=0
             for i in 1 2 3; do

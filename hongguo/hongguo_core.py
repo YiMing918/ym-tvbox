@@ -3594,6 +3594,35 @@ def _v5_identity():
         pass
     return _V5_IDENTITY
 
+# 身份轮换（对齐原版 app-source.js fetchAppPlayUrl）：v5 整轮路由以空响应
+# （EMPTY_RESPONSE）或业务码 110001（BUSINESS_REJECTED）失败时，换一台新设备
+# 身份（resetPlaybackDevice）再整轮重试。30 秒内不重复轮换（节流），且每次
+# 取址最多轮换一次由 _resolve_play 的局部标记保证，避免注册风暴。
+_LAST_ROTATION_TS = 0.0
+_ROTATION_MIN_INTERVAL = 30
+
+def _rotate_v5_identity(reason):
+    """重新注册一台播放设备，替换内存与落盘的缓存身份。节流中或注册失败返回 False。"""
+    global _V5_IDENTITY, _LAST_ROTATION_TS
+    now = time.time()
+    if now - _LAST_ROTATION_TS < _ROTATION_MIN_INTERVAL:
+        _plog('身份轮换节流：距上次轮换仅 %.0f 秒，本次跳过' % (now - _LAST_ROTATION_TS))
+        return False
+    try:
+        fresh = register_device()
+    except Exception as exc:
+        _plog('身份轮换失败（重新注册设备出错）: %s' % str(exc)[:120])
+        return False
+    _V5_IDENTITY = fresh
+    _LAST_ROTATION_TS = now
+    try:
+        with open(_cfg_identity_path(), 'w', encoding='utf-8') as fh:
+            json.dump(fresh, fh)
+    except Exception:
+        pass
+    _plog('已轮换播放设备身份（触发形态：%s），用新身份整轮重试' % reason)
+    return True
+
 def _v5_values(identity, profile):
     vc, vn = profile
     if profile is CONFIG['v5_preload_version']:
@@ -3665,22 +3694,31 @@ def _v5_model(vid):
         raw = response.content or b''
         if not raw:
             _plog('%s HTTP %s 空响应' % (name, response.status_code))
-            raise HongguoPluginError('%s 返回空响应' % name)
+            err = HongguoPluginError('%s 返回空响应' % name)
+            err.kind = 'empty'
+            raise err
         try:
             data = response.json()
         except ValueError:
             _plog('%s HTTP %s 非JSON len=%d head=%r' % (name, response.status_code, len(raw), raw[:200]))
-            raise HongguoPluginError('%s 响应不是 JSON' % name)
+            err = HongguoPluginError('%s 响应不是 JSON' % name)
+            err.kind = 'not_json'
+            raise err
         if isinstance(data, dict):
             bcode = data.get('Code', data.get('code', 0))
             if bcode not in (0, '0', None):
                 _plog('%s 业务拒绝 code=%s len=%d' % (name, bcode, len(raw)))
-                raise HongguoPluginError('%s 业务拒绝 code=%s' % (name, bcode))
+                err = HongguoPluginError('%s 业务拒绝 code=%s' % (name, bcode))
+                err.kind = 'rejected'
+                err.bcode = bcode
+                raise err
         model = _model_from_response(data, vid)
         if model is None:
             _plog('%s HTTP %s 无 video_model len=%d head=%r'
                   % (name, response.status_code, len(raw), raw[:200]))
-            raise HongguoPluginError('%s 响应无 video_model' % name)
+            err = HongguoPluginError('%s 响应无 video_model' % name)
+            err.kind = 'no_model'
+            raise err
         _plog('%s 成功 len=%d' % (name, len(raw)))
         return model
 
@@ -3724,12 +3762,20 @@ def _v5_model(vid):
         ('model_1', lambda: attempt('model_1', CONFIG['host_c'] + '/novel/player/video_model/v1/',
                                     player_values, gzip.compress(model_payload), 377)),
     ]
+    kinds = []
     for _name, fn in routes:
         try:
             return fn()
         except Exception as exc:
             errors.append(str(exc))
-    raise HongguoPluginError('v5 播放路由全部失败: %s' % ' | '.join(errors[-3:]))
+            kind = getattr(exc, 'kind', None)
+            if kind == 'rejected':
+                kind = ('rejected_110001' if str(getattr(exc, 'bcode', '')) == '110001'
+                        else 'rejected_other')
+            kinds.append(kind or 'network')
+    err = HongguoPluginError('v5 播放路由全部失败: %s' % ' | '.join(errors[-3:]))
+    err.failure_kinds = set(kinds)
+    raise err
 
 def _fallback_api_url(model):
     """对齐原版 parseFallback：fallback_api 可能是 URL 字符串、
@@ -3822,12 +3868,29 @@ def _pick_from_model(model):
 
 def _resolve_play(vid):
     """返回 (url, content_key|None, quality)。
-    顺序：v5 model（内部六路）→ 其 fallback_api → 六神旧路由 → 其 fallback_api。"""
+    顺序：v5 model（内部六路）→ 其 fallback_api → 六神旧路由 → 其 fallback_api。
+    v5 整轮若以空响应 / 业务码 110001 失败，对齐原版 fetchAppPlayUrl 的
+    EMPTY_RESPONSE / BUSINESS_REJECTED(110001) 处理：轮换一次播放设备身份后
+    整轮重试一次；每次取址最多轮换一次，轮换本身另有 30 秒节流。"""
     model = None
-    try:
-        model = _v5_model(vid)
-    except Exception as exc:
-        _plog('v5 全部路由失败，转六神: %s' % str(exc)[:160])
+    rotated = False
+    round_no = 0
+    while model is None:
+        round_no += 1
+        failure_kinds = set()
+        try:
+            model = _v5_model(vid)
+        except Exception as exc:
+            failure_kinds = set(getattr(exc, 'failure_kinds', None) or ())
+            _plog('v5 全部路由失败（第 %d 轮，失败形态：%s），转六神: %s'
+                  % (round_no, ','.join(sorted(failure_kinds)) or '未知', str(exc)[:160]))
+        if model is not None or rotated:
+            break
+        if not (failure_kinds & {'empty', 'rejected_110001'}):
+            break
+        rotated = True
+        if not _rotate_v5_identity(','.join(sorted(failure_kinds))):
+            break
     if model is not None:
         picked = _pick_from_model(_model_with_fallback_info(model))
         if picked:

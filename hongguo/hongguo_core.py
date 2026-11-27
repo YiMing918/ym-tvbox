@@ -43,13 +43,14 @@ CONFIG = {
     # 官网（搜索/分类，无签名）
     'web_host': 'https://hongguoduanju.com',
     'web_ua': 'Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Mobile Safari/537.36',
-    # 六神签名用的 App 版本（详情接口）
-    'app_version_code': '73532',
-    'app_version_name': '7.3.5.32',
-    'app_ua': 'com.kylin.read/73532 (Linux; U; Android 16; zh_CN; PLK110; Build/; Cronet/TTNetVersion)',
-    # v5 播放签名用的两套版本档案（preload 用 74532，其余路由用 74332）
-    'v5_preload_version': ('74532', '7.4.5.32'),
-    'v5_player_version': ('74332', '7.4.3.32'),
+    # 六神签名用的 App 版本/UA：对齐 hgg（woshishiq1/drpys《红果果[短].js》）的
+    # 71332 / 7.1.3.32 + VIDEO_UA 全串。此前是 73532 + com.kylin.read 残缺 UA
+    # （包名/机型/Build 全对不上），与 query、medusa 三处画像打架（PLAYBACK-DIFF §A3-b）。
+    'app_version_code': '71332',
+    'app_version_name': '7.1.3.32',
+    'app_ua': 'com.phoenix.read/71332 (Linux; U; Android 16; zh_CN; 25053RT47C; Build/BP2A.250605.031.A3; Cronet/TTNetVersion:04657795 2026-01-23 QuicVersion:c67e9834 2025-09-08)',
+    # v5 现行单集模型端点（reading.snssdk.com；Kotlin MobilePlayback.videoModelCurrent）
+    'current_model_url': 'https://reading.snssdk.com/novel/player/video_model/v1/',
     'aid': '8662',
     'danmaku_enabled': True,     # 弹幕开关
     'danmaku_max_pages': 8,      # 单集弹幕最多翻页数（每页 90 条）
@@ -2514,11 +2515,34 @@ def _gen_medusa(url: str, url_params: Mapping[str, Any], devices: Mapping[str, A
     version_or = b"".join((int.from_bytes(version[i:i + 4], "little") ^ khronos).to_bytes(4, "little") for i in range(0, 20, 4))
     return base64.b64encode(version_or + hash_bytes[:2] + (256).to_bytes(2, "little") + mixed).decode()
 
-def _core_sixgod(url: str, params: Mapping[str, Any], devices: Mapping[str, Any], data: Any, header: Mapping[str, Any]) -> tuple[dict[str, str], str]:
+def _medusa_branch(query: str, data: Any, data_type: str, khronos: int) -> int:
+    """hgg branchOf 的移植：返回 hashF13 的 IV 低位分支（0/1/2）。
+    与 hash_f13 内部的分发同源（iv_v0 = ((iv & 15) * 171) >> 9，
+    branch = (iv & 15) - iv_v0 * 3）；专供签名前查询，不实际签名。"""
+    body_md5 = _json_body_md5(data, data_type).lower() if data else ""
+    body_md5_bytes = bytes.fromhex(body_md5) if body_md5 else bytes(16)
+    query_sm3 = SM3(query).digest()
+    iv = get_iv(0x20230928, query_sm3)
+    iv = get_iv(iv, body_md5_bytes)
+    iv = get_iv(iv, khronos.to_bytes(4, "little"))
+    iv_v0 = ((iv & 15) * 171) >> 9
+    return (iv & 15) - ((iv_v0 * 3) & 0xFF)
+
+def _core_sixgod(url: str, params: Mapping[str, Any], devices: Mapping[str, Any], data: Any, header: Mapping[str, Any], jitter_branch: bool = False) -> tuple[dict[str, str], str]:
     data_type = str(header.get("content-type", header.get("Content-Type", "")))
     xg_rand = random.randint(0, 0xFFFF)
     encrypted_url, url_params = _get_params_encrypturl(url, params, devices)
     khronos = int(time.time())
+    if jitter_branch:
+        # 仿 hgg signedVideoRequest（L427–428）：branch 1 的 medusa 签名变体
+        # 服务端不认（约 1/3 概率踩中），签名前抖动 _rticket（+0..31ms）
+        # 直到 branch != 1 再签（PLAYBACK-DIFF §A3-c）。仅播放模型请求启用，
+        # 搜索/详情等已验证路径不启用、行为不变。
+        for _ in range(32):
+            if _medusa_branch(_url_encode(url_params), data, data_type, khronos) != 1:
+                break
+            url_params["_rticket"] = int(url_params.get("_rticket", 0)) + 1
+            encrypted_url = url.split("?", 1)[0] + "?" + _url_encode(url_params)
     encoded_query = _url_encode(url_params)
     values = {
         "khronos": str(khronos),
@@ -2537,6 +2561,9 @@ def _core_sixgod(url: str, params: Mapping[str, Any], devices: Mapping[str, Any]
         signs["x-ss-stub"] = _json_body_md5(data, data_type)
     result_headers = {str(key).lower(): str(value) for key, value in header.items()}
     result_headers.update(signs)
+    if jitter_branch and "x-ss-req-ticket" in result_headers:
+        # 与 hgg 一致：票据头跟随抖动后的最终 _rticket。
+        result_headers["x-ss-req-ticket"] = str(url_params.get("_rticket", result_headers["x-ss-req-ticket"]))
     if devices.get("ua"):
         result_headers["user-agent"] = str(devices["ua"])
     result_headers["x-tt-dt"] = str(devices.get("x_tt_dt", ""))
@@ -2620,6 +2647,7 @@ def _video_model(video_id: str, config: Mapping[str, Any]) -> dict[str, Any]:
         devices,
         payload,
         request_headers,
+        jitter_branch=True,
     )
     body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     response = requests.post(
@@ -3013,12 +3041,15 @@ def _xmxor_v5(data, key):
     encoded[0] = ((encoded[0] ^ encoded[1]) + total) & 255
     return bytes(encoded)
 
-def _medusa_v5(query_hash, f13, ts, who, field21=377):
+def _medusa_v5(query_hash, f13, ts, who, field21=312):
     flags = bytes(8)
+    # 设备品牌跟随当前播放画像（who['device_brand']，缺失时用注册画像的品牌）：
+    # 此前写死 HONOR 是 PGT-AN10 玩家画像的残留，与 25053RT47C/Redmi 画像冲突（B2）。
+    brand = who.get('device_brand') or _V5_PROFILE['device_brand']
     device = _v5_proto([[1, 1, 'sint'], [2, 2, 'sint'], [3, '8662'], [4, who['device_id']],
                      [5, V5_PROCESS_NONCE], [6, '!noperm!'], [12, 'Asia/Shanghai,8'], [13, 'zh_CN'],
                      [22, who['os_version']], [25, V5_PROCESS_STARTED, 'sint'], [30, who['device_type']],
-                     [31, 'HONOR'], [32, who['device_type']], [34, 'HONOR']])
+                     [31, brand], [32, who['device_type']], [34, brand]])
     env = _v5_proto([[6, 'v04.10.03.04-bugfix'], [8, who['channel']], [12, device], [14, who['version_name']]])
     message = _v5_proto([[1, V5_MAGIC], [2, 5, 'sint'], [3, int.from_bytes(os.urandom(4), 'little'), 'sint'],
                       [4, '8662'], [5, who['device_id']], [6, '646637794'], [7, who['version_name']],
@@ -3081,7 +3112,7 @@ from urllib.parse import quote as _urlquote
 def _v5_encode(s):
     return _urlquote(str(s), safe='*')
 
-def sign_playback_v5(base, values, body, now_ms=None, field21=377):
+def sign_playback_v5(base, values, body, now_ms=None, field21=312):
     """返回 (url, headers)。body 为已 gzip 的字节或 None。"""
     if now_ms is None:
         now_ms = int(time.time() * 1000)
@@ -3439,9 +3470,15 @@ def fetch_danmaku_items(vid, book_id, max_pages=8):
     return items
 # ───────────────────────── API 层 ─────────────────────────
 _SESSION = requests.Session()
+# 六神播放身份：借用 woshishiq1/drpys《红果果[短].js》（hgg）源内公开的一台
+# 真实捕获设备的注册配对（iid / device_id 成对下发）。六神播放模型端点只认
+# 注册过的配对——此前这里是 random 现编、从未注册的一对随机数，详情类端点
+# 不验真伪能过，播放端点必被拒（PLAYBACK-DIFF §A3-a）。
+# 脆弱性如实标注：这是全网共用的同一配对，能播但可能被平台限额/标记，
+# 只作兜底；长期正路是 v5 自注册 + 单一画像（§B），不要把六神当主通道。
 _SIXGOD_IDENTITY = {
-    'device_id': str(random.randint(10**17, 10**18 - 1)),
-    'install_id': str(random.randint(10**17, 10**18 - 1)),
+    'device_id': '1905892595378490',
+    'install_id': '1905892595382586',
 }
 
 def _app_common_params():
@@ -3623,19 +3660,53 @@ def _rotate_v5_identity(reason):
     _plog('已轮换播放设备身份（触发形态：%s），用新身份整轮重试' % reason)
     return True
 
-def _v5_values(identity, profile):
-    vc, vn = profile
-    if profile is CONFIG['v5_preload_version']:
-        return {'aid': CONFIG['aid'], 'app_name': 'novelread', 'version_code': vc, 'version_name': vn,
-                'update_version_code': vc, 'manifest_version_code': vc, 'os': 'android', 'ssmix': 'a',
-                'channel': 'update_64', 'device_platform': 'android', 'device_type': '25053RT47C',
-                'device_brand': 'Redmi', 'os_version': '16', 'os_api': '36', 'ac': 'wifi',
-                'language': 'zh', 'host_abi': 'arm64-v8a',
-                'iid': identity['iid'], 'cdid': identity['cdid'], 'device_id': identity['device_id']}
+# ── v5 播放画像（PLAYBACK-DIFF §B2 单一画像）──
+# _V5_PROFILE 与 register_device() 提交的注册头逐项一致（73932 / 7.3.9.32 /
+# update_64 / 25053RT47C / Redmi / Android 16 / 1280*2772 / dpi 520）：
+# 注册 body、全部 v5 路由 query、medusa 设备字段都从这张表取，
+# 保证服务端眼里「注册的设备」与「播放声称的设备」是同一台。
+# 此前注册 73932、preload 74532、player/tab 74332+vivo+PGT-AN10 三套画像
+# 互相打架，是 200+0 的主因之一。
+_V5_PROFILE = {
+    'version_code': '73932', 'version_name': '7.3.9.32',
+    'channel': 'update_64', 'device_type': '25053RT47C', 'device_brand': 'Redmi',
+    'os_version': '16', 'os_api': '36', 'resolution': '1280*2772', 'dpi': '520',
+}
+# 现行 App 档案（Kotlin MobilePlayback.appQuery / videoTab 口径）：版本号固定
+# 74532 / 7.4.5.32，设备字段仍取注册画像。model_current / preload / video_tab 用它。
+_V5_CURRENT_VERSION = ('74532', '7.4.5.32')
+# video_tab 专用 UA（Kotlin MobilePlayback.TAB_UA 原串）：只有 74532 指纹能过 tab 门。
+_V5_TAB_UA = 'com.phoenix.read/74532 (Linux; U; Android 12; zh_CN_#Hans; PGT-AN10; Build/V417IR;tt-ok/3.12.13.20)'
+# player/flat 专用 UA（Kotlin PassportClient.V5_PLAYBACK_UA 原串）：官方在此处
+# 版本号 73932 与 query 故意不一致（编译期常量），照原样抄，不做"对齐"。
+_V5_PLAYER_UA = 'com.phoenix.read/73932 (Linux; U; Android 12; zh_CN_#Hans; PGT-AN10; Build/V417IR;tt-ok/3.12.13.20)'
+
+def _v5_app_values(identity):
+    """现行 App 档案 query（Kotlin appQuery 形态，20 项）：版本固定 74532，
+    设备字段取注册画像，身份三件套取注册下发的 iid/cdid/device_id。"""
+    p = _V5_PROFILE
+    vc, vn = _V5_CURRENT_VERSION
     return {'aid': CONFIG['aid'], 'app_name': 'novelread', 'version_code': vc, 'version_name': vn,
-            'channel': 'vivo_8662_64', 'device_platform': 'android', 'device_type': 'PGT-AN10',
-            'os_version': '12', 'update_version_code': vc,
+            'update_version_code': vc, 'manifest_version_code': vc, 'os': 'android', 'ssmix': 'a',
+            'channel': p['channel'], 'device_platform': 'android', 'device_type': p['device_type'],
+            'device_brand': p['device_brand'], 'os_version': p['os_version'], 'os_api': p['os_api'],
+            'ac': 'wifi', 'language': 'zh', 'host_abi': 'arm64-v8a',
             'iid': identity['iid'], 'cdid': identity['cdid'], 'device_id': identity['device_id']}
+
+def _v5_full_values(identity):
+    """完整 28 项 query（Kotlin query() 形态）：全部字段取注册画像
+    （含版本号 73932），供 player / flat 两条 POST 路由使用。"""
+    p = _V5_PROFILE
+    vc, vn = p['version_code'], p['version_name']
+    return {'device_platform': 'android', 'os': 'android', 'ssmix': 'a', 'cdid': identity['cdid'],
+            'channel': p['channel'], 'aid': CONFIG['aid'], 'app_name': 'novelread',
+            'version_code': vc, 'version_name': vn, 'manifest_version_code': vc,
+            'update_version_code': vc, 'resolution': p['resolution'], 'dpi': p['dpi'],
+            'device_type': p['device_type'], 'device_brand': p['device_brand'], 'language': 'zh',
+            'os_api': p['os_api'], 'os_version': p['os_version'], 'ac': 'wifi',
+            'host_abi': 'arm64-v8a', 'dragon_device_type': 'phone', 'pv_player': vc,
+            'compliance_status': '0', 'need_personal_recommend': '1', 'player_so_load': '1',
+            'is_android_pad_screen': '0', 'iid': identity['iid'], 'device_id': identity['device_id']}
 
 def _model_from_response(data, vid):
     """对齐 jackotom/hongguo-drama app-source.js fetchAppPlayUrlFresh 的取模型逻辑：
@@ -3676,21 +3747,30 @@ def _model_from_response(data, vid):
 
 def _v5_model(vid):
     """按现行路由优先级逐个尝试 v5 签名取模型；全部失败抛异常。
-    路由表与参数档案对齐 jackotom/hongguo-drama 的 source-pack（2026-11-25）。"""
+    路由表与组装对齐 jycao2/hongguoTV 的 Kotlin MobilePlayback（2026-11-27 复盘，
+    见 PLAYBACK-DIFF §B）：model_current（现行单集端点）→ preload → player →
+    flat → video_tab；全路由 field21=312、单一注册画像、播放传输不带 Cookie。"""
     identity = _v5_identity()
     vid = str(vid)
     errors = []
 
-    def attempt(name, base, values, body, field21, method='POST'):
-        signed_url, headers = sign_playback_v5(base, values, body, field21=field21)
+    def attempt(name, base, values, body, method='POST', ua='okhttp/4.12.0',
+                accept='application/json; charset=utf-8,application/x-protobuf',
+                extra_headers=None):
+        # field21 恒 312（B1）：377 是从 JS 原版带入的错值，三个能播的实现全用 312。
+        signed_url, headers = sign_playback_v5(base, values, body, field21=312)
         headers = dict(headers)
-        headers.update({'User-Agent': 'okhttp/4.12.0', 'Accept': 'application/json'})
+        headers.update({'User-Agent': ua, 'Accept': accept})
         if body:
             headers.update({'Content-Type': 'application/json; charset=utf-8', 'Content-Encoding': 'gzip'})
+        if extra_headers:
+            headers.update(extra_headers)
+        # 播放传输不带 Cookie（B9）：Kotlin 为 NO_COOKIES；这里用无会话的模块级
+        # 请求，避免 _SESSION 里搜索/详情攒下的 Cookie 串进播放请求。
         if method == 'GET':
-            response = _SESSION.get(signed_url, headers=headers, timeout=CONFIG['http_timeout'])
+            response = requests.get(signed_url, headers=headers, timeout=CONFIG['http_timeout'])
         else:
-            response = _SESSION.post(signed_url, headers=headers, data=body, timeout=CONFIG['http_timeout'])
+            response = requests.post(signed_url, headers=headers, data=body, timeout=CONFIG['http_timeout'])
         raw = response.content or b''
         if not raw:
             _plog('%s HTTP %s 空响应' % (name, response.status_code))
@@ -3722,45 +3802,53 @@ def _v5_model(vid):
         _plog('%s 成功 len=%d' % (name, len(raw)))
         return model
 
-    preload_values = _v5_values(identity, CONFIG['v5_preload_version'])
-    player_values = _v5_values(identity, CONFIG['v5_player_version'])
-    preload_payload = json.dumps({
-        'biz_param': {'detail_page_version': 0, 'device_level': 2, 'disable_digg_stat': False,
-                      'disable_video_relate_book': False, 'need_all_video_definition': True,
-                      'need_mp4_align': False, 'use_os_player': False, 'use_server_dns': False,
-                      'video_platform': 1024},
-        'mixed_video_id_map': {'1004': [vid]}, 'dr_scene': 'preload'},
-        separators=(',', ':')).encode()
-    player_payload = json.dumps({
-        'biz_param': {'detail_page_version': 0, 'device_level': 1, 'disable_digg_stat': False,
-                      'disable_video_relate_book': False, 'need_all_video_definition': True,
-                      'need_mp4_align': False, 'use_os_player': False, 'use_server_dns': False,
-                      'video_platform': 1024},
-        'mixed_video_id_map': {'1004': [vid]}, 'dr_scene': 'player'},
-        separators=(',', ':')).encode()
-    model_payload = json.dumps({
-        'biz_param': {'detail_page_version': 0, 'device_level': 3, 'disable_digg_stat': False,
-                      'from_video_id': '', 'need_all_video_definition': True, 'need_mp4_align': False,
-                      'source': 9, 'use_os_player': False, 'use_server_dns': False, 'video_platform': 3},
-        'content_type': 1004, 'video_id': vid},
-        separators=(',', ':')).encode()
-    tab_values = dict(player_values)
-    tab_values.update({'video_id': vid, 'video_id_type': '0', 'device_level': '1',
-                       'need_all_video_definition': '1', 'need_mp4_align': '0', 'use_os_player': '0',
-                       'video_platform': '1024', 'source': '0', 'from_video_id': ''})
+    app_values = _v5_app_values(identity)
+    full_values = _v5_full_values(identity)
+    biz_dl2 = {'detail_page_version': 0, 'device_level': 2, 'disable_digg_stat': False,
+               'disable_video_relate_book': False, 'need_all_video_definition': True,
+               'need_mp4_align': False, 'use_os_player': False, 'use_server_dns': False,
+               'video_platform': 1024}
+    biz_dl4 = dict(biz_dl2, device_level=4)
+    # 现行单集端点体（B4，Kotlin videoModelCurrent L418–419）：单 video_id +
+    # biz_param(device_level 2)，无 mixed_video_id_map、无 dr_scene、无 content_type。
+    current_payload = json.dumps({'video_id': vid, 'biz_param': biz_dl2},
+                                 separators=(',', ':')).encode()
+    preload_payload = json.dumps({'biz_param': biz_dl2,
+                                  'mixed_video_id_map': {'1004': [vid]}, 'dr_scene': 'preload'},
+                                 separators=(',', ':')).encode()
+    # player/flat 体（B3，Kotlin model() L288–289）：device_level 固定 4、
+    # 不带 dr_scene（dr_scene='player' 会被判无效请求，只有 preload 带 dr_scene）。
+    player_payload = json.dumps({'biz_param': biz_dl4,
+                                 'mixed_video_id_map': {'1004': [vid]}},
+                                separators=(',', ':')).encode()
+    # video_tab（B5，Kotlin videoTab L838–872）：版本固定 74532，设备字段取
+    # 注册画像，其余对齐官方 GetVideoModelRequest；UA 用 _V5_TAB_UA。
+    _p = _V5_PROFILE
+    _vc, _vn = _V5_CURRENT_VERSION
+    tab_values = {'aid': CONFIG['aid'], 'app_name': 'novelread', 'version_code': _vc, 'version_name': _vn,
+                  'channel': _p['channel'], 'device_platform': 'android', 'device_type': _p['device_type'],
+                  'os_version': _p['os_version'], 'update_version_code': _vc,
+                  'iid': identity['iid'], 'cdid': identity['cdid'], 'device_id': identity['device_id'],
+                  'video_id': vid, 'video_id_type': '0', 'device_level': '1',
+                  'need_all_video_definition': '1', 'need_mp4_align': '0', 'use_os_player': '0',
+                  'video_platform': '1024', 'source': '0', 'from_video_id': ''}
+    # player/flat 的辅助头（B8，Kotlin model() L312–318 的非 currentApp 形态）。
+    player_headers = {'X-XS-From-Web': '0', 'x-ss-dp': '8662', 'lc': '101'}
     routes = [
-        ('preload', lambda: attempt('preload', CONFIG['preload_url'], preload_values,
-                                    gzip.compress(preload_payload), 312)),
+        ('model_current', lambda: attempt('model_current', CONFIG['current_model_url'],
+                                          app_values, gzip.compress(current_payload))),
+        ('preload', lambda: attempt('preload', CONFIG['preload_url'],
+                                    app_values, gzip.compress(preload_payload))),
+        ('player', lambda: attempt('player', HOST + '/novel/player/multi_video_model/player/v1',
+                                   full_values, gzip.compress(player_payload),
+                                   ua=_V5_PLAYER_UA, extra_headers=player_headers)),
+        ('flat', lambda: attempt('flat', HOST + '/novel/player/multi_video_model/v1',
+                                 full_values, gzip.compress(player_payload),
+                                 ua=_V5_PLAYER_UA, extra_headers=player_headers)),
         ('video_tab', lambda: attempt('video_tab', HOST + '/reading/bookapi/video_tab/multi_video_model/v1/',
-                                      tab_values, None, 377, method='GET')),
-        ('player_b', lambda: attempt('player_b', HOST + '/novel/player/multi_video_model/player/v1',
-                                     player_values, gzip.compress(player_payload), 377)),
-        ('player_a', lambda: attempt('player_a', CONFIG['host_a'] + '/novel/player/multi_video_model/player/v1',
-                                     player_values, gzip.compress(player_payload), 377)),
-        ('model_0', lambda: attempt('model_0', CONFIG['host_a'] + '/novel/player/video_model/v1/',
-                                    player_values, gzip.compress(model_payload), 377)),
-        ('model_1', lambda: attempt('model_1', CONFIG['host_c'] + '/novel/player/video_model/v1/',
-                                    player_values, gzip.compress(model_payload), 377)),
+                                      tab_values, None, method='GET', ua=_V5_TAB_UA,
+                                      accept='application/json; charset=utf-8',
+                                      extra_headers={'Accept-Language': 'zh-CN,zh;q=0.9'})),
     ]
     kinds = []
     for _name, fn in routes:
@@ -3868,7 +3956,7 @@ def _pick_from_model(model):
 
 def _resolve_play(vid):
     """返回 (url, content_key|None, quality)。
-    顺序：v5 model（内部六路）→ 其 fallback_api → 六神旧路由 → 其 fallback_api。
+    顺序：v5 model（内部五路）→ 其 fallback_api → 六神旧路由 → 其 fallback_api。
     v5 整轮若以空响应 / 业务码 110001 失败，对齐原版 fetchAppPlayUrl 的
     EMPTY_RESPONSE / BUSINESS_REJECTED(110001) 处理：轮换一次播放设备身份后
     整轮重试一次；每次取址最多轮换一次，轮换本身另有 30 秒节流。"""

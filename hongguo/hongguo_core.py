@@ -68,6 +68,7 @@ VIDEO_URL = HOST + '/novel/player/multi_video_model/v1/'
 EP = 'hg-episode-v1:'
 PROXY_TYPE_CENC = 'hg_cenc'
 PROXY_TYPE_DANMAKU = 'hg_danmaku'
+PROXY_TYPE_PING = 'hg_ping'
 _VIDEO_ID = re.compile(r'\d{6,30}')
 
 # 六神签名栈在 cryptography 可用时走原生 SM3/AES_V3 辅助；此处全部置空走纯 Python。
@@ -4469,6 +4470,7 @@ class Spider(BaseSpider):
         except Exception as exc:
             self._last_error = str(exc)
             _plog('vid=%s 取址失败: %s' % (vid, str(exc)[:160]))
+        _plog('播放返回 url=%s' % str(result.get('url') or '')[:220])
         return result
 
     def localProxy(self, param):
@@ -4485,7 +4487,14 @@ class Spider(BaseSpider):
             return str(value)
         typ = pick('type')
         vid = pick('vid')
-        _plog('代理入口 type=%s vid=%s' % (typ, vid))
+        try:
+            raw_param = param if isinstance(param, str) else json.dumps(
+                param, ensure_ascii=False, default=str)
+        except Exception:
+            raw_param = repr(param)
+        _plog('代理入口 type=%s vid=%s param=%s' % (typ, vid, str(raw_param)[:200]))
+        if typ == PROXY_TYPE_PING:
+            return [200, 'text/plain', b'hongguo-ping-ok']
         if typ == PROXY_TYPE_DANMAKU:
             sid = pick('sid') or _VID_SID.get(vid) or self._last_sid
             try:

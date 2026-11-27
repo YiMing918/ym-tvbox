@@ -1,0 +1,76 @@
+name: Hongguo source watch
+
+# 红果源专属巡检流水线，只碰 hongguo/ 目录（status.json 与 upstream/ 留档），
+# 与 update.yml（每天 05:30 北京时间合并 TVBox 配置）互不干扰：
+# 独立文件、独立 concurrency 分组、提交时只 add hongguo/ 下的路径。
+# 探活内容：上游 drpys 红果 py 的拉取/校验/哈希比对与留档同步，
+# 以及兜底核心的设备注册→搜索→详情→弹幕真探活，结果写 hongguo/status.json。
+# 播放环在机房 IP 下无法验证（字节系静默风控），脚本只记录事实、不判死，
+# 详见 hongguo/AUTOMATION.md。
+on:
+  schedule:
+    # 22:10 UTC = 06:10 Beijing；10:10 UTC = 18:10 Beijing。每天两次，
+    # 错开 05:30 的合并：早上一次跟在合并之后确认全链状态，
+    # 傍晚一次保证上游白天修好的话当天就能被发现并留档。
+    - cron: '10 22 * * *'
+    - cron: '10 10 * * *'
+  workflow_dispatch:
+
+# 最小权限：contents: write 仅供把 hongguo/ 内的巡检结果提交回仓库
+# （权限本身是仓库级粒度，「只写 hongguo/」由下方提交步骤只 add
+# hongguo/ 路径来保证，脚本与步骤都不会动其他任何文件）。
+permissions:
+  contents: write
+
+# 与定时运行互斥排队，避免两轮同时推送互相覆盖（与 update.yml 同款）
+concurrency:
+  group: hongguo-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+
+      - name: Install requests
+        run: python -m pip install requests
+
+      - name: Probe upstream and Hongguo API
+        id: watch
+        env:
+          # 只用于读上游公开仓库的最近提交时间（提高 API 限额），可有可无
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python hongguo/tools/hongguo_watch.py
+
+      - name: Commit if changed
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -z "$(git status --porcelain -- hongguo/)" ]; then
+            echo "No changes in hongguo/ (probe found nothing new)."
+          else
+            git add hongguo/status.json hongguo/upstream
+            git commit -m "hongguo-watch: ${{ steps.watch.outputs.summary }}"
+            pushed=0
+            for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then pushed=1; break; fi
+            git rebase --abort 2>/dev/null || true
+            if [ "$i" -lt 3 ]; then echo "push 失败，10 秒后重试（第 $i 次）"; sleep 10; fi
+            done
+            if [ "$pushed" != "1" ]; then echo "::error::push 重试 3 次仍失败"; exit 1; fi
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Purge jsDelivr cache（让 status.json 立即对外更新，失败不拦巡检）
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          curl -s "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/hongguo/status.json" || true

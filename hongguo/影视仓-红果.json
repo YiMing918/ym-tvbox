@@ -29,6 +29,16 @@
             "quickSearch": 1,
             "filterable": 1,
             "changeable": 0
+        },
+        {
+            "key": "hongguo_js",
+            "name": "红果短剧·JS版",
+            "type": 3,
+            "api": "https://gcore.jsdelivr.net/gh/woshishiq1/drpys@d2fdd3c62b30bdabfbe6be8c821a7894a05814e5/spider/js/%E7%BA%A2%E6%9E%9C%E6%9E%9C%5B%E7%9F%AD%5D.js",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0
         }
     ],
     "lives": [],

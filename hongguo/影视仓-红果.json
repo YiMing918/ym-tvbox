@@ -24,7 +24,7 @@
             "key": "hongguo_py",
             "name": "红果短剧",
             "type": 3,
-            "api": "https://gcore.jsdelivr.net/gh/YiMing918/ym-tvbox@27b1342b8dfba80ae540bb42744b942bbb0ed107/hongguo/%E7%BA%A2%E6%9E%9C%E7%9F%AD%E5%89%A7.py",
+            "api": "https://gcore.jsdelivr.net/gh/YiMing918/ym-tvbox@aeae6c13f9d3f256687a075a81ce247a6f768000/hongguo/%E7%BA%A2%E6%9E%9C%E7%9F%AD%E5%89%A7.py",
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 1,

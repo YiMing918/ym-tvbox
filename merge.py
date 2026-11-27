@@ -1401,9 +1401,11 @@ def main():
               f"keeping old file", file=sys.stderr)
         return 1
     # wallpaper: 2026-11-27 应 YM 要求补上——之前一直留空，影视仓里
-    # 点换壁纸会弹「当前接口不可切换背景」。picsum 按尺寸直出图，
-    # 3840x2160 即 4K，每次拉取随机一张。
-    final = {"spider": top_spider, "wallpaper": "https://picsum.photos/3840/2160",
+    # 点换壁纸会弹「当前接口不可切换背景」。图源几经更换：先用 picsum
+    # 随机照片（4K 但题材太杂、被 YM 嫌丑），现换 t.mwm.moe 动漫随机
+    # 壁纸——2026-11-27 实测 7 次，分辨率 2047~8000 宽，多数 2K 以上、
+    # 约半数达 4K 级，每次拉取随机一张。
+    final = {"spider": top_spider, "wallpaper": "https://t.mwm.moe/pc/",
              "lives": lives, "sites": sites, "parses": parses,
              "flags": flags, "ads": ads}
     # Atomic write (audit high-12): write to a temp file in the same

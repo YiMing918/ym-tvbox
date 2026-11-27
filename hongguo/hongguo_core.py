@@ -23,6 +23,7 @@ from __future__ import annotations
 import base64, binascii, gzip, hashlib, json, lzma, os, random, re, struct, sys, tempfile, time, uuid
 from urllib.parse import quote, quote_plus, urlencode, urlparse
 from collections.abc import Mapping
+from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 import requests
 
@@ -195,15 +196,55 @@ def aes_cbc_decrypt(key, iv, data):
             out = out[:-pad]
     return bytes(out)
 
+# CENC 解密的 AES-CTR 后端（九次改进）：优先 pycryptodome 原生实现——
+# 影视仓安装包的 Chaquopy 运行时恰好捆绑了 Crypto；缺失时回落纯 Python。
+# 此前恒走纯 Python，且逐样本重建 AES128（重复密钥扩展）+ 逐字节 XOR，
+# 整集（约 8400 样本 / 16MB）沙盒实测 373–433 秒，播放器等不到数据判失败。
+try:
+    from Crypto.Cipher import AES as _CRYPTO_AES
+except Exception:
+    _CRYPTO_AES = None
+
+
 def aes_ctr_crypt(key, iv, data):
+    if _CRYPTO_AES is not None:
+        cipher = _CRYPTO_AES.new(key, _CRYPTO_AES.MODE_CTR, nonce=b'',
+                                 initial_value=int.from_bytes(iv, 'big'))
+        return cipher.encrypt(data)
     cipher, out = AES128(key), bytearray()
     counter = int.from_bytes(iv, 'big')
     for i in range(0, len(data), 16):
         stream = cipher.encrypt_block(counter.to_bytes(16, 'big'))
         chunk = data[i:i + 16]
-        out += bytes(x ^ y for x, y in zip(chunk, stream))
+        merged = int.from_bytes(chunk, 'big') ^ int.from_bytes(stream[:len(chunk)], 'big')
+        out += merged.to_bytes(len(chunk), 'big')
         counter += 1
     return bytes(out)
+
+
+def _ctr_cryptor(key):
+    """返回 crypt(iv, data) 闭包：原生后端逐样本建 cipher（C 层开销可忽略）；
+    纯 Python 后端全程共用一个 AES128 实例，密钥只扩展一次。"""
+    if _CRYPTO_AES is not None:
+        def crypt(iv, data):
+            cipher = _CRYPTO_AES.new(key, _CRYPTO_AES.MODE_CTR, nonce=b'',
+                                     initial_value=int.from_bytes(iv, 'big'))
+            return cipher.encrypt(data)
+        return crypt
+    cipher = AES128(key)
+
+    def crypt(iv, data):
+        out = bytearray()
+        counter = int.from_bytes(iv, 'big')
+        for i in range(0, len(data), 16):
+            stream = cipher.encrypt_block(counter.to_bytes(16, 'big'))
+            chunk = data[i:i + 16]
+            merged = int.from_bytes(chunk, 'big') ^ int.from_bytes(stream[:len(chunk)], 'big')
+            out += merged.to_bytes(len(chunk), 'big')
+            counter += 1
+        return bytes(out)
+
+    return crypt
 
 def _aes(key, iv, data, mode):
     """与 drpys _aes 同签名：解密方向（ctr 双向相同，cbc 为解密）。"""
@@ -412,6 +453,26 @@ def _replace_sinf(data: bytearray) -> None:
                 continue
         position += 4
 
+def _replace_senc(data: bytearray) -> None:
+    """senc 是已消费掉的 IV 辅助表：解密后同 sinf 一样原地改名 free 并清零，
+    总长不变（全链路自测残留 2 个；个别播放器见无 sinf 配套的游离 senc
+    会拒绝解码）。带与 _find_box 一致的尺寸校验，避免误伤媒体数据。"""
+    position = 0
+    while True:
+        position = data.find(b"senc", position)
+        if position < 0:
+            return
+        if position >= 4:
+            size = struct.unpack(">I", data[position - 4 : position])[0]
+            end = position - 4 + size
+            if 8 <= size <= 5_000_000 and end <= len(data):
+                data[position : position + 4] = b"free"
+                data[position + 4 : end] = b"\x00" * max(0, end - position - 4)
+                position = end
+                continue
+        position += 4
+
+
 def decrypt_mp4_cenc(data: bytes, content_key: bytes) -> bytes:
     if len(content_key) != 16:
         raise HongguoPluginError("CENC 密钥长度错误")
@@ -431,6 +492,7 @@ def decrypt_mp4_cenc(data: bytes, content_key: bytes) -> bytes:
         tracks.append(track)
         track_search = track + max(track_size, 8)
     decrypted_samples = 0
+    crypt = _ctr_cryptor(content_key)
     for track in tracks:
         parsed = _parse_track(moov, track)
         if parsed is None:
@@ -456,8 +518,8 @@ def decrypt_mp4_cenc(data: bytes, content_key: bytes) -> bytes:
                 iv = bytes(aux[aux_index : aux_index + min(entry_size, 8)]).ljust(
                     8, b"\0"
                 ) + b"\0" * 8
-                result[current : current + size] = _aes(
-                    content_key, iv, bytes(result[current : current + size]), "ctr"
+                result[current : current + size] = crypt(
+                    iv, bytes(result[current : current + size])
                 )
                 current += size
                 sample_index += 1
@@ -468,6 +530,7 @@ def decrypt_mp4_cenc(data: bytes, content_key: bytes) -> bytes:
     _replace_fourcc(result, b"encv", b"hvc1")
     _replace_fourcc(result, b"enca", b"mp4a")
     _replace_sinf(result)
+    _replace_senc(result)
     return bytes(result)
 
 def _b64(value: str) -> bytes:
@@ -3603,6 +3666,141 @@ def _web_search(keyword, page=1):
             break
     return rows, has_more, pagecount, total
 
+# ───────────────────────── 选季（跨 series 归组）─────────────────────────
+# 调研结论（2026-11-27，详见 FIXLOG 八次改进）：
+# - App 详情（video_detail）无任何跨 series 关联字段（season/relat/recommend
+#   全文扫描 0 命中），video_list 条目也无季标识——App 侧拿不到分组关系；
+# - 官网详情页 seriesDetail.season_info.series_group_id 是官方分组键：
+#   《觉醒伪神：神明弃我我自为神》无数字/2/8/9 部同为同一 group_id，
+#   而同 IP 异名的《神明弃我，我自为神第一季》是另一组——标题相似不能
+#   代替分组键，必须逐个核验；
+# - 官网详情页 data-fn-args 的 related_list 是普通推荐（实测 16 条无一
+#   同组），不是季聚合，不可用。
+# 方案（与 hongguoTV 的 seasonFill 同路，另加分组键核验）：
+# 标题归一化（剥尾部部数标记）→ 官网搜索召回候选 → 并发逐个核验
+# series_group_id 只保留同组；分组键取不到时回落纯标题归组，但要求
+# 部号互不相同才认，降低同名误伤。
+
+_PART_CN_DIGITS = {'零': 0, '〇': 0, '一': 1, '二': 2, '三': 3, '四': 4,
+                   '五': 5, '六': 6, '七': 7, '八': 8, '九': 9}
+
+
+def _part_cn_number(text):
+    """中文数字（一/十/十二/二十三…）→ int；解析不了返回 None。"""
+    if not text:
+        return None
+    if text.isdigit():
+        try:
+            return int(text)
+        except ValueError:
+            return None
+    if '十' not in text:
+        return _PART_CN_DIGITS.get(text) if len(text) == 1 else None
+    high_s, _, low_s = text.partition('十')
+    high = 1 if not high_s else _PART_CN_DIGITS.get(high_s)
+    low = 0 if not low_s else _PART_CN_DIGITS.get(low_s)
+    if high is None or low is None:
+        return None
+    return high * 10 + low
+
+
+_PART_PATTERNS = (
+    re.compile(r'第([0-9]+|[零〇一二三四五六七八九十百]+)(季|部|篇)$'),
+    re.compile(r'([一二三四五六七八九十])(季|部)$'),
+    re.compile(r'(\d{1,2})$'),
+)
+
+
+def _split_part_title(title):
+    """剥尾部部数标记 → (base, part_no)；无标记时 part_no=1、base=原名。"""
+    name = str(title or '').strip()
+    for pat in _PART_PATTERNS:
+        m = pat.search(name)
+        if not m:
+            continue
+        token = m.group(1)
+        no = int(token) if token.isdigit() else _part_cn_number(token)
+        if no is None or no < 1 or no > 99:
+            continue
+        base = name[:m.start()].rstrip(' ：:·-—、，,')
+        if len(base) < 2:
+            continue
+        return base, no
+    return name, 1
+
+
+_GROUP_ID_CACHE = {}
+_SEASON_CACHE = {}
+
+
+def _series_group_id(sid):
+    """官网详情页的 series_group_id（官方分组键）；取不到返回 ''。"""
+    sid = str(sid or '')
+    if not sid:
+        return ''
+    if sid in _GROUP_ID_CACHE:
+        return _GROUP_ID_CACHE[sid]
+    gid = ''
+    try:
+        data = _web_router_data(CONFIG['web_host'] + '/detail?series_id=' + sid)
+        loader = data.get('loaderData') or {}
+        for value in loader.values():
+            if isinstance(value, dict) and isinstance(value.get('seriesDetail'), dict):
+                info = value['seriesDetail'].get('season_info') or {}
+                gid = str(info.get('series_group_id') or '')
+                break
+    except Exception:
+        gid = ''
+    _GROUP_ID_CACHE[sid] = gid
+    return gid
+
+
+def _season_members(sid, title):
+    """同组各部 [{'sid','title','part_no'}...]（按部号升序）；单部/失败返回 []。"""
+    sid = str(sid or '')
+    if sid in _SEASON_CACHE:
+        return _SEASON_CACHE[sid]
+    result = []
+    try:
+        base, my_no = _split_part_title(title)
+        if len(base) >= 2:
+            found = {}
+            page = 1
+            while page <= 2:
+                rows, has_more, _pc, _total = _web_search(base, page)
+                for row in rows:
+                    rbase, rno = _split_part_title(row.get('vod_name'))
+                    if rbase == base:
+                        found[row['vod_id']] = {'sid': row['vod_id'],
+                                                'title': row.get('vod_name') or '',
+                                                'part_no': rno}
+                if not has_more or len(found) >= 2:
+                    break
+                page += 1
+            if sid not in found:
+                found[sid] = {'sid': sid, 'title': str(title or ''), 'part_no': my_no}
+            if len(found) >= 2:
+                members = list(found.values())
+                my_gid = _series_group_id(sid)
+                if my_gid:
+                    others = [m for m in members if m['sid'] != sid]
+                    with ThreadPoolExecutor(max_workers=6) as pool:
+                        gids = list(pool.map(lambda m: _series_group_id(m['sid']), others))
+                    members = ([m for m, g in zip(others, gids) if g == my_gid]
+                               + [m for m in members if m['sid'] == sid])
+                else:
+                    nos = [m['part_no'] for m in members]
+                    if len(set(nos)) != len(nos):
+                        members = []
+                if len(members) >= 2:
+                    members.sort(key=lambda m: (m['part_no'], m['title']))
+                    result = members
+    except Exception:
+        result = []
+    _SEASON_CACHE[sid] = result
+    return result
+
+
 _ROUTER_RE = re.compile(r'(?:window\.)?_ROUTER_DATA\s*=\s*')
 
 def _web_router_data(url):
@@ -4058,6 +4256,9 @@ def _resolve_play(vid):
     raise HongguoPluginError('所有播放路线均无可用地址（详见播放日志 PLAY_LOG）')
 
 _PLAY_CACHE = {}
+# 解密成品缓存（九次改进）：只留最近 1 集。播放器常对同一集重复发起
+# 代理调用（预加载/重试/换播放器），此前每次都全量重下+重解，白等一遍。
+_DECRYPT_CACHE = {'vid': '', 'data': None}
 _VID_SID = {}
 
 def _danmaku_xml(items):
@@ -4146,6 +4347,16 @@ class Spider(BaseSpider):
         if not isinstance(vd, dict):
             return {'list': []}
         self._last_sid = sid
+        # 选季：多部曲（同 series_group 的各部是独立 series）在详情里做成
+        # 可切换的季线路；归组失败/单部时走下面原路径，行为不变。
+        try:
+            members = _season_members(sid, str(vd.get('series_title') or ''))
+        except Exception:
+            members = []
+        if len(members) >= 2:
+            grouped = self._grouped_detail(sid, vd, members)
+            if grouped is not None:
+                return {'list': [grouped]}
         # 显季：同一剧集多季时 video_list 条目带季标识，按季拆播放线路；无季标识则单线路。
         seasons = {}
         order = []
@@ -4176,6 +4387,49 @@ class Spider(BaseSpider):
             'vod_play_from': '$$$'.join(play_from),
             'vod_play_url': '$$$'.join(play_url),
         }]}
+
+    def _grouped_detail(self, sid, vd, members):
+        """多部曲详情：同组各部各一条线路（第N季，按部号升序，照官方季切换
+        的命名/排列）；每季集数取该部自己的 App 详情。任一季拉不到集数就
+        跳过该季；最终不足两条线路返回 None，调用方回落单部路径。"""
+        def load(member):
+            if member['sid'] == sid:
+                return vd
+            try:
+                return _app_detail(member['sid'])
+            except Exception:
+                return None
+
+        with ThreadPoolExecutor(max_workers=5) as pool:
+            details = list(pool.map(load, members))
+        nos = [m['part_no'] for m in members]
+        unique_no = len(set(nos)) == len(nos)
+        play_from, play_url = [], []
+        for member, mvd in zip(members, details):
+            if not isinstance(mvd, dict):
+                continue
+            vids = []
+            for item in mvd.get('video_list') or []:
+                v = str(item.get('vid') or '')
+                if v:
+                    _VID_SID[v] = member['sid']
+                    vids.append(v)
+            if not vids:
+                continue
+            play_from.append('第%d季' % member['part_no'] if unique_no else member['title'])
+            play_url.append('#'.join('第%d集$%s%s' % (i, EP, v) for i, v in enumerate(vids, 1)))
+        if len(play_from) < 2:
+            return None
+        return {
+            'vod_id': sid,
+            'vod_name': str(vd.get('series_title') or ''),
+            'vod_pic': str(vd.get('series_cover') or ''),
+            'vod_year': '', 'vod_area': '', 'vod_director': '',
+            'vod_actor': '', 'vod_content': str(vd.get('series_intro') or ''),
+            'vod_remarks': str(vd.get('episode_right_text') or ''),
+            'vod_play_from': '$$$'.join(play_from),
+            'vod_play_url': '$$$'.join(play_url),
+        }
 
     def _proxy_base(self):
         try:
@@ -4231,6 +4485,7 @@ class Spider(BaseSpider):
             return str(value)
         typ = pick('type')
         vid = pick('vid')
+        _plog('代理入口 type=%s vid=%s' % (typ, vid))
         if typ == PROXY_TYPE_DANMAKU:
             sid = pick('sid') or _VID_SID.get(vid) or self._last_sid
             try:
@@ -4239,23 +4494,39 @@ class Spider(BaseSpider):
             except Exception:
                 return [200, 'text/xml; charset=utf-8', _danmaku_xml([])]
         if typ == PROXY_TYPE_CENC:
+            if _DECRYPT_CACHE.get('vid') == vid and _DECRYPT_CACHE.get('data'):
+                _plog('代理 CENC vid=%s 命中解密缓存 返回=%d字节'
+                      % (vid, len(_DECRYPT_CACHE['data'])))
+                return [200, 'video/mp4', _DECRYPT_CACHE['data']]
             cached = _PLAY_CACHE.get(vid)
             if not cached:
                 try:
                     url, content_key, _q = _resolve_play(vid)
                     if not content_key:
+                        _plog('代理 CENC vid=%s 取址无加密密钥' % vid)
                         return [404, 'text/plain', b'not encrypted']
                     cached = (url, content_key)
                     _PLAY_CACHE[vid] = cached
                 except Exception as exc:
+                    _plog('代理 CENC vid=%s 取址失败: %s' % (vid, str(exc)[:200]))
                     return [502, 'text/plain', str(exc).encode('utf-8', 'replace')]
             url, content_key = cached
             try:
+                t0 = time.time()
                 response = _SESSION.get(url, headers={'User-Agent': APP_UA,
                                         'Referer': 'https://novel.snssdk.com/'},
                                         timeout=CONFIG['http_timeout'])
+                dl_secs = time.time() - t0
+                t1 = time.time()
                 plain = decrypt_mp4_cenc(response.content, content_key)
+                dec_secs = time.time() - t1
+                _DECRYPT_CACHE['vid'] = vid
+                _DECRYPT_CACHE['data'] = plain
+                _plog('代理 CENC vid=%s 完成 下载=%.1fs 解密=%.1fs 返回=%d字节 后端=%s'
+                      % (vid, dl_secs, dec_secs, len(plain),
+                         'Crypto' if _CRYPTO_AES is not None else '纯Python'))
                 return [200, 'video/mp4', plain]
             except Exception as exc:
+                _plog('代理 CENC vid=%s 失败: %s' % (vid, str(exc)[:200]))
                 return [502, 'text/plain', str(exc).encode('utf-8', 'replace')]
         return [404, 'text/plain', b'not found']

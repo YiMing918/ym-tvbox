@@ -3525,20 +3525,83 @@ def _vod_from_row(row):
             'vod_pic': str(vd.get('series_cover') or vd.get('cover') or ''),
             'vod_remarks': remarks}
 
+# 官网搜索接口实测（2026-11-27）：page 参数有效（1 起），一页固定 10 条，
+# page_size/limit 被忽略、count/offset 会触发 400；响应带 totalCount（字符串）/
+# totalPages/hasMore/nextOffset。接口偶发 502（upstream_unavailable），需重试。
+# 单页只有 10 条太少，逻辑页聚合 3 个接口页（30 条），按 series_id 去重保序。
+_SEARCH_API_PAGE_SIZE = 10
+_SEARCH_AGGREGATE = 3
+
+def _web_search_api_page(keyword, page):
+    """拉一个接口页（带重试）。返回 (rows, has_more, total_pages, total_count)。"""
+    last_error = None
+    for attempt in range(3):
+        try:
+            r = _SESSION.get(CONFIG['web_host'] + '/api/search/result',
+                             params={'aid': CONFIG['aid'], 'query': keyword, 'page': page},
+                             headers={'User-Agent': CONFIG['web_ua'], 'Accept': 'application/json, text/plain, */*',
+                                      'Accept-Language': 'zh-CN,zh;q=0.9', 'Referer': CONFIG['web_host'] + '/'},
+                             timeout=CONFIG['http_timeout'])
+            data = r.json()
+            if isinstance(data, dict) and isinstance(data.get('searchList'), list):
+                rows = []
+                for item in data['searchList']:
+                    vod = _vod_from_row(item)
+                    if vod:
+                        rows.append(vod)
+                try:
+                    total_pages = int(data.get('totalPages') or 0)
+                except (TypeError, ValueError):
+                    total_pages = 0
+                try:
+                    total_count = int(data.get('totalCount') or 0)
+                except (TypeError, ValueError):
+                    total_count = 0
+                return rows, bool(data.get('hasMore')), total_pages, total_count
+            last_error = HongguoPluginError('搜索接口异常响应 HTTP %s' % getattr(r, 'status_code', '?'))
+        except Exception as exc:
+            last_error = exc
+        if attempt < 2:
+            time.sleep(0.6 * (attempt + 1))
+    raise last_error
+
 def _web_search(keyword, page=1):
-    """官网搜索 JSON 接口（无签名，已实测可用）。返回 (rows, has_more)。"""
-    r = _SESSION.get(CONFIG['web_host'] + '/api/search/result',
-                     params={'aid': CONFIG['aid'], 'query': keyword, 'page': page},
-                     headers={'User-Agent': CONFIG['web_ua'], 'Accept': 'application/json, text/plain, */*',
-                              'Accept-Language': 'zh-CN,zh;q=0.9', 'Referer': CONFIG['web_host'] + '/'},
-                     timeout=CONFIG['http_timeout'])
-    data = r.json()
-    rows = []
-    for item in data.get('searchList') or []:
-        vod = _vod_from_row(item)
-        if vod:
-            rows.append(vod)
-    return rows, bool(data.get('hasMore'))
+    """官网搜索（无签名）。逻辑页 page 聚合 _SEARCH_AGGREGATE 个接口页。
+    返回 (rows, has_more, pagecount, total)。"""
+    first_api = (page - 1) * _SEARCH_AGGREGATE + 1
+    rows, seen = [], set()
+    has_more = False
+    pagecount = page
+    total = 0
+    api_total_pages = 0
+    for i in range(_SEARCH_AGGREGATE):
+        api_page = first_api + i
+        if api_total_pages and api_page > api_total_pages:
+            has_more = False
+            break
+        try:
+            part, part_more, tp, tc = _web_search_api_page(keyword, api_page)
+        except Exception:
+            if not rows:
+                raise
+            # 中途某接口页重试后仍失败：已聚合的先返回，并示意还有下一页，
+            # 免得 App 误判到底（失败页的少数条目会缺失，重搜可补）。
+            has_more = True
+            if pagecount <= page:
+                pagecount = page + 1
+            break
+        if tp:
+            api_total_pages = tp
+            total = tc
+            pagecount = -(-tp // _SEARCH_AGGREGATE)
+        for vod in part[:_SEARCH_API_PAGE_SIZE]:
+            if vod['vod_id'] not in seen:
+                seen.add(vod['vod_id'])
+                rows.append(vod)
+        has_more = part_more
+        if not part_more:
+            break
+    return rows, has_more, pagecount, total
 
 _ROUTER_RE = re.compile(r'(?:window\.)?_ROUTER_DATA\s*=\s*')
 
@@ -4066,12 +4129,12 @@ class Spider(BaseSpider):
         if not word:
             return {'page': page, 'pagecount': 1, 'limit': 0, 'total': 0, 'list': []}
         try:
-            rows, has_more = _web_search(word, page)
+            rows, _has_more, pagecount, total = _web_search(word, page)
         except Exception as exc:
             self._last_error = str(exc)
-            rows, has_more = [], False
-        return {'page': page, 'pagecount': page + (1 if has_more else 0),
-                'limit': len(rows), 'total': len(rows), 'list': rows}
+            rows, pagecount, total = [], page, 0
+        return {'page': page, 'pagecount': pagecount,
+                'limit': len(rows), 'total': total or len(rows), 'list': rows}
 
     def detailContent(self, ids):
         sid = str(ids[0] if isinstance(ids, (list, tuple)) else ids)
@@ -4121,7 +4184,13 @@ class Spider(BaseSpider):
                 return base.rstrip('&?') + ('&' if '?' in base else '?')
         except Exception:
             pass
-        return ''
+        # 宿主差异回退（2026-11-27 影视仓实测日志实锤）：影视仓的 Chaquopy
+        # 运行时里 getProxyUrl() 拿不到基址，CENC/弹幕便构造不出代理 URL
+        # （日志：「播放 vid=… CENC片源但getProxyUrl不可用」→ 播放器无限
+        # 加载）；映匣里该函数可用。此处仅在缺失/抛错/为空时回退到 TVBox
+        # 生态标准基址——宿主在本机 9978 端口提供 /proxy?do=py（影视仓捆绑
+        # 的 drpy2.js 亦写死此默认）；getProxyUrl 有值时仍优先，映匣不变。
+        return 'http://127.0.0.1:9978/proxy?do=py&'
 
     def playerContent(self, flag, id, vipFlags=None):
         vid = str(id).replace(EP, '')

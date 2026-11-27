@@ -12,7 +12,7 @@
 //    若你的影视仓是 java 版（只有 jar+js），站点名会出现但点开
 //    空白/搜不到内容，解决办法见同目录《影视仓导入说明.md》。
 // 4. 本文件托管地址（上传后填进影视仓的配置地址）：
-//    https://gcore.jsdelivr.net/gh/YiMing918/ym-tvbox@main/hongguo/%E5%BD%B1%E8%A7%86%E4%BB%93-%E7%BA%A2%E6%9E%9C.json
+//    https://gcore.jsdelivr.net/gh/YiMing918/ym-tvbox@27b1342b8dfba80ae540bb42744b942bbb0ed107/hongguo/%E5%BD%B1%E8%A7%86%E4%BB%93-%E7%BA%A2%E6%9E%9C.json
 // ============================================================
 {
     "sites": [
@@ -20,7 +20,7 @@
             "key": "hongguo_py",
             "name": "红果短剧",
             "type": 3,
-            "api": "https://gcore.jsdelivr.net/gh/YiMing918/ym-tvbox@main/hongguo/%E7%BA%A2%E6%9E%9C%E7%9F%AD%E5%89%A7.py",
+            "api": "https://gcore.jsdelivr.net/gh/YiMing918/ym-tvbox@27b1342b8dfba80ae540bb42744b942bbb0ed107/hongguo/%E7%BA%A2%E6%9E%9C%E7%9F%AD%E5%89%A7.py",
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 1,

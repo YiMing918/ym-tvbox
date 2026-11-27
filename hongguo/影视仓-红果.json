@@ -11,10 +11,14 @@
 // 3. 本站是 hipy(Python) 源：需要带 Python 运行时的影视仓构建。
 //    若你的影视仓是 java 版（只有 jar+js），站点名会出现但点开
 //    空白/搜不到内容，解决办法见同目录《影视仓导入说明.md》。
-// 4. 本文件托管地址（上传后填进影视仓的配置地址）：
-//    https://gcore.jsdelivr.net/gh/YiMing918/ym-tvbox@27b1342b8dfba80ae540bb42744b942bbb0ed107/hongguo/%E5%BD%B1%E8%A7%86%E4%BB%93-%E7%BA%A2%E6%9E%9C.json
+// 4. 本文件托管地址：填进影视仓的配置地址（用仓库 hongguo/ 目录下
+//    本文件的固定提交链接，链接由助手每次更新后给出）。
+// 5. spider 字段：本站是 py 源、本身不用 jar，但影视仓加载配置时
+//    要求 spider 存在，缺了会弹「jar加载失败」。这里借用你主接口
+//    （peter_tvbox_pro.json）同款的 jar 占位，已验活、md5 对得上。
 // ============================================================
 {
+    "spider": "https://img2.gelonghui.com/library/3f9b9-de4a5d2c-7fea-4d70-8a85-79be6c379621.png;md5;3f9b9cac793a3e9b818131c8a7208800",
     "sites": [
         {
             "key": "hongguo_py",

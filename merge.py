@@ -1400,7 +1400,10 @@ def main():
               f"parses={len(parses)}, lives={len(lives)}); "
               f"keeping old file", file=sys.stderr)
         return 1
-    final = {"spider": top_spider, "wallpaper": "",
+    # wallpaper: 2026-11-27 应 YM 要求补上——之前一直留空，影视仓里
+    # 点换壁纸会弹「当前接口不可切换背景」。picsum 按尺寸直出图，
+    # 3840x2160 即 4K，每次拉取随机一张。
+    final = {"spider": top_spider, "wallpaper": "https://picsum.photos/3840/2160",
              "lives": lives, "sites": sites, "parses": parses,
              "flags": flags, "ads": ads}
     # Atomic write (audit high-12): write to a temp file in the same
